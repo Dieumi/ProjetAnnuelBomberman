@@ -21,6 +21,7 @@ module.exports = sequelize.import("user", function(sequelize, Datatypes) {
 		}
 	}, {
 		paranoid : true,
-		freezeTab : true
+		freezeTab : true,
+		tableName : "user"
 	});
 });
