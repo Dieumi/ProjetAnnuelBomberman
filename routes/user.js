@@ -1,14 +1,16 @@
-module.exports = function(app) {
+var bcrypt = require("bcrypt-nodejs");
+
+module.exports = function(app, models) {
 	
 	app.post("/user", function(req, res, next) {
 		
 		if (req.body.loginUser
 				&& req.body.emailUser && req.body.passwordUser && req.body.typeUser) {
-			var User = models.UserUtils;
+			var User = models.User;
 			User.create({
 				"loginUser" : req.body.loginUser,
 				"emailUser" : req.body.emailUser,
-				"passwordUser" : req.body.passwordUser,
+				"passwordUser" : bcrypt.hashSync(req.body.passwordUser, null, null),
 				"typeUser" : req.body.typeUser,
 				
 			}).then(function(result){
