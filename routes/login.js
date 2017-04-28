@@ -1,7 +1,8 @@
-module.exports = function(app, models){
+module.exports = function(app, models, urlApi){
 
     var msgError="";
 	var bcrypt = require('bcrypt-nodejs');
+	var rp = require('request-promise')
 	// =====================================
 	// LOGIN ===============================
 	// =====================================
@@ -29,19 +30,22 @@ module.exports = function(app, models){
 				msgError = "Veuillez saisir votre mot de passe ! " 
 				res.render('login.ejs', {msgError:msgError, session : req.session});			
 			}else{
-				var user = models.User;
-				var request = {
-                    attributes: ['loginUser', 'passwordUser', 'emailUser', 'typeUser'],
-                    where: {
-                        loginUser : req.body.login 
-                    }
-				}					
-				user.find(request).then(function(result){
-					if(result){
-						if(bcrypt.compareSync(req.body.password, result.passwordUser)){
+				rp({
+					url: urlApi+"/user/auth" ,
+					method: "GET",
+					headers:{ 
+						'Content-Type': 'application/json'
+					},
+					json:{ 
+					  "loginUser": req.body.login,
+					  "passwordUser":req.body.password
+					}
+				}).then(function(body){					
+					if(body){
+						if(body.code == "0"){
 							req.session.cookie.maxAge = 1000 * 60 * 60;
-							req.session.login = req.body.login;
-							req.session.type = result.typeUser;
+							req.session.login = body.loginUser;
+							req.session.type = body.typeUser;
 							res.redirect('/');	
 						}else{
 							res.render('login.ejs', { msgError: "Erreur combinaison login/mot de passe", session : req.session })
@@ -49,6 +53,8 @@ module.exports = function(app, models){
 					}else{
 						res.render('login.ejs', { msgError: "Erreur combinaison login/mot de passe", session : req.session })
 					}
+				}).catch(function(err){
+					res.render('login.ejs', { msgError: "Erreur inconnu. Merci de réesayer.", session : req.session })
 				})	
 			}	
 		}

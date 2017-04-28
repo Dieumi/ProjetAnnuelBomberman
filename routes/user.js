@@ -33,22 +33,64 @@ module.exports = function(app, models,utils) {
 			})
 		}
 	});
-	app.get("/ListeUser", function (req, res, next) {
-			var user = models.User;
-
-
-					user.findAll().then(function (results) {
-							res.send(results);
-					}).catch(function (err) {
-
-							res.json({
-									"code": 2,
-									"message": "Sequelize error",
-									"error": err
-							})
+	
+	app.get("/user/auth", function(req, res, next) {
+		if (req.body.loginUser && req.body.passwordUser) {
+			var User = models.User;
+			var request = {
+				attributes: ['loginUser', 'passwordUser', 'emailUser', 'typeUser'],
+				where: {
+					loginUser : req.body.loginUser 
+				}
+			}		
+			User.find(request).then(function(result){
+				if(result){
+					if(bcrypt.compareSync(req.body.passwordUser, result.passwordUser)){
+						res.json({
+							"code" : 0,
+							"idUser" : result.idUser,
+							"loginUser" : result.loginUser,
+							"emailUser" : result.emailUser,
+							"typeUser" : result.typeUser
+						});
+					}else{
+						res.json({
+							"code" : 3,
+							"message" : "Wrong pwd"
+						})
+					}
+				}else{
+					res.json({
+						"code" : 3,
+						"message" : "User not found"
 					})
+				}
+			}).catch(function(err){
+				res.json({
+					"code" : 2,
+					"message" : "Sequelize error"
+				})
+			})
+		}else{
+			res.json({
+				"code" : 1,
+				"message" : "Missing required parameters"
+			})
+		}
+	});
+	
+	app.get("/ListeUser", function (req, res, next) {
+		var user = models.User;
+		user.findAll().then(function (results) {
+				res.send(results);
+		}).catch(function (err) {
 
-
+				res.json({
+						"code": 2,
+						"message": "Sequelize error",
+						"error": err
+				})
+		})
 	});
 
 
