@@ -19,6 +19,7 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.1",
+    "config": "^1.25.1",
     "express": "^4.15.2",
     "fs": "0.0.1-security",
     "mysql": "^2.13.0",

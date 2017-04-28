@@ -1,5 +1,5 @@
-module.exports = function(app, models) {
-	
-	require("./user")(app, models);
-	
+module.exports = function(app, models,utils) {
+
+	require("./user")(app, models, utils);
+
 }
