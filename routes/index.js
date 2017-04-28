@@ -1,4 +1,4 @@
-module.exports = function(app, models, utils) {
+module.exports = function(app, models, utils, urlApi) {
 	
 	require("./user")(app, models, utils);
 	require("./map")(app, models);
@@ -7,7 +7,7 @@ module.exports = function(app, models, utils) {
 	require("./bot")(app, models);
 	require("./tournament")(app, models);
 	require("./home")(app, models);
-	require("./login")(app, models);
+	require("./login")(app, models, urlApi);
 	require("./logout")(app);
 	
 

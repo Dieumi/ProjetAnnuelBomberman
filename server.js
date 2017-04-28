@@ -5,6 +5,8 @@ var models = require("./models");
 var utils = require("./utils");
 var cookieParser = require('cookie-parser');
 var session  = require('express-session');
+var urlApi = "http://localhost:8888"
+
 
 app.use(session({
 	secret: 'vidyapathaisalwaysrunning',
@@ -21,7 +23,7 @@ app.use(cookieParser());
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
-require("./routes")(app, models, utils)
+require("./routes")(app, models, utils, urlApi)
 
 app.listen(8888, function() {
 	console.log("Server started port 8888...");
