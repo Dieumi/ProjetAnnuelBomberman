@@ -1,0 +1,25 @@
+{
+  "name": "bomberman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dieumi/ProjetAnnuelBomberman.git"
+  },
+  "author": "Groupe6",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dieumi/ProjetAnnuelBomberman/issues"
+  },
+  "homepage": "https://github.com/Dieumi/ProjetAnnuelBomberman#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "fs": "0.0.1-security",
+    "sequelize": "^3.30.4"
+  }
+}
