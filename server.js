@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
-require("./routes")(app, models,utils)
+require("./routes")(app, models, utils)
 
 app.listen(8888, function() {
 	console.log("Server started port 8888...");
