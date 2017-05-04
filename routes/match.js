@@ -1,6 +1,6 @@
 var bcrypt = require("bcrypt-nodejs");
 
-module.exports = function(app, models) {
+module.exports = function(app, models,utils) {
 
 	app.post("/match", function(req, res, next) {
 
@@ -10,7 +10,7 @@ module.exports = function(app, models) {
 			Match.create({
 				"resultMatch" : req.body.resultMatch,
 				"dateMatch" : date,
-				"idMapMatch" : req.body.idTournamentMatch,
+				"idMapMatch" : req.body.idMapMatch,
 				"idTournamentMatch" : 0,
 			}).then(function(result){
 				res.json({
@@ -47,4 +47,62 @@ module.exports = function(app, models) {
 			})
 		})
 	});
+	app.get("/updatematch/:id", function (req, res, next) {
+
+            var match = models.Match;
+
+            var request = {
+                "where": {
+                    idMatch: req.params.id
+                }
+            }
+            match.find(request).then(function (results) {
+
+                res.send(results)
+            }).catch(function (err) {
+
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                })
+            })
+
+
+    });
+    app.post("/updatematch", function (req, res, next) {
+        var match = utils.Match;
+        var request = {
+            "where": {
+                idMatch: req.body.idMatch
+            }
+        }
+
+
+        var attributes = {};
+        if (req.body.resultMatch) {
+            attributes.resultMatch = req.body.resultMatch;
+        }
+
+        if (req.body.director) {
+            attributes.director = req.body.director;
+        }
+        if (req.body.dateMatch) {
+            attributes.dateMatch = req.body.dateMatch;
+        }
+        if (req.body.idMapMatch) {
+            attributes.idMapMatch = req.body.idMapMatch;
+        }
+        if (req.body.idTournamentMatch) {
+            attributes.idTournamentMatch = req.body.idTournamentMatch;
+        }
+
+
+        var u1 = new match();
+        u1.update(request, attributes, function (err, data) {
+            res.send("/ListMatch");
+        });
+
+
+    });
 }
