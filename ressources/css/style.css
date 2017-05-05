@@ -1,6 +1,6 @@
 .background {
   background-color: #6d819c;
-  background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%23e4e7ec' fill-opacity='0.09'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("/images/wall2.png");
 }
 
 .menu-top {
@@ -25,8 +25,8 @@
 
 .bomber-block {
   background-color: #e4e7ec;
-  margin-top: 60px;
-  padding: 30px;
+  margin-top: 20px;
+  padding: 0px 25px 10px 25px;
   border-radius: 5px;
 }
 
@@ -38,6 +38,9 @@
   color: #263959;
 }
 
+.bomber-table {
+  border-color: #55967e;
+}
 
 p
 {
