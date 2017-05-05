@@ -1,0 +1,55 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Bomberman Accueil</title>
+    <% include ./partials/header %>
+
+
+    <link rel=stylesheet href="./codemirror/lib/codemirror.css">
+    <link rel=stylesheet href="./codemirror/doc/docs.css">
+    <script src="./codemirror/lib/codemirror.js"></script>
+    <script src="./codemirror/mode/xml/xml.js"></script>
+    <script src="./codemirror/mode/javascript/javascript.js"></script>
+    <script src="./codemirror/mode/css/css.js"></script>
+    <script src="./codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="./codemirror/addon/edit/matchbrackets.js"></script>
+
+    <script src="./codemirrordoc/activebookmark.js"></script>
+
+<style>
+    .CodeMirror { height: 400px; border: 1px solid #ddd; }
+    .CodeMirror-scroll { max-height: 500px; }
+    .CodeMirror pre { padding-left: 7px; line-height: 1.25; }
+</style>
+
+</head>
+<body>
+
+<% include ./partials/navbar %>
+
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-9">
+        <h2>Code ton Bomber !</h2>
+        <form style="position: relative; margin-top: .5em;">
+            <textarea id="bomberEditor"></textarea>
+        </form>
+        <script>
+            var editor = CodeMirror.fromTextArea(document.getElementById("bomberEditor"), {
+                lineNumbers: true,
+                mode: "javascript",
+                matchBrackets: true,
+                indentUnit : 4,
+                tabSize: 30,
+                viewportMargin : 30
+            });
+        </script>
+    </div>
+</div>
+
+<% include ./partials/footer %>
+
+</body>
+</html>
+
