@@ -40,9 +40,9 @@ module.exports = function(app, models) {
 		}
 	});
 
-	app.get("/ListMatch", function (req, res, next) {
-		var match = models.Match;
-		match.findAll().then(function (results) {
+	app.get("/ListBot", function (req, res, next) {
+		var Bot = models.Bot;
+		Bot.findAll().then(function (results) {
 			res.send(results);
 		}).catch(function (err) {
 			res.json({
@@ -52,4 +52,65 @@ module.exports = function(app, models) {
 			})
 		})
 	});
+	app.get("/updateBot/:id", function (req, res, next) {
+
+            var Bot = models.Bot;
+
+            var request = {
+                "where": {
+                    idBot: req.params.id
+                }
+            }
+            Bot.find(request).then(function (results) {
+
+                res.send(results)
+            }).catch(function (err) {
+
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                })
+            })
+
+
+    });
+    app.post("/updateBot", function (req, res, next) {
+        var Bot = utils.Bot;
+        var request = {
+            "where": {
+                idBot: req.body.idBot
+            }
+        }
+
+
+        var attributes = {};
+        if (req.body.nameBot) {
+            attributes.nameBot = req.body.nameBot;
+        }
+
+        if (req.body.codeBot) {
+            attributes.codeBot = req.body.codeBot;
+        }
+        if (req.body.winBot) {
+            attributes.winBot = req.body.winBot;
+        }
+        if (req.body.loseBot) {
+            attributes.loseBot = req.body.loseBot;
+        }
+        if (req.body.pointBot) {
+            attributes.pointBot = req.body.pointBot;
+        }
+				if (req.body.modeBot) {
+						attributes.modeBot = req.body.modeBot;
+				}
+			
+
+        var u1 = new Bot();
+        u1.update(request, attributes, function (err, data) {
+            res.send("/ListeBot");
+        });
+
+
+    });
 }

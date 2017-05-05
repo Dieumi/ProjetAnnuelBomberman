@@ -1,5 +1,6 @@
 module.exports = function(app, models, utils, urlApi) {
 
+
 	//API
 	require("./user")(app, models, utils);
 	require("./map")(app, models);
@@ -13,6 +14,6 @@ module.exports = function(app, models, utils, urlApi) {
 	require("./login")(app, models, urlApi);
     require("./signup")(app, models, urlApi);
 	require("./logout")(app);
-	
+
 
 }
