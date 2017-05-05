@@ -1,4 +1,4 @@
-.background {
+.bomber-background {
   background-color: #6d819c;
   background-image: url("/images/wall2.png");
 }
@@ -40,9 +40,4 @@
 
 .bomber-table {
   border-color: #55967e;
-}
-
-p
-{
-    color: blue;
 }
