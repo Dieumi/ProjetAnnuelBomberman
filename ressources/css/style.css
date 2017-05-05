@@ -7,23 +7,37 @@
   background-color: #e4e7ec;
 }
 
-.footer {
+.bomber-footer {
   background:#e4e7ec;
   position: fixed;
   bottom:0px;height:30px;
   width:100%;
 }
 
+.bomber-grass {
+  background-image: url("/images/grass.png");
+  background-repeat: repeat-x;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 200px;
+}
+
 .bomber-block {
   background-color: #e4e7ec;
   margin-top: 60px;
-  padding: 25px;
+  padding: 30px;
   border-radius: 5px;
+}
+
+.bomber-bold {
+  color: #55967e;
 }
 
 .bomber-text {
   color: #263959;
 }
+
 
 p
 {

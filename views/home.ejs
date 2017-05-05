@@ -2,18 +2,57 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <title>Bomberman Accueil</title>
+  <title>BomberBot</title>
   <% include ./partials/header %>
 </head>
 <body class="background">
 
 <% include ./partials/navbar %>
 
-<div class="row>">
-  <div class="col-md-offset-5 col-md-4">
+<% if(!session.type) { %>
+  <div class="container">
+      <div class="col-sm-7 col-sm-offset-2 bomber-block">
+          <h1><span class="fa fa-globe"></span>BomberBot</h1>
 
+          <div class="row">
+            <div class="col-sm-8">
+              <p class="bomber-text">Avec <b class="bomber-bold">BomberBot</b>, créez le bot le plus puissant et faites exploser tous vos ennemis !</p>
+              <br>
+              <p class="bomber-text">Grâce à la <b class="bomber-bold">Bomber-API</b> que nous vous proposons, développez l’IA de votre
+                bot et battez vous sans répit. Entrez dans l'arene pour affronter les autres joueurs et hissez vous parmis les meileurs du <a><b class="bomber-bold">classement</b></a>.</p>
+              <br>
+              <p class="bomber-text">Déjà <b class="bomber-bold">15250</b> poseur de bombes inscrit !</p>
+            </div>
+            <div class="col-sm-4">
+              <img src="./images/bomberman.png" style ="width:100%;"/>
+            </div>
+          </div>
+
+      </div>
   </div>
+<% } else {
+  if(session.type == "admin"){
+%>
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3 bomber-block">
+        <h1><span class="fa fa-sign-in"></span> Hello Admin!</h1>
+    </div>
 </div>
+<%
+  }
+  if(session.type){
+%>
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3 bomber-block">
+        <h1><i class="fa fa-globe" aria-hidden="true"></i> Hello <%= session.login %>!</h1>
+
+
+    </div>
+</div>
+<%
+  }
+}
+%>
 
 <% include ./partials/footer %>
 
