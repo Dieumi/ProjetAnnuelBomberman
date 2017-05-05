@@ -5,12 +5,12 @@
     <title>Inscription</title>
     <% include ./partials/header %>
 </head>
-<body>
+<body class="background">
 <% include ./partials/navbar %>
 
 <div class="container">
 
-    <div class="col-sm-6 col-sm-offset-3">
+    <div class="col-sm-6 col-sm-offset-3 bomber-block bomber-text">
 
         <h1><span class="fa fa-sign-in"></span> Inscription</h1>
 
@@ -38,13 +38,12 @@
                 <label>Mail</label>
                 <input type="text" class="form-control" name="mail" required>
             </div>
-            <button type="submit" class="btn btn-warning btn-lg">Valider</button>
+            <button type="submit" class="btn btn-lg">Valider</button>
         </form>
 
         <hr>
 
         <p>Déjà un compte? <a href="/login">Connexion</a></p>
-        <p><br><a href="/">Accueil</a></p>
 
     </div>
 
