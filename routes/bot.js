@@ -3,12 +3,11 @@ var bcrypt = require("bcrypt-nodejs");
 module.exports = function(app, models) {
 
 	app.post("/bot", function(req, res, next) {
-
 		if (req.body.nameBot && req.body.userIdBot) {
 			var Bot = models.Bot;
 			Bot.create({
 				"nameBot" : req.body.nameBot,
-				"codeBot" : "print('coucou');",
+				"codeBot" : req.body.bomberEditor,
 				"winBot" : 0,
 				"loseBot" : 0,
 				"pointBot" : 0,
@@ -40,6 +39,73 @@ module.exports = function(app, models) {
 		}
 	});
 
+    app.get("/bot", function (req, res, next) {
+        if(req.body.idBot){
+			var Bot = models.Bot;
+			var request = {
+				where: {
+                    idBot : req.body.idBot
+				}
+			}
+			Bot.find(request).then(function (result) {
+				if(result){
+					res.json({
+						"code"      : 0,
+						"idBot"     : result.idBot,
+						"nameBot"   : result.nameBot,
+						"codeBot"   : result.codeBot,
+						"winBot"    : result.winBot,
+						"loseBot"   : result.winBot,
+						"modeBot"   : result.modeBot,
+						"userIdBot" : result.userIdBot
+					});
+				}else{
+					res.json({
+						"code" : 3,
+						"message" : "Bot not found"
+					})
+				}
+			}).catch(function (err) {
+				res.json({
+					"code": 2,
+					"message": "Sequelize error",
+					"error": err
+				})
+			})
+        }else{
+            res.json({
+                "code" : 1,
+                "message" : "Missing required parameters"
+            })
+        }
+    });
+
+    app.get("/botByUser", function (req, res, next) {
+        if(req.body.userIdBot){
+            var Bot = models.Bot;
+            var request = {
+                where: {
+                    userIdBot : req.body.userIdBot
+                }
+            }
+            Bot.findAll(request).then(function (results) {
+                res.send(results)
+            }).catch(function (err) {
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                })
+            })
+        }else{
+            res.json({
+                "code" : 1,
+                "message" : "Missing required parameters"
+            })
+        }
+    });
+
+
 	app.get("/ListBot", function (req, res, next) {
 		var Bot = models.Bot;
 		Bot.findAll().then(function (results) {
@@ -52,6 +118,7 @@ module.exports = function(app, models) {
 			})
 		})
 	});
+
 	app.get("/updateBot/:id", function (req, res, next) {
 
             var Bot = models.Bot;
@@ -73,22 +140,20 @@ module.exports = function(app, models) {
                 })
             })
 
-
     });
+
     app.post("/updateBot", function (req, res, next) {
-        var Bot = utils.Bot;
+        var Bot = models.Bot;
         var request = {
             "where": {
                 idBot: req.body.idBot
             }
         }
 
-
         var attributes = {};
         if (req.body.nameBot) {
             attributes.nameBot = req.body.nameBot;
         }
-
         if (req.body.codeBot) {
             attributes.codeBot = req.body.codeBot;
         }
@@ -101,13 +166,12 @@ module.exports = function(app, models) {
         if (req.body.pointBot) {
             attributes.pointBot = req.body.pointBot;
         }
-				if (req.body.modeBot) {
-						attributes.modeBot = req.body.modeBot;
-				}
-			
+        if (req.body.modeBot) {
+                attributes.modeBot = req.body.modeBot;
+        }
 
-        var u1 = new Bot();
-        u1.update(request, attributes, function (err, data) {
+        var u1 = models.Bot;
+        u1.update(attributes, request, function (err, data) {
             res.send("/ListeBot");
         });
 

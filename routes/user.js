@@ -71,7 +71,7 @@ module.exports = function(app, models,utils) {
 		if (req.body.loginUser && req.body.passwordUser) {
 			var User = models.User;
 			var request = {
-				attributes: ['loginUser', 'passwordUser', 'emailUser', 'typeUser'],
+				attributes: ['idUser','loginUser', 'passwordUser', 'emailUser', 'typeUser'],
 				where: {
 					loginUser : req.body.loginUser 
 				}

@@ -7,7 +7,6 @@ var cookieParser = require('cookie-parser');
 var session  = require('express-session');
 var urlApi = "http://localhost:8888"
 
-
 app.use(session({
 	secret: 'vidyapathaisalwaysrunning',
 	resave: true,
@@ -22,6 +21,10 @@ app.use(cookieParser());
 
 
 app.use(express.static(__dirname + '/ressources'));
+
+/*Dossier fichier pour les bot*/
+app.use(express.static(__dirname + '/botFiles'));
+
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 

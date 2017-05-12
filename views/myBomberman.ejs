@@ -9,10 +9,18 @@
 
 <% include ./partials/navbar %>
 
-<div class="row>">
-  <div class="col-md-offset-5 col-md-4">
-   <a href="/bomberCode">coder</a>
-  </div>
+<div>
+    <% for(var i =0; i<3;i++){ %>
+    <div class="col-md-offset-1 col-md-2">
+        <% if(listBot[i]){ %>
+            <h3><%=listBot[i].nameBot%></h3>
+            <a href = "/bomberCode/<%=listBot[i].idBot%>">Modifier</a><br>
+        <% }else{ %>
+            <a href="/bomberCode">coder</a>
+        <% } %>
+    </div>
+    <% } %>
+
 </div>
 
 <% include ./partials/footer %>
