@@ -143,7 +143,7 @@ module.exports = function(app, models, urlApi){
                                         "codeBot": "botFiles/" + req.session.login + "/"+body.idBot+".js",
                                         "idBot": body.idBot
                                     }
-                                })
+                                }).then(function(body){}).catch(function (err) {})
                                 myBot = body
                                 myBot.codeBot = "botFiles/" + req.session.login + "/"+body.idBot+".js"
                                 fs.rename(completePath, myBot.codeBot)
@@ -177,7 +177,7 @@ module.exports = function(app, models, urlApi){
                                     "nameBot": req.body.name,
                                     "idBot": myBot.id
                                 }
-                            })
+                            }).then(function(body){}).catch(function (err) {})
 
                             res.render('bomberCode.ejs', {
                                 msgError: "",
