@@ -1,6 +1,6 @@
 .bomber-background {
   background-color: #6d819c;
-  background-image: url("/images/wall2.png");
+  background-image: url("/images/wall3.png");
 }
 
 .menu-top {
@@ -14,6 +14,16 @@
   font-family: Montserrat;
   font-size: 18px;
 
+}
+
+.bomb-btn {
+  background-color: #2B4E79;
+  color: #dedede;
+}
+
+.bomb-btn:hover {
+  background-color: #244063;
+  color: #c5c5c5;
 }
 
 .bomber-footer {

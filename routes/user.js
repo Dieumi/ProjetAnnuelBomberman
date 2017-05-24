@@ -73,9 +73,9 @@ module.exports = function(app, models,utils) {
 			var request = {
 				attributes: ['loginUser', 'passwordUser', 'emailUser', 'typeUser'],
 				where: {
-					loginUser : req.body.loginUser 
+					loginUser : req.body.loginUser
 				}
-			}		
+			}
 			User.find(request).then(function(result){
 				if(result){
 					if(bcrypt.compareSync(req.body.passwordUser, result.passwordUser)){
@@ -111,11 +111,28 @@ module.exports = function(app, models,utils) {
 			})
 		}
 	});
-	
+
 	app.get("/ListeUser", function (req, res, next) {
 		var user = models.User;
 		user.findAll().then(function (results) {
 				res.send(results);
+		}).catch(function (err) {
+
+				res.json({
+						"code": 2,
+						"message": "Sequelize error",
+						"error": err
+				})
+		})
+	});
+
+	app.get("/users/count", function (req, res, next) {
+		var user = models.User;
+		user.count().then(function (result) {
+				res.json({
+					"code": 0,
+					"count": result
+				})
 		}).catch(function (err) {
 
 				res.json({

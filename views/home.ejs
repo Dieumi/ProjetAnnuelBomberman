@@ -9,7 +9,9 @@
 
 <% include ./partials/navbar %>
 
-<% if(!session.type) { %>
+<% if(!session.type) {
+  var toto = "test";
+  %>
   <div class="container">
       <div class="col-sm-7 col-sm-offset-2 bomber-block">
           <h2><span class="fa fa-globe"></span>BomberBot</h2>
@@ -21,7 +23,7 @@
               <p class="bomber-text">Grâce à la <b class="bomber-bold">Bomber-API</b> que nous vous proposons, développez l’IA de votre
                 bot et battez vous sans répit. Entrez dans l'arene pour affronter les autres joueurs et hissez vous parmis les meileurs du <a><b class="bomber-bold">classement</b></a></p>
               <br>
-              <p class="bomber-text">Déjà <b class="bomber-bold">15250</b> poseur de bombes inscrit !</p>
+              <p class="bomber-text">Déjà <b class="bomber-bold"><%= toto %></b> poseur de bombes inscrit !</p>
             </div>
             <div class="col-sm-4">
               <img src="./images/bomberman.png" style ="width:100%;"/>
