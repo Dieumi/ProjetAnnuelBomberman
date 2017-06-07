@@ -1,0 +1,30 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>Bomberman Accueil</title>
+  <% include ./partials/header %>
+</head>
+<body>
+
+<% include ./partials/navbar %>
+
+<div>
+    <% for(var i =0; i<3;i++){ %>
+    <div class="col-md-offset-1 col-md-2">
+        <% if(listBot[i]){ %>
+            <h3><%=listBot[i].nameBot%></h3>
+            <a href = "/bomberCode/<%=listBot[i].idBot%>">Modifier</a><br>
+        <% }else{ %>
+            <a href="/bomberCode">coder</a>
+        <% } %>
+    </div>
+    <% } %>
+
+</div>
+
+<% include ./partials/footer %>
+
+</body>
+</html>
+

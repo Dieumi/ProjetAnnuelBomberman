@@ -1,14 +1,13 @@
 var models=require("../models");
 var BotUtils=function(id,nameBot,codeBot,winBot,loseBot,pointBot,modeBot,userIdBot){
-
 	this.idBot=id;
-  this.nameBot=nameBot,
-  this.codeBot=codeBot,
-  this.winBot=winBot,
-  this.loseBot=loseBot,
+	this.nameBot=nameBot,
+	this.codeBot=codeBot,
+	this.winBot=winBot,
+	this.loseBot=loseBot,
 	this.pointBot=pointBot,
 	this.modeBot=modeBot,
-  this.userIdBot=userIdBot
+	this.userIdBot=userIdBot
 
 }
 BotUtils.prototype.delete = function(idBot, callback) {

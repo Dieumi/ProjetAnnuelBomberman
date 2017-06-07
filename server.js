@@ -8,6 +8,7 @@ var session  = require('express-session');
 var urlApi = "http://localhost:8888"
 var socket = require("socket.io");
 
+
  app.use(session({
 	 secret: 'vidyapathaisalwaysrunning',
 	 resave: true,
@@ -24,6 +25,13 @@ var socket = require("socket.io");
  app.use(express.static(__dirname + '/ressources'));
 
  app.set('view engine', 'ejs'); // set up ejs for templating
+
+
+/*Dossier fichier pour les bot*/
+app.use(express.static(__dirname + '/botFiles'));
+
+
+app.set('view engine', 'ejs'); // set up ejs for templating
 
 
 
