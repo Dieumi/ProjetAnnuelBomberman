@@ -87,35 +87,35 @@
 	{
 		showLoading();
 
-		iconBomb.src = 'assets/img/bomb.png';
+		iconBomb.src = 'images//bomb.png';
 
-		patternBrick.src = 'assets/img/brick.png';
-		patternPillar.src = 'assets/img/pillar.png';
-		patternFloor.src = 'assets/img/floor.png';
-		patternFire.src = 'assets/img/fire.png';
+		patternBrick.src = 'images//brick.png';
+		patternPillar.src = 'images//pillar.png';
+		patternFloor.src = 'images//floor.png';
+		patternFire.src = 'images//fire.png';
 
-		playerBirdie.src = 'assets/img/birdie.png';
+		playerBirdie.src = 'images//birdie.png';
 		playerBirdie.alt = 'birdie';
 
-		playerElephant.src = 'assets/img/elephant.png';
+		playerElephant.src = 'images//elephant.png';
 		playerElephant.alt = 'elephant';
 
-		playerFishy.src = 'assets/img/fishy.png';
+		playerFishy.src = 'images//fishy.png';
 		playerFishy.alt = 'fishy';
 
-		playerMonkey.src = 'assets/img/monkey.png';
+		playerMonkey.src = 'images//monkey.png';
 		playerMonkey.alt = 'monkey';
 
-		playerRam.src = 'assets/img/ram.png';
+		playerRam.src = 'images//ram.png';
 		playerRam.alt = 'ram';
 
-		playerOx.src = 'assets/img/ox.png';
+		playerOx.src = 'images//ox.png';
 		playerOx.alt = 'ox';
 
-		playerPiggle.src = 'assets/img/piggle.png';
+		playerPiggle.src = 'images//piggle.png';
 		playerPiggle.alt = 'piggle';
 
-		playerWhale.src = 'assets/img/whale.png';
+		playerWhale.src = 'images//whale.png';
 		playerWhale.alt = 'whale';
 
 		attachEventListeners();
