@@ -1,19 +1,19 @@
 
 <!-- Navbar -->
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default menu-top">
   <div class="container">
     <div class="navbar-header" >
-      <a class="navbar-brand" href="/"><p><img src="/images/logo.png" style ="width:5%;"/>&nbsp;Bomberman</p></a>
+      <a class="navbar-brand" href="/"><p class="bomber-title"><img src="/images/logo.png" style ="width:5%;"/>&nbsp;BomberBot</p></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
 		<% if(!session.type) { %>
-        <li><a href="/login">Connexion</a></li>
-		<li><a href="/signup">Inscription</a></li>
+        <li><a href="/login"><p class="bomber-title">Connexion</p></a></li>
+		<li><a href="/signup"><p class="bomber-title">Inscription</p></a></li>
 		<% } else {
 			if(session.type == "admin"){
 		%>
-		
+
 		<%
 			}
         %>
@@ -21,7 +21,7 @@
         <li><a href="/profile">Mon compte</a></li>
 		<li><a href="/logout">Déconnexion</a></li>
 		<%
-		} 
+		}
 		%>
       </ul>
     </div>
