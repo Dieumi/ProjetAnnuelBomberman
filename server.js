@@ -37,7 +37,7 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 
 	require("./routes")(app, models, utils, urlApi)
 
-var server=app.listen(8888, function() {
+var server=app.listen(process.env.PORT || 8888, function() {
 	console.log("Server started port 8888...");
 
 });
