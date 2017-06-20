@@ -30,6 +30,7 @@
     "mysql": "^2.13.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "socket.io":"^2.0.3"
   }
 }
