@@ -1,9 +1,9 @@
   {
     "test": {
-    "username": "root",
-    "password": "",
-    "database": "bombermantest",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  }
+      "username": "dieumi_roottest",
+      "password": "test123",
+      "database": "dieumi_bombertest",
+      "host": "mysql-dieumi.alwaysdata.net",
+      "dialect": "mysql"
+    }
 }
