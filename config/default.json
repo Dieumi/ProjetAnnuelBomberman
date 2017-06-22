@@ -8,6 +8,13 @@
 
   },
   "test": {
+    "username": "root",
+    "password": "",
+    "database": "bombermantest",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
     "username": "dieumi_root",
     "password": "root123",
     "database": "dieumi_bomber",
