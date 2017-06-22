@@ -13,7 +13,7 @@
     "database": "dieumi_bombertest",
     "host": "mysql-dieumi.alwaysdata.net",
     "dialect": "mysql"
-  }
+  },
   "production": {
     "username": "dieumi_root",
     "password": "root123",
