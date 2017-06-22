@@ -1,2 +1,1 @@
-config: set NODE_ENV=production
-web: node server.js
+web: NODE_ENV=production node server.js
