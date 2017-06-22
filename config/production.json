@@ -1,0 +1,9 @@
+{
+  "production": {
+    "username": "dieumi_root",
+    "password": "root123",
+    "database": "dieumi_bomber",
+    "host": "mysql-dieumi.alwaysdata.net",
+    "dialect": "mysql"
+  }
+}
