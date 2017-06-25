@@ -1,4 +1,4 @@
- 
+
 	//	inits
 /*var models=require("./models");
 var playersummary=models.player;
