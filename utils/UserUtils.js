@@ -18,7 +18,9 @@ UserUtils.prototype.delete = function(idUser, callback) {
 		}).then(function(result) {
 			if(result) {
 				result.destroy().then(function(success) {
+					console.log("deleted user")
 					callback(success);
+
 				}).catch(function(err) {
 					callback(err);
 				});

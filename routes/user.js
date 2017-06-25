@@ -16,7 +16,6 @@ module.exports = function(app, models,utils) {
 			}).then(function(result){
 				res.json({
 					"code" : 0,
-					"idUser" : result.idUser,
 					"loginUser" : result.loginUser,
 					"emailUser" : result.emailUser,
 				});
@@ -73,9 +72,9 @@ module.exports = function(app, models,utils) {
 			var request = {
 				attributes: ['idUser','loginUser', 'passwordUser', 'emailUser', 'typeUser'],
 				where: {
-					loginUser : req.body.loginUser 
+					loginUser : req.body.loginUser
 				}
-			}		
+			}
 			User.find(request).then(function(result){
 				if(result){
 					if(bcrypt.compareSync(req.body.passwordUser, result.passwordUser)){
@@ -111,7 +110,7 @@ module.exports = function(app, models,utils) {
 			})
 		}
 	});
-	
+
 	app.get("/ListeUser", function (req, res, next) {
 		var user = models.User;
 		user.findAll().then(function (results) {
@@ -136,7 +135,7 @@ module.exports = function(app, models,utils) {
               res.json({
                 "user":"deleted"
               })
-                res.send(result);
+
             })
         }
     });

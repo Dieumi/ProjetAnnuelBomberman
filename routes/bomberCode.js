@@ -101,8 +101,12 @@ module.exports = function(app, models, urlApi){
                 var workerProcess = child_process.exec('node ' + completePath, function
                     (error, stdout, stderr) {
                     if (error) {
+                        
+                        var tmp = stderr.split("Error:");
+                        tmp = tmp[1].split("\n")
+                   
                         res.render('bomberCode.ejs', {
-                            msgError: "Error code: " + error.code + "\n stderr: " + stderr,
+                            msgError: "Error code: " + error.code + "\n stderr: " + tmp[0],
                             msgSuccess: "",
                             code: req.body.bomberEditor,
                             name: req.body.name,
