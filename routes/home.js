@@ -12,10 +12,17 @@ module.exports = function(app, urlApi){
 				'Content-Type': 'application/json'
 			}
 		}).then(function(body) {
-			res.render('home.ejs', {
-				session : req.session,
-				top : body
-			});
+			if(body){
+				res.render('home.ejs', {
+					session : req.session,
+					top : body
+				});
+			}else{
+				res.render('home.ejs', {
+					session : req.session
+				});
+			}
+
 		})
 	});
 }
