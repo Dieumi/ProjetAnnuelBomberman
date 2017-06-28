@@ -1,7 +1,7 @@
 module.exports = function(app,models,utils, urlApi,server){
 
   var socket = require("socket.io");
-  console.log(server)
+
   var io = socket(server),
     games = {},
     avatars = ['birdie', 'elephant', 'fishy', 'monkey', 'ram', 'ox', 'piggle', 'whale'];
