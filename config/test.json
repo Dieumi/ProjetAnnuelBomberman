@@ -1,9 +1,9 @@
-{
-  "test": {
-    "username": "mycast_root",
-    "password": "mycastfouan",
-    "database": "mycast_mycast",
-    "host": "mysql-mycast.alwaysdata.net",
-    "dialect": "mysql"
-  }
-  }
+  {
+    "test": {
+      "username": "dieumi_roottest",
+      "password": "test123",
+      "database": "dieumi_bombertest",
+      "host": "mysql-dieumi.alwaysdata.net",
+      "dialect": "mysql"
+    }
+}

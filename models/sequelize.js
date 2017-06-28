@@ -5,8 +5,10 @@ require('../env.js');
 
 if(process.env.NODE_ENV=="test"){
 	var dbConfig =	config.get("test");
-} else {
+} else if(process.env.NODE_ENV=="development") {
 	var dbConfig =	config.get('development');
+} else if(process.env.NODE_ENV=="production"){
+	var dbConfig =	config.get('production');
 }
 module.exports = new Sequelize(
     dbConfig.database,

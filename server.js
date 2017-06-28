@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var session  = require('express-session');
 var urlApi = "http://localhost:8888"
 var socket = require("socket.io");
-
+module.exports = app;
 
  app.use(session({
 	 secret: 'vidyapathaisalwaysrunning',
@@ -33,11 +33,10 @@ app.use(express.static(__dirname + '/botFiles'));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
-
-
 require("./routes")(app, models, utils, urlApi)
-
-var server=app.listen(8888, function() {
+var port=process.env.PORT || 8888;
+var server=app.listen(port, function() {
+	
 	console.log("Server started port 8888...");
 
 });
