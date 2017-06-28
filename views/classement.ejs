@@ -1,0 +1,66 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Classement</title>
+    <% include ./partials/header %>
+</head>
+<body class="bomber-background">
+
+<% include ./partials/navbar %>
+
+<%
+if(session.type){
+%>
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3 bomber-block">
+        <h1><i class="fa fa-globe" aria-hidden="true"></i>Classement</h1>
+        <% if (top) {
+            top = JSON.parse(top)%>
+        <div class="row">
+            <table class="table table-hover table-responsive bomber-tabler">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Bomber</th>
+                    <th>Points</th>
+                    <th>Joueur</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <%var color
+                console.log()
+                for(var i = 0 ; i < top.length ; i++) {
+                    if (i == 0) {
+                        color = "#ffd700"
+                    } else if (i == 1) {
+                        color = "silver"
+                    } else if (i == 2) {
+                        color = "#8b4513"
+                    } else {
+                        color = ""
+                    }
+                %>
+                <tr>
+                    <td bgcolor=<%=color%>><%=i+1%></td>
+                    <td><%=top[i].nameBot%></td>
+                    <td><%=top[i].pointBot%></td>
+                    <td><a href="/profile/<%=top[i].userIdBot%>"><%=top[i].userIdBot%></a></td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <% } %>
+    </div>
+</div>
+<%
+}
+%>
+
+<% include ./partials/footer %>
+
+</body>
+</html>

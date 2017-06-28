@@ -9,7 +9,9 @@ module.exports = function(app, models, utils, urlApi) {
 	require("./tournament")(app, models);
 
 	//FRONT
-	require("./home")(app, models);
+	require("./home")(app, urlApi);
+	require("./classement")(app, urlApi);
+	require("./profile")(app, urlApi);
 	require("./login")(app, models, urlApi);
     require("./signup")(app, models, urlApi);
 	require("./logout")(app);

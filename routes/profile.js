@@ -4,17 +4,17 @@ module.exports = function(app, urlApi){
 	// =====================================
 	var rp = require('request-promise')
 
-	app.get('/', function(req, res) {
+	app.get('/profile/:id', function(req, res) {
 		rp({
-			url: urlApi + "/topBots",
+			url: urlApi + "/user/profile/" + req.params.id,
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		}).then(function(body) {
-			res.render('home.ejs', {
+			res.render('profile.ejs', {
 				session : req.session,
-				top : body
+				profile : body
 			});
 		})
 	});

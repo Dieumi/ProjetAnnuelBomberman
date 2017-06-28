@@ -119,6 +119,38 @@ module.exports = function(app, models) {
 		})
 	});
 
+    app.get("/topBots", function (req, res, next) {
+        var Bot = models.Bot;
+        Bot.findAll({
+            order: '`pointBot` DESC',
+            limit: 3
+        }).then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            })
+        })
+    });
+
+    app.get("/classementBot", function (req, res, next) {
+        var Bot = models.Bot;
+        Bot.findAll({
+            order: '`pointBot` DESC',
+            limit: 10
+        }).then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            })
+        })
+    });
+
 	app.get("/updateBot/:id", function (req, res, next) {
 
             var Bot = models.Bot;
