@@ -1,11 +1,11 @@
 
 	//	connect
 
-	//var socket = io.connect('https://bman.herokuapp.com/');
-	var socket = io.connect('http://localhost:8888');
+
+	var socket = io.connect('http://bomberbot1dev.herokuapp.com');
 	console.log('check 1', socket.connected);
 	//	setup event listeners
-	
+
 
 	socket.on('welcome', function(id, playerInfo)
 	{
