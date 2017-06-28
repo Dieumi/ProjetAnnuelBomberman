@@ -6,7 +6,7 @@ var utils = require("./utils");
 var cookieParser = require('cookie-parser');
 var session  = require('express-session');
 
-var urlApi = "http://bomberbot1dev.herokuapp.com"
+var urlApi = "http://localhost:8888"
 var socket = require("socket.io");
 module.exports = app;
 
@@ -27,10 +27,8 @@ module.exports = app;
 
  app.set('view engine', 'ejs'); // set up ejs for templating
 
-
 /*Dossier fichier pour les bot*/
 app.use(express.static(__dirname + '/botFiles'));
-
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
@@ -44,4 +42,4 @@ var server=app.listen(port, function() {
 });
 
 require("./gamesServer")(app,models,utils, urlApi,server);
-console.log("test2")
+
