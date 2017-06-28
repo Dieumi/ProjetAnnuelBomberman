@@ -1,8 +1,8 @@
 
 	//	connect
 
-	var socket = io.connect('https://bman.herokuapp.com:443/');
-	//var socket = io.connect('http://bomberbot1dev.herokuapp.com:80/');
+	//var socket = io.connect('https://bman.herokuapp.com:443/');
+	var socket = io.connect('https://bmanserver.herokuapp.com/');
 	console.log('check 1', socket.connected);
 	//	setup event listeners
 	socket.on('connect',function(){
