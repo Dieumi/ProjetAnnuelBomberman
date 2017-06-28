@@ -3,12 +3,12 @@ var api=require("../server.js");
 
 
 describe('user',function(){
-	describe('GET /',function(){
+	/*describe('GET /',function(){
 		it("should return a webpage", function(){
 
 			return request(api).get('/').send().expect(200);
 		})
-	})
+	})*/
 
 	describe("POST /user",function(){
 		it("should generate user", function(done){
