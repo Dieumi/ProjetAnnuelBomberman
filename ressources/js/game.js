@@ -1,6 +1,10 @@
 
 	//	inits
-
+/*var models=require("./models");
+var playersummary=models.player;
+var player=new playersummary();
+var bombsummary=models.bomb;
+var bomb=new bombsummary();*/
 	var canvasTiles = document.getElementById('tiles'),
 		contextTiles = canvasTiles.getContext('2d'),
 		canvasBombs = document.getElementById('bombs'),
@@ -393,8 +397,7 @@
 			// contextTiles.fillText(x + ',' + y, x * brickSize + 27, y * brickSize + 40);
 		}
 	}
-
-	function Player(context, name, avatar)
+  function Player(context, name, avatar)
 	{
 		this.context = context;
 
