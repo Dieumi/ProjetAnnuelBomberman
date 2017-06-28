@@ -38,11 +38,10 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 
 
 	require("./routes")(app, models, utils, urlApi)
-var port=process.env.PORT || 8888;
+var port=process.env.PORT || 9999;
 var server=app.listen(port, function() {
 	console.log("Server started port 8888...");
 
 });
 
 require("./gamesServer")(app,models,utils, urlApi,server);
-console.log("test2")
