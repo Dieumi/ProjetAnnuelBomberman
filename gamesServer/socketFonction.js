@@ -1,4 +1,4 @@
-module.exports = function(app,models,utils, urlApi,server){
+/*module.exports = function(app,models,utils, urlApi,server){
 
   var socket = require("socket.io");
 

@@ -47,4 +47,4 @@ var server=app.listen(port, function() {
 
 });
 
-require("./gamesServer")(app,models,utils, urlApi,server);
+//require("./gamesServer")(app,models,utils, urlApi,server);

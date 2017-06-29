@@ -2,12 +2,12 @@
 	//	connect
 
 	//var socket = io.connect('https://bman.herokuapp.com:443/');
-	var socket = io.connect('http://bmanserver.herokuapp.com:80/');
+
+	var socket = io.connect('http://bmanserver.herokuapp.com/');
+	//var socket = io.connect('http://localhost:3000/');
 	console.log('check 1', socket.connected);
 	//	setup event listeners
-	socket.on('connect',function(){
-		console.log("connecter")
-	})
+
 
 	socket.on('welcome', function(id, playerInfo)
 	{
