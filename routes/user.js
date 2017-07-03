@@ -128,7 +128,10 @@ module.exports = function(app, models,utils) {
 	app.get("/user/count", function (req, res, next) {
 		var user = models.User;
 		user.findAndCountAll().then(function (results) {
-			res.send(results.count);
+		    console.log(results.count)
+		/res.json({
+		    "userCount" : results.count
+		});
 		}).catch(function (err) {
 
 			res.json({
