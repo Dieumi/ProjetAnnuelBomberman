@@ -17,5 +17,6 @@ module.exports = function(app, models, utils, urlApi) {
 	require("./logout")(app);
     require("./myBomberman")(app, models, urlApi);
     require("./bomberCode")(app, models, urlApi);
+    require("./bomberGame")(app, models, urlApi);
 
 }
