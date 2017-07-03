@@ -32,6 +32,7 @@
     <div class="col-md-offset-1 col-md-9">
         <h2>Code ton Bomber !</h2>
         <form method="POST" action="/bomberCode">
+			<input type="submit" value="Tester">
             <% if (msgError.length > 0) { %>
             <div class="alert alert-danger"> <%= msgError %> </div>
             <% } %>
@@ -45,7 +46,7 @@
             <textarea id="bomberEditor" name="bomberEditor"><%=code%></textarea>
 
             <input type="hidden" name="idBot" value = "<%= idBot %>">
-            <input type="submit" value="Tester">
+           
         </form>
         <script>
             var editor = CodeMirror.fromTextArea(document.getElementById("bomberEditor"), {

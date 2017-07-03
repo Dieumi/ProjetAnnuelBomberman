@@ -2,7 +2,7 @@
 	//	connect
 
 	//var socket = io.connect('https://bman.herokuapp.com:443/');
-
+    
 	var socket = io.connect('http://bmanserver.herokuapp.com/');
 	//var socket = io.connect('http://localhost:3000/');
 	console.log('check 1', socket.connected);
@@ -213,7 +213,7 @@
 
 		var random = chars[Math.floor(Math.random() * chars.length)],
 			avatar = avatars[random];
-
+		
 		init(null, true);
 
 		log('Connecting to server..');

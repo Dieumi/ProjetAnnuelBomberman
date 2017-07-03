@@ -20,7 +20,8 @@
             }).then(function (body) {
                 res.render('bomberGame.ejs', {
                     session: req.session,
-                    listBot: body
+                    listBot: body,
+                    api : api
                 });
             })
 

@@ -1,10 +1,10 @@
 
 	//	inits
-/*var models=require("./models");
-var playersummary=models.player;
-var player=new playersummary();
-var bombsummary=models.bomb;
-var bomb=new bombsummary();*/
+
+    var idSessionUser = document.getElementById('idSessionUser').value
+    var urlApi = document.getElementById('urlApi').value
+    var urlCodeBot;
+    
 	var canvasTiles = document.getElementById('tiles'),
 		contextTiles = canvasTiles.getContext('2d'),
 		canvasBombs = document.getElementById('bombs'),
@@ -149,8 +149,10 @@ var bomb=new bombsummary();*/
 
 			var element = $(this);
 
-			var fieldUserName = $('input[name=user-name]'),
-				fieldGameId = $('input[name=game-id]');
+			var fieldBotId = $('option[name=user-id]');
+			var fieldGameId = $('input[name=game-id]');
+            /*on récupere le bot choisi*/
+            console.log("id : " + fieldBotId)
 
 			var userName = fieldUserName.val(),
 				gameId = fieldGameId.val();
@@ -249,12 +251,15 @@ var bomb=new bombsummary();*/
 
 	function init(matrix_, clear)
 	{
+        
+        /*Récupération de mon code bot !*/
+
 		if (matrix_)
 		{
 			for (var x = 0; x < matrixSize; x ++)
 			{
 				matrix[x] = {};
-
+                
 				for (var y = 0; y < matrixSize; y ++)
 				{
 					var tile = new Tile(matrix_[x][y].type);
@@ -455,7 +460,7 @@ var bomb=new bombsummary();*/
 			switch (direction)
 			{
 				case 'up':
-
+				    
 					y = position.y - 1;
 
 					break;
