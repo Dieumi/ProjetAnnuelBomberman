@@ -168,7 +168,7 @@
                     unBot = data
                 }
             })
-
+           
 			if (userName && gameId)
 			{
 				if (gameId.length !== 9) return growl('Enter a game ID from your friend', true), fieldGameId.focus();

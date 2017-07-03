@@ -2,18 +2,41 @@
 	//	connect
 
 	//var socket = io.connect('https://bman.herokuapp.com:443/');
-	//var socket = io.connect('http://bmanserver.herokuapp.com/');
-	var socket = io.connect('http://localhost:3000/');
-
+	var socket = io.connect('http://bmanserver.herokuapp.com/');
+	//var socket = io.connect('http://localhost:3000/');
+    
 	console.log('check 1', socket.connected);
 	//	setup event listeners
-
+    var codeBot;
+    
 
 	socket.on('welcome', function(id, playerInfo)
-	{
-		gameId = window.location.hash = id;
+    {
 
-		player = Player.create(contextPlayerOne, playerInfo);
+        var fieldBotId = $('option[name=user-id]');
+        var idBot = fieldBotId.val();
+
+        gameId = window.location.hash = id;
+
+        player = Player.create(contextPlayerOne, playerInfo);
+
+        
+        $.ajax({
+            type: "GET",
+            url: urlApi + "/bot",
+            data: { "idBot": idBot },
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                codeBot = data.codeBot;
+                
+                /*
+                unBot = require(data.codeBot)
+                unBot.test()*/
+            }
+        })
+
+
 
 		player.render(0, 0);
 
@@ -28,8 +51,10 @@
 	});
 
 	socket.on('joined', function(playerInfo, game)
-	{
-		gameId = window.location.hash = game.id;
+    {
+        
+       
+        gameId = window.location.hash = game.id;
 
 		init(game.matrix);
 
@@ -158,14 +183,15 @@
 	});
 	socket.on('action',function(){
 
-		eval(exec());
-		console.log("test");
+   
+        eval(codeBot);
+		
 		console.log("gameOn:"+ gameOn);
 		console.log("fronze: " + frozen);
-		if(gameOn != false && frozen != true){
+        if (gameOn != false && frozen != true) {
 			setTimeout(function(){
 				socket.emit("action",player.name);
-			}, 1500);
+			}, 15000);
 
 		}
 
