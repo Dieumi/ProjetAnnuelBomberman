@@ -11,7 +11,7 @@
 
 <% if(!session.type) { %>
   <div class="container">
-      <div class="col-sm-7 col-sm-offset-2 bomber-block">
+      <div class="col-sm-8 col-sm-offset-2 bomber-block ">
           <h2><span class="fa fa-globe"></span>BomberBot</h2>
           <hr class = "bomber-line" >
           <div class="row">
@@ -21,7 +21,7 @@
               <p class="bomber-text">Grâce à la <b class="bomber-bold">Bomber-API</b> que nous vous proposons, développez l’IA de votre
                 bot et battez vous sans répit. Entrez dans l'arene pour affronter les autres joueurs et hissez vous parmis les meileurs du <a><b class="bomber-bold">classement</b></a></p>
               <br>
-              <p class="bomber-text">Déjà <b class="bomber-bold"><%var count = JSON.parse(userCount)%><%=count.userCount%></b> poseur de bombes inscrit !</p>
+              <p class="bomber-text">Déjà <b class="bomber-bold"><%var count = JSON.parse(userCount)%><%=count.userCount%></b> poseurs de bombes inscrit !</p>
             </div>
             <div class="col-sm-4 hidden-xs">
               <img src="/images/bomberman.png" style ="width:100%;"/>
@@ -32,7 +32,7 @@
       <% if (top) {
         top = JSON.parse(top)
         if (top[0].length == 3) {%>
-      <div class="col-sm-7 col-sm-offset-2 bomber-block">
+      <div class="col-sm-8 col-sm-offset-2 bomber-block" style="margin-top: 0px;">
           <h2><span class="fa fa-globe"></span>Podium</h2>
           <hr class = "bomber-line" >
           <div class="row">
