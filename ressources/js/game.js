@@ -42,7 +42,7 @@
 		playerPiggle = new Image(),
 		playerWhale = new Image();
 
-	var BOMB_TIMER = 2000,
+	var BOMB_TIMER = 5000,
 		BOMB_CLEAR_TIMER = 400;
 
 	var gameId,
@@ -221,6 +221,10 @@
 		{
 			if (!player || frozen) return;
 
+
+
+
+/*
 			if (e.which == 32)
 			{
 				player.plantBomb();
@@ -248,7 +252,7 @@
 				player.move('right');
 
 				frozen = true;
-			}
+			}*/
 
 			movementTimer = setTimeout(function()
 			{

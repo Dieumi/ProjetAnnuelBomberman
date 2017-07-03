@@ -2,9 +2,9 @@
 	//	connect
 
 	//var socket = io.connect('https://bman.herokuapp.com:443/');
-    
-	var socket = io.connect('http://bmanserver.herokuapp.com/');
-	//var socket = io.connect('http://localhost:3000/');
+	//var socket = io.connect('http://bmanserver.herokuapp.com/');
+	var socket = io.connect('http://localhost:3000/');
+
 	console.log('check 1', socket.connected);
 	//	setup event listeners
 
@@ -120,8 +120,9 @@
 			gameOn = true;
 
 			frozen = false;
-
+			socket.emit("action",player.name);
 		}, startTimer);
+
 
 	});
 
@@ -153,8 +154,22 @@
 
 		});
 
-	});
 
+	});
+	socket.on('action',function(){
+
+		eval(exec());
+		console.log("test");
+		console.log("gameOn:"+ gameOn);
+		console.log("fronze: " + frozen);
+		if(gameOn != false && frozen != true){
+			setTimeout(function(){
+				socket.emit("action",player.name);
+			}, 1500);
+
+		}
+
+	})
 	socket.on('bomb', function(position)
 	{
 		var bomb = new Bomb(position.x, position.y);
