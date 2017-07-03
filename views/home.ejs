@@ -29,36 +29,47 @@
           </div>
       </div>
       <div class="col-sm-7 col-sm-offset-2 bomber-block">
-          <h2><span class="fa fa-globe"></span>Classement</h2>
+          <h2><span class="fa fa-globe"></span>Podium</h2>
 
+
+          <% if (top) {
+              top = JSON.parse(top)    
+              if (top.length == 3) {%>
           <div class="row">
-            <table class="table table-hover table-responsive bomber-tabler text-center">
+            <table class="table table-hover table-responsive bomber-tabler">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th class="bomber-first">Joueur</th>
+                  <th>Bomber</th>
                   <th>Points</th>
+                  <th>Joueur</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>John</td>
-                  <td>5161</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Mary</td>
-                  <td>4913</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>July</td>
-                  <td>4652</td>
-                </tr>
+
+              <%
+              var color = "#000"
+              for(var i = 0 ; i < 3 ; i++) {
+              if (i == 0) {
+                  color = "#ffd700"
+              } else if (i == 1) {
+                  color = "silver"
+              } else {
+                  color = "#8b4513"
+              }
+              %>
+              <tr>
+                  <td bgcolor=<%=color%>><%=i+1%></td>
+                  <td><%=top[i].nameBot%></td>
+                  <td><%=top[i].pointBot%></td>
+                  <td><a href="/profile/<%=top[i].userIdBot%>"><%=top[i].userIdBot%></a></td>
+              </tr>
+              <% } %>
               </tbody>
             </table>
           </div>
+
+          <% }} %>
       </div>
   </div>
 <% } else {

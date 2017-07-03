@@ -114,29 +114,64 @@ module.exports = function(app, models,utils) {
 	app.get("/ListeUser", function (req, res, next) {
 		var user = models.User;
 		user.findAll().then(function (results) {
-				res.send(results);
+			res.send(results.count);
 		}).catch(function (err) {
 
-				res.json({
-						"code": 2,
-						"message": "Sequelize error",
-						"error": err
-				})
+			res.json({
+				"code": 2,
+				"message": "Sequelize error",
+				"error": err
+			})
 		})
 	});
 
+	app.get("/user/count", function (req, res, next) {
+		var user = models.User;
+		user.findAndCountAll().then(function (results) {
+			res.send(results.count);
+		}).catch(function (err) {
 
-    app.delete("/deleteuser/:id", function (req, res, next) {
-        var user = utils.user;
-        var u1 = new user();
-        if (req.params.id) {
-            u1.delete(req.params.id, function (result) {
-              res.status(200);
-              res.json({
-                "user":"deleted"
-              })
+			res.json({
+				"code": 2,
+				"message": "Sequelize error",
+				"error": err
+			})
+		})
+	});
 
-            })
-        }
+	app.delete("/deleteuser/:id", function (req, res, next) {
+		var user = utils.user;
+		var u1 = new user();
+		if (req.params.id) {
+			u1.delete(req.params.id, function (result) {
+				res.status(200);
+				res.json({
+					"user":"deleted"
+				})
+
+			})
+		}
+	});
+
+    app.get("/user/profile/:id", function (req, res, next) {
+		var User = models.User;
+		if (req.params.id) {
+			User.findById(req.params.id).then(function(result){
+				if(result){
+					res.json({
+						"code" : 0,
+						"idUser" : result.idUser,
+						"loginUser" : result.loginUser,
+						"emailUser" : result.emailUser,
+						"typeUser" : result.typeUser
+					});
+				}else{
+					res.json({
+						"code" : 3,
+						"message" : "User not found"
+					})
+				}
+			});
+		}
     });
 }

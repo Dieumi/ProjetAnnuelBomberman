@@ -5,8 +5,9 @@ var models = require("./models");
 var utils = require("./utils");
 var cookieParser = require('cookie-parser');
 var session  = require('express-session');
-
+//var urlApi = "http://bomberbot1dev.herokuapp.com"
 var urlApi = "http://localhost:8888"
+
 var socket = require("socket.io");
 module.exports = app;
 
@@ -36,10 +37,8 @@ require("./routes")(app, models, utils, urlApi)
 
 var port=process.env.PORT || 8888;
 var server=app.listen(port, function() {
-	
 	console.log("Server started port 8888...");
-
 });
 
-require("./gamesServer")(app,models,utils, urlApi,server);
 
+//require("./gamesServer")(app,models,utils, urlApi,server);
