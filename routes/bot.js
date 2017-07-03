@@ -119,7 +119,23 @@ module.exports = function(app, models) {
 		})
 	});
 
-    app.get("/topBots", function (req, res, next) {
+	app.get("/topBots", function (req, res, next) {
+        var Bot = models.Bot;
+        var User = models.User;
+
+        Bot.sequelize.query("SELECT b.*, u.loginUser FROM bot AS b, user AS u WHERE b.userIdBot = u.idUser ORDER BY pointBot DESC LIMIT 3")
+        .then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            })
+        })
+    })
+
+    /**app.get("/topBots", function (req, res, next) {
         var Bot = models.Bot;
         Bot.findAll({
             order: '`pointBot` DESC',
@@ -133,7 +149,7 @@ module.exports = function(app, models) {
                 "error": err
             })
         })
-    });
+    });*/
 
     app.get("/classementBot", function (req, res, next) {
         var Bot = models.Bot;
