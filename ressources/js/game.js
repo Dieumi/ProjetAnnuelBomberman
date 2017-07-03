@@ -3,8 +3,8 @@
 
     var idSessionUser = document.getElementById('idSessionUser').value
     var urlApi = document.getElementById('urlApi').value
-    var urlCodeBot;
-    
+    var unBot;
+
 	var canvasTiles = document.getElementById('tiles'),
 		contextTiles = canvasTiles.getContext('2d'),
 		canvasBombs = document.getElementById('bombs'),
@@ -143,19 +143,31 @@
 
 	function attachEventListeners()
 	{
-		$('.menu').on('submit', function(e)
-		{
-			e.preventDefault();
+        $('.menu').on('submit', function (e) {
+            e.preventDefault();
 
-			var element = $(this);
+            var element = $(this);
 
-			var fieldBotId = $('option[name=user-id]');
-			var fieldGameId = $('input[name=game-id]');
+            var fieldBotId = $('option[name=user-id]');
+            var fieldGameId = $('input[name=game-id]');
             /*on récupere le bot choisi*/
-            console.log("id : " + fieldBotId)
 
-			var userName = fieldUserName.val(),
-				gameId = fieldGameId.val();
+
+            var idBot = fieldBotId.val(),
+                gameId = fieldGameId.val();
+            var userName;
+
+            $.ajax({
+                type: "GET",
+                url: urlApi + "/bot",
+                data : {"idBot": idBot},
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    userName = data.nameBot
+                    unBot = data
+                }
+            })
 
 			if (userName && gameId)
 			{

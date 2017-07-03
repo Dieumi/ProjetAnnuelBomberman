@@ -40,11 +40,18 @@ module.exports = function(app, models) {
 	});
 
     app.get("/bot", function (req, res, next) {
-        if(req.body.idBot){
-			var Bot = models.Bot;
+        console.log(req.query.idBot)
+        if(req.body.idBot || req.query.idBot){
+            var Bot = models.Bot;
+            var idBot;
+            if (req.query.idBot) {
+                idBot = req.query.idBot
+            } else {
+                idBot = req.body.idBot
+            }
 			var request = {
 				where: {
-                    idBot : req.body.idBot
+                    idBot : idBot
 				}
 			}
 			Bot.find(request).then(function (result) {
