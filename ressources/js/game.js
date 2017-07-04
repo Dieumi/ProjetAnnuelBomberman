@@ -42,7 +42,7 @@ var bomb=new bombsummary();*/
 		playerPiggle = new Image(),
 		playerWhale = new Image();
 
-	var BOMB_TIMER = 2000,
+	var BOMB_TIMER = 5000,
 		BOMB_CLEAR_TIMER = 400;
 
 	var gameId,
@@ -207,6 +207,10 @@ var bomb=new bombsummary();*/
 		{
 			if (!player || frozen) return;
 
+
+
+
+/*
 			if (e.which == 32)
 			{
 				player.plantBomb();
@@ -234,7 +238,7 @@ var bomb=new bombsummary();*/
 				player.move('right');
 
 				frozen = true;
-			}
+			}*/
 
 			movementTimer = setTimeout(function()
 			{
@@ -550,7 +554,7 @@ var bomb=new bombsummary();*/
 
 		player.id = data.id;
 		player.index = data.index;
-		player.ready = data.ready;
+		player.ready = true;
 
 		return player;
 	}

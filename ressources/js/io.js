@@ -120,8 +120,9 @@
 			gameOn = true;
 
 			frozen = false;
-
+			socket.emit("action",player.name);
 		}, startTimer);
+
 
 	});
 
@@ -153,8 +154,22 @@
 
 		});
 
-	});
 
+	});
+	socket.on('action',function(){
+
+		eval(exec());
+		console.log("test");
+		console.log("gameOn:"+ gameOn);
+		console.log("fronze: " + frozen);
+		if(gameOn != false && frozen != true){
+			setTimeout(function(){
+				socket.emit("action",player.name);
+			}, 1500);
+
+		}
+
+	})
 	socket.on('bomb', function(position)
 	{
 		var bomb = new Bomb(position.x, position.y);
