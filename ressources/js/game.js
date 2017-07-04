@@ -554,7 +554,7 @@ var bomb=new bombsummary();*/
 
 		player.id = data.id;
 		player.index = data.index;
-		player.ready = data.ready;
+		player.ready = true;
 
 		return player;
 	}

@@ -85,18 +85,19 @@
 		$('.players').append(div);
 
 		div.fadeIn('fast');
+		socket.emit('ready', gameId, !isReady);
+		var isReady = div.hasClass('ready');
 
-		div.on('click', function(e)
+		div.toggleClass('ready');
+		/*div.on('click', function(e)
 		{
 			if (div.attr('id') !== player.id || gameOn) return;
 
-			var isReady = div.hasClass('ready');
 
-			div.toggleClass('ready');
 
-			socket.emit('ready', gameId, !isReady);
 
-		});
+
+		});*/
 
 		players.push(player_);
 
