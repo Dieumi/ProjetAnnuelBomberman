@@ -31,7 +31,7 @@
 
       <% if (top) {
         top = JSON.parse(top)
-        if (top[0].length == 3) {%>
+        if (top.result[0].length == 3) {%>
       <div class="col-sm-8 col-sm-offset-2 bomber-block" style="margin-top: 0px;">
           <h2 class="bomber-text"><span class="fa fa-globe"></span>Podium</h2>
           <hr class = "bomber-line" >
@@ -60,9 +60,9 @@
               %>
               <tr>
                   <td bgcolor=<%=color%>><%=i+1%></td>
-                  <td><%=top[0][i].nameBot%></td>
-                  <td><%=top[0][i].pointBot%></td>
-                  <td><a href="/profile/<%=top[0][i].userIdBot%>"><%=top[0][i].loginUser%></a></td>
+                  <td><%=top.result[0][i].nameBot%></td>
+                  <td><%=top.result[0][i].pointBot%></td>
+                  <td><a href="/profile/<%=top.result[0][i].userIdBot%>"><%=top.result[0][i].loginUser%></a></td>
               </tr>
               <% } %>
               </tbody>

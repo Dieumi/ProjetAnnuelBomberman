@@ -151,11 +151,11 @@ module.exports = function(app, models) {
         })
     });*/
 
-    app.get("/classementBot", function (req, res, next) {
+    /**app.get("/classementBot", function (req, res, next) {
         var Bot = models.Bot;
         Bot.findAll({
             order: '`pointBot` DESC',
-            limit: 10
+            limit: 2
         }).then(function (results) {
             res.send(results);
         }).catch(function (err) {
@@ -165,7 +165,36 @@ module.exports = function(app, models) {
                 "error": err
             })
         })
-    });
+    });*/
+
+    app.get("/classementBot/:limit/:page", function (req, res, next) {
+            var Bot = models.Bot;
+            var User = models.User;
+            var limit = req.params.limit;
+            var offset = 0;
+            Bot.findAndCountAll()
+            .then((data) => {
+                var page = req.params.page;
+                var pages = Math.ceil(data.count / limit);
+                offset = limit * (page - 1);
+                Bot.sequelize.query("SELECT b.*, u.loginUser FROM bot AS b, user AS u WHERE b.userIdBot = u.idUser ORDER BY pointBot DESC LIMIT " + limit + " OFFSET " + offset)
+                .then(function (results) {
+                    res.json({
+                        'code': 0,
+                        'result': results,
+                        'count': data.count,
+                        'limit': limit,
+                        'pages': pages
+                    });
+                })
+            }).catch(function (err) {
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                })
+            })
+        })
 
 	app.get("/updateBot/:id", function (req, res, next) {
 

@@ -16,7 +16,9 @@ if(session.type){
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1><i class="fa fa-globe" aria-hidden="true"></i>Classement</h1>
         <% if (top) {
-            top = JSON.parse(top)%>
+            top = JSON.parse(top)
+            currentPage = JSON.parse(currentPage)
+            var index = (currentPage-1) * top.limit%>
         <div class="row">
             <table class="table table-hover table-responsive bomber-tabler">
                 <thead>
@@ -28,31 +30,39 @@ if(session.type){
                 </tr>
                 </thead>
                 <tbody>
-
                 <%var color
-                console.log()
-                for(var i = 0 ; i < top.length ; i++) {
-                    if (i == 0) {
+                var position = 0
+                for(var i = 0 ; i < top.result[0].length ; i++) {
+                    position = i + 1 + index
+                    if (position == 1) {
                         color = "#ffd700"
-                    } else if (i == 1) {
+                    } else if (position == 2) {
                         color = "silver"
-                    } else if (i == 2) {
+                    } else if (position == 3) {
                         color = "#8b4513"
                     } else {
                         color = ""
                     }
                 %>
                 <tr>
-                    <td bgcolor=<%=color%>><%=i+1%></td>
-                    <td><%=top[i].nameBot%></td>
-                    <td><%=top[i].pointBot%></td>
-                    <td><a href="/profile/<%=top[i].userIdBot%>"><%=top[i].userIdBot%></a></td>
+                    <td bgcolor=<%=color%>><%=position%></td>
+                    <td><%=top.result[0][i].nameBot%></td>
+                    <td><%=top.result[0][i].pointBot%></td>
+                    <td><a href="/profile/<%=top.result[0][i].userIdBot%>"><%=top.result[0][i].loginUser%></a></td>
                 </tr>
                 <% } %>
                 </tbody>
             </table>
+            <div align="center">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <% for (var i = 1; i <= top.pages; i++) {%>
+                        <li><a href="/classement/10/<%=i%>"><%=i%></a></li>
+                    <%}%>
+                  </ul>
+                </nav>
+            </div>
         </div>
-
         <% } %>
     </div>
 </div>
