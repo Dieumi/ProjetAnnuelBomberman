@@ -1,6 +1,6 @@
 //var socket2 = io.connect('http://bmanserver.herokuapp.com/');
 
-var socket2 = io.connect('http://localhost:3000/', {'force new connection': true});
+var socket2 = io.connect('https://bmanserver.herokuapp.com/', {'force new connection': true});
 console.log('check 1', socket2);
 //	setup event listeners
 
