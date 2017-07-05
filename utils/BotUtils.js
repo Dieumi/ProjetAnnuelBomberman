@@ -1,4 +1,6 @@
 var models=require("../models");
+var Sequelize = require("sequelize");
+
 var BotUtils=function(id,nameBot,codeBot,winBot,loseBot,pointBot,modeBot,userIdBot){
 	this.idBot=id;
 	this.nameBot=nameBot,
@@ -33,6 +35,34 @@ BotUtils.prototype.delete = function(idBot, callback) {
 	} else {
 		callback(results);
 	}
-};
+}
+BotUtils.prototype.findEnemy = function(idBot,iduser, callback) {
+	var Bot = models.Bot;
+
+	if(idBot) {
+		Bot.findAll({
+			"where" : {
+				idBot : {
+					$ne : idBot
+				},
+				userIdBot : {
+					$ne : iduser
+				},
+				modeBot : "combat"
+			},
+			"order":[
+				Sequelize.fn('RAND')
+			],
+			limit:3
+		}).then(function(result) {
+
+			if(result) {
+					callback(result);
+				}
+			}).catch(function(err) {
+			callback(err);
+		});
+	}
+}
 
 module.exports=BotUtils;
