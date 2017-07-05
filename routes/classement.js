@@ -4,9 +4,9 @@ module.exports = function(app, urlApi){
 	// ===========================================
 	var rp = require('request-promise')
 
-	app.get('/classement', function(req, res) {
+	app.get('/classement/:limit/:page', function(req, res) {
 		rp({
-			url: urlApi + "/classementBot",
+			url: urlApi + "/classementBot/" + req.params.limit + "/" + req.params.page,
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json'
@@ -14,7 +14,8 @@ module.exports = function(app, urlApi){
 		}).then(function(body) {
 			res.render('classement.ejs', {
 				session : req.session,
-				top : body
+				top : body,
+				currentPage : req.params.page
 			});
 		})
 	});
