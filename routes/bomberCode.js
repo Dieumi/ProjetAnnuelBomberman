@@ -7,7 +7,7 @@ module.exports = function(app, models, urlApi){
     var api = models.myApi;
     var request = require('request');
     var myBot;
-
+    var player = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){}};var player = new Player(null, \"test\", null);"
 
     app.get('/bomberCode/:idBot?', function(req, res) {
         myBot=null;
@@ -16,7 +16,7 @@ module.exports = function(app, models, urlApi){
         }else {*/
             if(req.params.idBot){
                 rp({
-                    url: urlApi+"/bot" ,
+                    url: urlApi+"/bot",
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json'
@@ -83,16 +83,16 @@ module.exports = function(app, models, urlApi){
                     session: req.session
                 });
             } else {
-                var completePath="";
+                var completePath = "";
+                var dir = "botFiles/" + req.session.login + "/";
                 if(!myBot) {
                     //Création du fichier de test + ouverture
-                    var dir = "botFiles/" + req.session.login + "/";
                     mkdirp(dir, function (err) {
                     });
                     
                 }
                 completePath = dir + "testBot.js"
-                fs.writeFile(completePath, req.body.bomberEditor, function (err) {
+                fs.writeFile(completePath, player + "\r\n" +req.body.bomberEditor, function (err) {
                     if (err) return console.log(err);
                 });
 
@@ -104,7 +104,7 @@ module.exports = function(app, models, urlApi){
                         tmp = tmp[1].split("\n")
                    
                         res.render('bomberCode.ejs', {
-                            msgError: "Error code: " + error.code + "\n stderr: " + tmp[0],
+                            msgError: "Error code: " + error.code + "\n stderr: " + stderr,
                             msgSuccess: "",
                             code: req.body.bomberEditor,
                             name: req.body.name,
@@ -192,6 +192,6 @@ module.exports = function(app, models, urlApi){
     });
 
     /**/
-
+ 
 
 }
