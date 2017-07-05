@@ -35,7 +35,7 @@ module.exports = function(app, models, urlApi){
                             res.render('bomberCode.ejs', {
                                 msgError: "",
                                 msgSuccess: "",
-                                code: fs.readFileSync("./"+body.codeBot, "UTF-8"),
+                                code:body.codeBot,
                                 name: body.nameBot,
                                 idBot: req.params.idBot,
                                 session: req.session
@@ -89,11 +89,9 @@ module.exports = function(app, models, urlApi){
                     var dir = "botFiles/" + req.session.login + "/";
                     mkdirp(dir, function (err) {
                     });
-                    completePath = dir + "testBot.js"
-                }else{
-                    completePath = "./"+myBot.codeBot;
+                    
                 }
-
+                completePath = dir + "testBot.js"
                 fs.writeFile(completePath, req.body.bomberEditor, function (err) {
                     if (err) return console.log(err);
                 });
@@ -128,7 +126,7 @@ module.exports = function(app, models, urlApi){
                                 },
                                 json: {
                                     "nameBot": req.body.name,
-                                    "codeBot":  "",
+                                    "codeBot": req.body.bomberEditor,
                                     "winBot": 0,
                                     "loseBot": 0,
                                     "pointBot": 0,
@@ -136,21 +134,8 @@ module.exports = function(app, models, urlApi){
                                     "userIdBot": req.session.idUser,
                                 }
                             }).then(function (body) {
-                                /*rename file*/
-                                rp({
-                                    url: urlApi + "/updateBot",
-                                    method: "POST",
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    json: {
-                                        "codeBot": "botFiles/" + req.session.login + "/"+body.idBot+".js",
-                                        "idBot": body.idBot
-                                    }
-                                }).then(function(body){}).catch(function (err) {})
                                 myBot = body
-                                myBot.codeBot = "botFiles/" + req.session.login + "/"+body.idBot+".js"
-                                fs.rename(completePath, myBot.codeBot)
+                                myBot.codeBot = req.body.bomberEditor
                                 res.render('bomberCode.ejs', {
                                     msgError: "",
                                     msgSuccess: "Bomber prêt au combat !",
@@ -179,7 +164,8 @@ module.exports = function(app, models, urlApi){
                                 },
                                 json: {
                                     "nameBot": req.body.name,
-                                    "idBot": myBot.id
+                                    "idBot": myBot.idBot,
+                                    "codeBot": req.body.bomberEditor
                                 }
                             }).then(function(body){}).catch(function (err) {})
 

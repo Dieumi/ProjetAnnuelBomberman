@@ -7,7 +7,7 @@ module.exports = function(app, models) {
 			var Bot = models.Bot;
 			Bot.create({
 				"nameBot" : req.body.nameBot,
-				"codeBot" : req.body.bomberEditor,
+				"codeBot": req.body.codeBot,
 				"winBot" : 0,
 				"loseBot" : 0,
 				"pointBot" : 0,
