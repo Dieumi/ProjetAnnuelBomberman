@@ -29,39 +29,35 @@
             </div>
         </div>
     </div>
-</div>
 
-<% } else {
 
-if(session.type == "admin"){
-%>
+    <% } else {
+    if(session.type == "admin"){
+    %>
 
-<div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1><span class="fa fa-sign-in"></span> Hello Admin!</h1>
     </div>
-</div>
 
-<%
-}
-if(session.type){
-%>
+    <%
+    }
+    if(session.type){
+    %>
 
-<div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1><i class="fa fa-globe" aria-hidden="true"></i> Hello <b class="bomber-bold"><%=session.login%></b>!</h1>
 
     </div>
+
+    <%
+    }
+
+    }
+    %>
+
+    <% include ./partials/podium.ejs %>
+
 </div>
-
-<%
-}
-
-}
-%>
-
-<% include ./partials/podium.ejs %>
-
 <% include ./partials/footer %>
 
 </body>
