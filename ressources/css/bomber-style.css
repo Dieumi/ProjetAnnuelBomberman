@@ -1,61 +1,61 @@
 .bomber-background {
-  background-color: #6d819c;
-  background-image: url("/images/wall2.png");
+    background-color: #6d819c;
+    background-image: url("/images/wall2.png");
 }
 
 .menu-top {
-  background-color: #2B4E79;
-  border: 0px;
-  color: #dedede;
+    background-color: #2B4E79;
+    border: 0px;
+    color: #dedede;
 }
 
 .bomber-title {
-  color: #dedede;
-  font-family: Montserrat;
-  font-size: 18px;
+    color: #dedede;
+    font-family: Montserrat;
+    font-size: 18px;
 
 }
 
 .bomber-footer {
-  background: #8AC53F;
-  position: fixed;
-  bottom:0px;
-  height:20px;
-  width:100%;
-  z-index: 2;
+    background: #8AC53F;
+    position: fixed;
+    bottom:0px;
+    height:20px;
+    width:100%;
+    z-index: 2;
 }
 
 .bomber-grass {
-  background-image: url("/images/grass3.png");
-  background-repeat: repeat-x;
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  height: 150px;
-  z-index: 1;
+    background-image: url("/images/grass3.png");
+    background-repeat: repeat-x;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 150px;
+    z-index: 1;
 }
 
 .bomber-block {
-  background-color: #e4e7ec;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 1px 25px 10px 25px;
-  border-radius: 5px;
-  z-index: 3;
-  float: center;
+    background-color: #e4e7ec;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 1px 25px 10px 25px;
+    border-radius: 5px;
+    z-index: 3;
+    float: center;
 }
 
 .bomber-bold {
-  color: #55967e;
+    color: #55967e;
 }
 
 .bomber-text {
-  color: #263959;
-  font-family: Montserrat;
+    color: #263959;
+    font-family: Montserrat;
 }
 
 .bomber-table {
-  border-color: #55967e;
+    border-color: #55967e;
 }
 
 hr.bomber-line {
@@ -73,4 +73,56 @@ hr.bomber-line {
 .bomber-btn:hover {
     background-color: #18365A;
     color: #fff;
+}
+
+td {
+    vertical-align: bottom; /*Sinon les colonnes ne s'allignent pas vers le bas, logique*/
+    padding: 3px; /*Espacement entre chaques colonnes*/
+}
+#second, #first, #third {
+    width: 100px; /* Largeur de chaques colonnes*/
+}
+#first {
+    height: 250px;
+    background: #ffc215;
+}
+#second {
+    height: 200px;
+    background: #A8A8A8;
+}
+#third {
+    height: 150px;
+    background: #965A38;
+}
+.text-center {
+    text-align:center;
+    font-size:50px;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight:900;
+    transform: scale(1.5, 1);
+}
+.text-inside {
+    text-align:center;
+    padding-top:20px;
+    font-family: 'Libre Franklin', sans-serif;
+}
+.player {
+    font-size:20px;
+}
+
+.points {
+    padding-top:14px;
+    font-size:14px;
+    display: block;
+}
+
+.users {
+    padding-top:5px;
+    font-size:14px;
+    display: block;
+    color: #222222;
+}
+
+#podium {
+    margin: 0 auto;
 }

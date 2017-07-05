@@ -10,6 +10,7 @@
 <% include ./partials/navbar %>
 
 <% if(!session.type) { %>
+
 <div class="container">
     <div class="col-sm-8 col-sm-offset-2 bomber-block ">
         <h2 class="bomber-text"><span class="fa fa-globe"></span>BomberBot</h2>
@@ -28,72 +29,38 @@
             </div>
         </div>
     </div>
-
-    <% if (top) {
-        top = JSON.parse(top)
-    if (top.result[0].length == 3) {%>
-    <div class="col-sm-8 col-sm-offset-2 bomber-block" style="margin-top: 0px;">
-        <h2 class="bomber-text"><span class="fa fa-globe"></span>Podium</h2>
-        <hr class = "bomber-line" >
-        <div class="row">
-            <table class="table table-hover table-responsive bomber-tabler">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Bomber</th>
-                    <th>Points</th>
-                    <th>Joueur</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <%
-                    var color = "#000"
-                for(var i = 0 ; i < 3 ; i++) {
-                    if (i == 0) {
-                        color = "#ffd700"
-                    } else if (i == 1) {
-                        color = "silver"
-                    } else {
-                        color = "#8b4513"
-                    }
-                %>
-                <tr>
-                    <td bgcolor=<%=color%>><%=i+1%></td>
-                    <td><%=top.result[0][i].nameBot%></td>
-                    <td><%=top.result[0][i].pointBot%></td>
-                    <td><a href="/profile/<%=top.result[0][i].userIdBot%>"><%=top.result[0][i].loginUser%></a></td>
-                </tr>
-                <% } %>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <% }} %>
 </div>
+
 <% } else {
+
 if(session.type == "admin"){
 %>
+
 <div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1><span class="fa fa-sign-in"></span> Hello Admin!</h1>
     </div>
 </div>
+
 <%
 }
 if(session.type){
 %>
+
 <div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1><i class="fa fa-globe" aria-hidden="true"></i> Hello <%= session.login %>!</h1>
 
-
     </div>
 </div>
+
 <%
 }
+
 }
 %>
+
+<% include ./partials/podium.ejs %>
 
 <% include ./partials/footer %>
 
