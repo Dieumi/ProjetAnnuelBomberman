@@ -6,7 +6,7 @@
 .menu-top {
   background-color: #2B4E79;
   border: 0px;
-  color: dedede;
+  color: #dedede;
 }
 
 .bomber-title {
@@ -68,4 +68,9 @@ hr.bomber-line {
 .bomber-btn {
     background-color: #2B4E79;
     color: #dedede;
+}
+
+.bomber-btn:hover {
+    background-color: #18365A;
+    color: #fff;
 }
