@@ -1,6 +1,6 @@
 var bcrypt = require("bcrypt-nodejs");
 
-module.exports = function(app, models) {
+module.exports = function(app, models,utils) {
 
 	app.post("/bot", function(req, res, next) {
 		if (req.body.nameBot && req.body.userIdBot) {
@@ -254,4 +254,21 @@ module.exports = function(app, models) {
 
 
     });
+
+	  app.post('/adversaire', function(req, res) {
+	        if(!req.session.type){
+	            res.redirect("/");
+	        }else {
+
+	         var Bot = utils.Bot;
+					 console.log(Bot);
+					 var u1 = new Bot()
+					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
+		
+						 res.send(result)
+					 })
+
+
+	        }
+	  });
 }

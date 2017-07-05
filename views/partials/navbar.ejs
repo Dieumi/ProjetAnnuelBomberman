@@ -24,5 +24,18 @@
             <%}%>
         </ul>
 
+		<%
+			}
+        %>
+          <li><a href="/Choix"><p class="bomber-title">Jouer</p></a></li>
+          <li><a href="/myBomberman"><p class="bomber-title">Mes Bombers</p></a></li>
+          <li><a href="/classement"><p class="bomber-title">Classement</p></a></li>
+          <li><a href="/profile/<%=session.idUser%>"><p class="bomber-title">Mon compte</p></a></li>
+          <li><a href="/logout"><p class="bomber-title">Déconnexion</p></a></li>
+          <%
+		 }
+		%>
+      </ul>
+
     </div>
 </nav>

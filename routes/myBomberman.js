@@ -26,7 +26,26 @@ module.exports = function(app, models, urlApi){
 
         }
 	});
-  app.get('/index', function(req, res) {
+  app.post('/index', function(req, res) {
+        if(!req.session.type){
+            res.redirect("/");
+        }else {
+            //On recup la liste de bot :
+            console.log(req.body.namebotAD)
+            res.render('index.ejs', {
+                session: req.session,
+                idAd:req.body.idAd,
+                idbotAd: req.body.idbotAd,
+                idBot:req.body.idbot,
+                iduser:req.body.iduser,
+                namebot:req.body.namebot,
+                namebotAd:req.body.namebotAD
+            });
+
+
+        }
+  });
+  app.get('/Choix', function(req, res) {
         if(!req.session.type){
             res.redirect("/");
         }else {
@@ -41,13 +60,15 @@ module.exports = function(app, models, urlApi){
                     "userIdBot": req.session.idUser
                 }
             }).then(function(body) {
-                res.render('index.ejs', {
+                res.render('Choix.ejs', {
                     session: req.session,
                     listBot: body
                 });
             })
 
+
         }
   });
+
 
 }

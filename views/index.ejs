@@ -39,35 +39,42 @@
 
 		<form class="menu">
 
-			<ul>
-				<li>
-					<input type="text" name="user-name" placeholder="Your name" tabindex="1" maxlength="10">
-					<button type="submit">New Game</button>
-				</li>
-				<li>
-					<input type="text" name="game-id" placeholder="Game ID" tabindex="2">
-					<button type="submit">Join Game</button>
-				</li>
-			</ul>
-		</form>
-		<canvas id="tiles" height="576" width="576"></canvas>
-		<canvas id="bombs" height="576" width="576"></canvas>
-		<canvas id="player-one" height="576" width="576"></canvas>
-		<canvas id="player-two" height="576" width="576"></canvas>
-		<canvas id="player-three" height="576" width="576"></canvas>
-		<canvas id="player-four" height="576" width="576"></canvas>
-	</div>
-</div>
+
+					<ul>
+						<li>
+							<input type="text" name="user-name" placeholder="Your name" value="<%=namebot%>" tabindex="1" maxlength="10">
+							<input type="hidden" name="user-nameAD" placeholder="Your name" value="<%=namebotAd%>" tabindex="1" maxlength="10">
+							<button type="submit">New Game</button>
+						</li>
+						<li>
+							<input type="text" name="game-id" placeholder="Game ID" tabindex="2">
+							<button type="submit">Join Game</button>
+						</li>
+					</ul>
+				</form>
+				<canvas id="tiles" height="576" width="576"></canvas>
+				<canvas id="bombs" height="576" width="576"></canvas>
+				<canvas id="player-one" height="576" width="576"></canvas>
+				<canvas id="player-two" height="576" width="576"></canvas>
+				<canvas id="player-three" height="576" width="576"></canvas>
+				<canvas id="player-four" height="576" width="576"></canvas>
+			</div>
+		</div>
+
 
 <div id="fb-root">
 </div>
 </body>
 
-<script src="/lib/jquery.min.js"></script>
-<script src="/lib/hashids.min.js"></script>
-<script src="/js/scripts.js"></script>
-<script src="/js/test.js"></script>
-<script src="/js/game.js"></script>
+
+	<script src="/lib/jquery.min.js"></script>
+	<script src="/lib/hashids.min.js"></script>
+	<script src="/js/scripts.js"></script>
+	<script src="/js/test.js"></script>
+		<script src="/js/test0.js"></script>
+	<script src="/js/game.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script src="/js/io.js"></script>
-<!--<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
+<script src="/js/io2.js"></script>
+	<!--<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>

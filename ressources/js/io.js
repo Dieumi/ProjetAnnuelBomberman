@@ -3,20 +3,24 @@
 
 	//var socket = io.connect('https://bman.herokuapp.com:443/');
 
-	var socket = io.connect('http://bmanserver.herokuapp.com/');
+
+	var socket = io.connect('https://bmanserver.herokuapp.com/');
 	//var socket = io.connect('http://localhost:3000/');
 	console.log('check 1', socket.connected);
+
 	//	setup event listeners
 
 
 	socket.on('welcome', function(id, playerInfo)
 	{
+		console.log("welcome")
 		gameId = window.location.hash = id;
 
 		player = Player.create(contextPlayerOne, playerInfo);
+		console.log(player2)
 
 		player.render(0, 0);
-
+		console.log(player)
 		addPlayer(player);
 
 		hideLoading();
@@ -24,11 +28,12 @@
 		log('Waiting for players..');
 
 		log('Click your name when you\'re ready', true);
-
+		joinGame($('input[name=user-nameAD]').val(), gameId);
 	});
 
 	socket.on('joined', function(playerInfo, game)
 	{
+
 		gameId = window.location.hash = game.id;
 
 		init(game.matrix);
@@ -67,6 +72,7 @@
 
 	socket.on('game-started', function()
 	{
+
 		clearPlayers();
 
 		hideStatus();
@@ -101,6 +107,7 @@
 
 	socket.on('start', function(matrix)
 	{
+		console.log("start")
 		startCountdown();
 
 		frozen = true;
@@ -109,8 +116,10 @@
 
 		players.forEach(function(player)
 		{
-			var map = playerMap[player.index];
+			console.log(player);
 
+			var map = playerMap[player.index];
+			console.log(map);
 			player.render(map.x, map.y, true);
 
 		});
@@ -121,6 +130,7 @@
 
 			frozen = false;
 			socket.emit("action",player.name);
+
 		}, startTimer);
 
 
@@ -159,9 +169,8 @@
 	socket.on('action',function(){
 
 		eval(exec());
-		console.log("test");
-		console.log("gameOn:"+ gameOn);
-		console.log("fronze: " + frozen);
+
+		console.log("io:"+player.name)
 		if(gameOn != false && frozen != true){
 			setTimeout(function(){
 				socket.emit("action",player.name);
@@ -197,6 +206,8 @@
 
 	socket.on('player-joined', function(player)
 	{
+		console.log("player-joined")
+		console.log(player)
 		var map = playerMap[player.index],
 			newPlayer = Player.create(map.context, player);
 
@@ -249,8 +260,9 @@
 		log('Joining game..');
 
 		log('Connecting to server..');
+		console.log("join")
+		socket2.emit('join', id, name);
 
-		socket.emit('join', id, name);
 	}
 
 	function endGame(winner)

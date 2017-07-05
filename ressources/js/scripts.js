@@ -30,6 +30,7 @@
 
 	function hideMenu()
 	{
+
 		$('.menu').stop(true, true).fadeOut('fast');
 	}
 
@@ -85,22 +86,28 @@
 		$('.players').append(div);
 
 		div.fadeIn('fast');
-		socket.emit('ready', gameId, !isReady);
-		var isReady = div.hasClass('ready');
 
-		div.toggleClass('ready');
-		/*div.on('click', function(e)
+		div.on('click', function(e)
 		{
 			if (div.attr('id') !== player.id || gameOn) return;
 
+			var isReady = div.hasClass('ready');
+
+			div.toggleClass('ready');
+
+
+			socket.emit('ready', gameId, !isReady);
+			socket2.emit('ready', gameId, !isReady);
+
+
+		});
 
 
 
-
-		});*/
 
 		players.push(player_);
-
+		player2=player_;
+	
 		if (!player || player_.id !== player.id) log(player_.name + ' has joined the game', true);
 	}
 
