@@ -2,25 +2,42 @@
 	//	connect
 
 	//var socket = io.connect('https://bman.herokuapp.com:443/');
+<<<<<<< HEAD
 	var socket = io.connect('http://bmanserver.herokuapp.com/');
 	//var socket = io.connect('http://localhost:3000/');
     
+=======
+
+
+	var socket = io.connect('https://bmanserver.herokuapp.com/');
+	//var socket = io.connect('http://localhost:3000/');
+>>>>>>> develop
 	console.log('check 1', socket.connected);
+
 	//	setup event listeners
     var codeBot;
     
 
 	socket.on('welcome', function(id, playerInfo)
+<<<<<<< HEAD
     {
 
        
+=======
+	{
+		console.log("welcome")
+		gameId = window.location.hash = id;
+
+		player = Player.create(contextPlayerOne, playerInfo);
+		console.log(player2)
+>>>>>>> develop
 
         gameId = window.location.hash = id;
 
         player = Player.create(contextPlayerOne, playerInfo);
        
 		player.render(0, 0);
-
+		console.log(player)
 		addPlayer(player);
 
 		hideLoading();
@@ -28,14 +45,20 @@
 		log('Waiting for players..');
 
 		log('Click your name when you\'re ready', true);
-
+		joinGame($('input[name=user-nameAD]').val(), gameId);
 	});
 
 	socket.on('joined', function(playerInfo, game)
+<<<<<<< HEAD
     {
         
        
         gameId = window.location.hash = game.id;
+=======
+	{
+
+		gameId = window.location.hash = game.id;
+>>>>>>> develop
 
 		init(game.matrix);
 
@@ -74,6 +97,7 @@
 
 	socket.on('game-started', function()
 	{
+
 		clearPlayers();
 
 		hideStatus();
@@ -108,6 +132,7 @@
 
 	socket.on('start', function(matrix)
 	{
+		console.log("start")
 		startCountdown();
 
 		frozen = true;
@@ -116,8 +141,10 @@
 
 		players.forEach(function(player)
 		{
-			var map = playerMap[player.index];
+			console.log(player);
 
+			var map = playerMap[player.index];
+			console.log(map);
 			player.render(map.x, map.y, true);
 
 		});
@@ -128,6 +155,7 @@
 
 			frozen = false;
 			socket.emit("action",player.name);
+
 		}, startTimer);
 
 
@@ -165,12 +193,19 @@
 	});
 	socket.on('action',function(){
 
+<<<<<<< HEAD
    
         eval(codeBot);
 		
 		console.log("gameOn:"+ gameOn);
 		console.log("fronze: " + frozen);
         if (gameOn != false && frozen != true) {
+=======
+		eval(exec());
+
+		console.log("io:"+player.name)
+		if(gameOn != false && frozen != true){
+>>>>>>> develop
 			setTimeout(function(){
 				socket.emit("action",player.name);
 			}, 15000);
@@ -205,6 +240,8 @@
 
 	socket.on('player-joined', function(player)
 	{
+		console.log("player-joined")
+		console.log(player)
 		var map = playerMap[player.index],
 			newPlayer = Player.create(map.context, player);
 
@@ -294,8 +331,9 @@
 		log('Joining game..');
 
 		log('Connecting to server..');
+		console.log("join")
+		socket2.emit('join', id, name);
 
-		socket.emit('join', id, name);
 	}
 
 	function endGame(winner)

@@ -1,31 +1,26 @@
-
-<!-- Navbar -->
 <nav class="navbar navbar-default menu-top">
-  <div class="container">
-    <div class="navbar-header" >
-      <a class="navbar-brand" href="/"><p class="bomber-title"><img src="/images/logo.png" style ="width:5%;"/>&nbsp;BomberBot</p></a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-		<% if(!session.type) { %>
-        <li><a href="/login"><p class="bomber-title">Connexion</p></a></li>
-		    <li><a href="/signup"><p class="bomber-title">Inscription</p></a></li>
-		<% } else {
-			if(session.type == "admin"){
-		%>
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand bomber-brand" href="/">BomberBot</a>
+        </div>
 
-		<%
-			}
-        %>
-          <li><a href="/bomberGame"><p class="bomber-title">Jouer</p></a></li>
-          <li><a href="/myBomberman"><p class="bomber-title">Mes Bombers</p></a></li>
-          <li><a href="/classement"><p class="bomber-title">Classement</p></a></li>
-          <li><a href="/user/profile/<%=session.idUser%>"><p class="bomber-title">Mon compte</p></a></li>
-          <li><a href="/logout"><p class="bomber-title">Déconnexion</p></a></li>
-          <%
-		 }
-		%>
-      </ul>
+        <ul class="nav navbar-nav navbar-left">
+            <%if (session.type) {%>
+            <li><a href="/bomberGame"><p class="bomber-title-menu">Jouer</p></a></li>
+            <li><a href="/myBomberman"><p class="bomber-title-menu">Mes Bombers</p></a></li>
+            <li><a href="/classement/10/1"><p class="bomber-title-menu">Classement</p></a></li>
+            <% } else if (session.type == "admin"){%>
+            <%}%>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <%if (session.type) {%>
+            <li><a href="/profile/<%=session.idUser%>"><p class="bomber-title-menu">Mon compte</p></a></li>
+            <li><a href="/logout"><p class="bomber-title-menu">Déconnexion</p></a></li>
+            <%} else {%>
+            <li><a href="/login"><p class="bomber-title-menu">Connexion</p></a></li>
+            <li><a href="/signup"><p class="bomber-title-menu">Inscription</p></a></li>
+            <%}%>
+        </ul>
     </div>
-  </div>
 </nav>

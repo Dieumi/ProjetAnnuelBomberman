@@ -53,6 +53,7 @@
 		movementTimer,
 		controlsBound = false,
 		player,
+		player2,
 		players = [],
 		avatars = {
 			birdie: playerBirdie,
@@ -122,7 +123,7 @@
 		playerWhale.src = 'images//whale.png';
 		playerWhale.alt = 'whale';
 
-		attachEventListeners();
+
 
 	});
 
@@ -136,13 +137,14 @@
 		{
 			$('input[name=game-id]').val(window.location.hash.substr(1));
 		}
-
+	attachEventListeners();
 	});
 
 	//	functions
 
 	function attachEventListeners()
 	{
+<<<<<<< HEAD
         $('.menu').on('submit', function (e) {
             e.preventDefault();
 
@@ -170,39 +172,36 @@
             })
            
 			if (userName && gameId)
+=======
+
+			var element = $(this);
+
+			var fieldUserName = $('input[name=user-name]'),
+				fieldGameId = $('input[name=game-id]');
+
+			var userName = fieldUserName.val(),
+				gameId = fieldGameId.val();
+
+	/*		if (userName && gameId)
+>>>>>>> develop
 			{
 				if (gameId.length !== 9) return growl('Enter a game ID from your friend', true), fieldGameId.focus();
 
 				joinGame(userName, gameId);
 			}
 			else if (userName)
-			{
+			{*/
+
 				newGame(userName);
-			}
+
+				//joinGame($('input[name=user-nameAD]').val(), gameId);
+			/*}
 			else
 			{
 				return growl('Enter your name', true), fieldUserName.focus()
 			}
+*/
 
-		});
-
-		$(document).on('keyup', function(e)
-		{
-			if (e.which == 27)
-			{
-				if (menu())
-				{
-					hideMenu();
-				}
-				else
-				{
-					hideLoading();
-
-					showMenu();
-				}
-			}
-
-		});
 
 		$('.show-about').on('click', function(e)
 		{
@@ -532,9 +531,13 @@
 			Bomb.plant(this.position.x, this.position.y);
 
 			//	notify the server
-			if (socket && player)
+			if (socket && this==player)
 			{
 				socket.emit('bomb', gameId, this.position);
+			}
+			if (socket2 && this==player2)
+			{
+				socket2.emit('bomb', gameId, this.position);
 			}
 		}
 
@@ -553,9 +556,14 @@
 			this.position.y = y;
 
 			//	let the server know player has moved
-			if (socket && player && !dontNotify)
+			if (socket && this==player && !dontNotify)
 			{
 				socket.emit('move', gameId, player.id, this.position);
+
+			} else if (socket2 && this==player2 && !dontNotify)
+			{
+				socket2.emit('move', gameId, player2.id, this.position);
+
 			}
 		}
 
@@ -571,7 +579,7 @@
 
 		player.id = data.id;
 		player.index = data.index;
-		player.ready = data.ready;
+		player.ready = true;
 
 		return player;
 	}

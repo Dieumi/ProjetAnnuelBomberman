@@ -14,6 +14,8 @@
 
         <h1><span class="fa fa-sign-in"></span> Inscription</h1>
 
+        <hr class = "bomber-line" >
+
         <!-- LOGIN FORM -->
         <form action="/signup" method="post">
             <% if (msgError.length > 0) { %>
@@ -38,10 +40,10 @@
                 <label>Mail</label>
                 <input type="text" class="form-control" name="mail" required>
             </div>
-            <button type="submit" class="btn btn-lg">Valider</button>
+            <button type="submit" class="btn btn-lg bomber-btn">Valider</button>
         </form>
 
-        <hr>
+        <hr class = "bomber-line" >
 
         <p>Déjà un compte? <a href="/login">Connexion</a></p>
 

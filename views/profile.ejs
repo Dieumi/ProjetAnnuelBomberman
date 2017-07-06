@@ -9,15 +9,20 @@
 <% include ./partials/navbar %>
 
 <div class="container">
-
     <div class="col-sm-6 col-sm-offset-3 bomber-block bomber-text">
         <%profile = JSON.parse(profile)%>
-        <h1><span class="fa fa-sign-in"></span> Profil de <%=profile.loginUser%></h1>
-
-        Nom de compte : <%=profile.loginUser%><br>
-        Adresse mail : <%=profile.emailUser%><br>
+        <h2 class="bomber-text">Profil de <b class="bomber-bold"><%=profile.loginUser%></b></h2>
+        <hr class = "bomber-line" >
+        <div class="row">
+          <div class="col-sm-8">
+            <p class="bomber-text">Email : <a href="mailto:<%=profile.emailUser%>"><%=profile.emailUser%></a></p>
+            <p class="bomber-text">Inscrit le <%=profile.createdAt.substring(8,10)%>/<%=profile.createdAt.substring(5,7)%>/<%=profile.createdAt.substring(0,4)%></p>
+          </div>
+          <div class="col-sm-4 hidden-xs">
+            <img src="/images/bomber-profile.png" style ="width:100%;"/>
+          </div>
+        </div>
     </div>
-
 </div>
 <% include ./partials/footer %>
 </body>

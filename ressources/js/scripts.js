@@ -30,6 +30,7 @@
 
 	function hideMenu()
 	{
+
 		$('.menu').stop(true, true).fadeOut('fast');
 	}
 
@@ -94,12 +95,19 @@
 
 			div.toggleClass('ready');
 
+
 			socket.emit('ready', gameId, !isReady);
+			socket2.emit('ready', gameId, !isReady);
+
 
 		});
 
-		players.push(player_);
 
+
+
+		players.push(player_);
+		player2=player_;
+	
 		if (!player || player_.id !== player.id) log(player_.name + ' has joined the game', true);
 	}
 

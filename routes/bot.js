@@ -1,6 +1,6 @@
 var bcrypt = require("bcrypt-nodejs");
 
-module.exports = function(app, models) {
+module.exports = function(app, models,utils) {
 
 	app.post("/bot", function(req, res, next) {
 		if (req.body.nameBot && req.body.userIdBot) {
@@ -126,7 +126,23 @@ module.exports = function(app, models) {
 		})
 	});
 
-    app.get("/topBots", function (req, res, next) {
+	app.get("/topBots", function (req, res, next) {
+        var Bot = models.Bot;
+        var User = models.User;
+
+        Bot.sequelize.query("SELECT b.*, u.loginUser FROM bot AS b, user AS u WHERE b.userIdBot = u.idUser ORDER BY pointBot DESC LIMIT 3")
+        .then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            })
+        })
+    })
+
+    /**app.get("/topBots", function (req, res, next) {
         var Bot = models.Bot;
         Bot.findAll({
             order: '`pointBot` DESC',
@@ -140,13 +156,13 @@ module.exports = function(app, models) {
                 "error": err
             })
         })
-    });
+    });*/
 
-    app.get("/classementBot", function (req, res, next) {
+    /**app.get("/classementBot", function (req, res, next) {
         var Bot = models.Bot;
         Bot.findAll({
             order: '`pointBot` DESC',
-            limit: 10
+            limit: 2
         }).then(function (results) {
             res.send(results);
         }).catch(function (err) {
@@ -156,7 +172,36 @@ module.exports = function(app, models) {
                 "error": err
             })
         })
-    });
+    });*/
+
+    app.get("/classementBot/:limit/:page", function (req, res, next) {
+            var Bot = models.Bot;
+            var User = models.User;
+            var limit = req.params.limit;
+            var offset = 0;
+            Bot.findAndCountAll()
+            .then((data) => {
+                var page = req.params.page;
+                var pages = Math.ceil(data.count / limit);
+                offset = limit * (page - 1);
+                Bot.sequelize.query("SELECT b.*, u.loginUser FROM bot AS b, user AS u WHERE b.userIdBot = u.idUser ORDER BY pointBot DESC LIMIT " + limit + " OFFSET " + offset)
+                .then(function (results) {
+                    res.json({
+                        'code': 0,
+                        'result': results,
+                        'count': data.count,
+                        'limit': limit,
+                        'pages': pages
+                    });
+                })
+            }).catch(function (err) {
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                })
+            })
+        })
 
 	app.get("/updateBot/:id", function (req, res, next) {
 
@@ -216,4 +261,21 @@ module.exports = function(app, models) {
 
 
     });
+
+	  app.post('/adversaire', function(req, res) {
+	        if(!req.session.type){
+	            res.redirect("/");
+	        }else {
+
+	         var Bot = utils.Bot;
+					 console.log(Bot);
+					 var u1 = new Bot()
+					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
+		
+						 res.send(result)
+					 })
+
+
+	        }
+	  });
 }

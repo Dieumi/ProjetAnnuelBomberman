@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function botJs(player) {
   this.player = player;
 }
@@ -23,3 +24,6 @@ botJs.prototype.exec = function() {
 	  this.player.move("up")
 	}
 };
+=======
+var a =2
+>>>>>>> develop

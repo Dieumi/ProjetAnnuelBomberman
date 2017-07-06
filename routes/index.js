@@ -5,7 +5,7 @@ module.exports = function(app, models, utils, urlApi) {
 	require("./map")(app, models);
 	require("./succes")(app, models);
 	require("./match")(app, models);
-	require("./bot")(app, models);
+	require("./bot")(app, models,utils);
 	require("./tournament")(app, models);
 
 	//FRONT

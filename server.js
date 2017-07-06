@@ -11,22 +11,22 @@ var urlApi = "http://localhost:8888"
 var socket = require("socket.io");
 module.exports = app;
 
- app.use(session({
-	 secret: 'vidyapathaisalwaysrunning',
-	 resave: true,
-	 saveUninitialized: true
-	} ));
- app.use(bodyParser.urlencoded({
-	 extended: true
- }));
+app.use(session({
+    secret: 'vidyapathaisalwaysrunning',
+    resave: true,
+    saveUninitialized: true
+} ));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
- app.use(bodyParser.json());
- app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 
- app.use(express.static(__dirname + '/ressources'));
+app.use(express.static(__dirname + '/ressources'));
 
- app.set('view engine', 'ejs'); // set up ejs for templating
+app.set('view engine', 'ejs'); // set up ejs for templating
 
 /*Dossier fichier pour les bot*/
 app.use(express.static(__dirname + '/botFiles'));
