@@ -6,11 +6,10 @@
 
         <ul class="nav navbar-nav navbar-left">
             <%if (session.type) {%>
-            <li><a href="/index"><p class="bomber-title-menu">Jouer</p></a></li>
+            <li><a href="/Choix"><p class="bomber-title-menu">Jouer</p></a></li>
             <li><a href="/myBomberman"><p class="bomber-title-menu">Mes Bombers</p></a></li>
             <li><a href="/classement/10/1"><p class="bomber-title-menu">Classement</p></a></li>
             <% } else if (session.type == "admin"){%>
-
             <%}%>
         </ul>
 
@@ -23,19 +22,6 @@
             <li><a href="/signup"><p class="bomber-title-menu">Inscription</p></a></li>
             <%}%>
         </ul>
-
-		<%
-			}
-        %>
-          <li><a href="/Choix"><p class="bomber-title">Jouer</p></a></li>
-          <li><a href="/myBomberman"><p class="bomber-title">Mes Bombers</p></a></li>
-          <li><a href="/classement"><p class="bomber-title">Classement</p></a></li>
-          <li><a href="/profile/<%=session.idUser%>"><p class="bomber-title">Mon compte</p></a></li>
-          <li><a href="/logout"><p class="bomber-title">Déconnexion</p></a></li>
-          <%
-		 }
-		%>
-      </ul>
 
     </div>
 </nav>
