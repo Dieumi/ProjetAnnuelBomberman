@@ -144,65 +144,36 @@
 
 	function attachEventListeners()
 	{
-<<<<<<< HEAD
-        $('.menu').on('submit', function (e) {
-            e.preventDefault();
 
-            var element = $(this);
+	    $('.menu').on('submit', function (e) {
+	        e.preventDefault();
 
-            var fieldBotId = $('option[name=user-id]');
-            var fieldGameId = $('input[name=game-id]');
-            /*on récupere le bot choisi*/
+	        var element = $(this);
+
+	        var fieldBotId = $('option[name=user-id]');
+	        var fieldGameId = $('input[name=game-id]');
+	        /*on récupere le bot choisi*/
 
 
-            var idBot = fieldBotId.val(),
+	        var idBot = fieldBotId.val(),
                 gameId = fieldGameId.val();
-            var userName;
+	        var userName;
 
-            $.ajax({
-                type: "GET",
-                url: urlApi + "/bot",
-                data : {"idBot": idBot},
-                dataType: 'json',
-                async: false,
-                success: function (data) {
-                    userName = data.nameBot
-                    unBot = data
-                }
-            })
-           
-			if (userName && gameId)
-=======
+	        $.ajax({
+	            type: "GET",
+	            url: urlApi + "/bot",
+	            data: { "idBot": idBot },
+	            dataType: 'json',
+	            async: false,
+	            success: function (data) {
+	                userName = data.nameBot
+	                unBot = data
+	            }
+	        })
 
-			var element = $(this);
+	        newGame(userName);
 
-			var fieldUserName = $('input[name=user-name]'),
-				fieldGameId = $('input[name=game-id]');
-
-			var userName = fieldUserName.val(),
-				gameId = fieldGameId.val();
-
-	/*		if (userName && gameId)
->>>>>>> develop
-			{
-				if (gameId.length !== 9) return growl('Enter a game ID from your friend', true), fieldGameId.focus();
-
-				joinGame(userName, gameId);
-			}
-			else if (userName)
-			{*/
-
-				newGame(userName);
-
-				//joinGame($('input[name=user-nameAD]').val(), gameId);
-			/*}
-			else
-			{
-				return growl('Enter your name', true), fieldUserName.focus()
-			}
-*/
-
-
+	    });
 		$('.show-about').on('click', function(e)
 		{
 			e.preventDefault();

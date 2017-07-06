@@ -1,346 +1,268 @@
 
-	//	connect
+//	connect
 
-	//var socket = io.connect('https://bman.herokuapp.com:443/');
-<<<<<<< HEAD
-	var socket = io.connect('http://bmanserver.herokuapp.com/');
-	//var socket = io.connect('http://localhost:3000/');
-    
-=======
+//var socket = io.connect('https://bman.herokuapp.com:443/');
+var codeBot = "";
 
+var socket = io.connect('https://bmanserver.herokuapp.com/');
+//var socket = io.connect('http://localhost:3000/');
+console.log('check 1', socket.connected);
 
-	var socket = io.connect('https://bmanserver.herokuapp.com/');
-	//var socket = io.connect('http://localhost:3000/');
->>>>>>> develop
-	console.log('check 1', socket.connected);
+//	setup event listeners
 
-	//	setup event listeners
-    var codeBot;
-    
 
-	socket.on('welcome', function(id, playerInfo)
-<<<<<<< HEAD
-    {
+socket.on('welcome', function (id, playerInfo) {
+    console.log("welcome")
+    gameId = window.location.hash = id;
 
-       
-=======
-	{
-		console.log("welcome")
-		gameId = window.location.hash = id;
+    player = Player.create(contextPlayerOne, playerInfo);
+    console.log(player2)
 
-		player = Player.create(contextPlayerOne, playerInfo);
-		console.log(player2)
->>>>>>> develop
+    player.render(0, 0);
+    console.log(player)
+    addPlayer(player);
 
-        gameId = window.location.hash = id;
+    hideLoading();
 
-        player = Player.create(contextPlayerOne, playerInfo);
-       
-		player.render(0, 0);
-		console.log(player)
-		addPlayer(player);
+    log('Waiting for players..');
 
-		hideLoading();
+    log('Click your name when you\'re ready', true);
+    joinGame($('input[name=user-nameAD]').val(), gameId);
+});
 
-		log('Waiting for players..');
+socket.on('joined', function (playerInfo, game) {
 
-		log('Click your name when you\'re ready', true);
-		joinGame($('input[name=user-nameAD]').val(), gameId);
-	});
+    gameId = window.location.hash = game.id;
 
-	socket.on('joined', function(playerInfo, game)
-<<<<<<< HEAD
-    {
-        
-       
-        gameId = window.location.hash = game.id;
-=======
-	{
+    init(game.matrix);
 
-		gameId = window.location.hash = game.id;
->>>>>>> develop
+    clearPlayers();
 
-		init(game.matrix);
+    game.players.forEach(function (player_) {
+        var otherPlayer,
+            map = playerMap[player_.index];
 
-		clearPlayers();
+        if (socket.io.engine.id == player_.id) {
+            otherPlayer = player = Player.create(map.context, player_);
 
+            otherPlayer.render(map.x, map.y);
+        }
+        else {
+            otherPlayer = Player.create(map.context, player_);
 
-		game.players.forEach(function(player_)
-		{
-			var otherPlayer,
-				map = playerMap[player_.index];
+            otherPlayer.render(player_.position.x, player_.position.y);
+        }
 
-			if (socket.io.engine.id == player_.id)
-			{
-				otherPlayer = player = Player.create(map.context, player_);
+        addPlayer(otherPlayer);
 
-				otherPlayer.render(map.x, map.y);
-			}
-			else
-			{
-				otherPlayer = Player.create(map.context, player_);
+    });
 
-				otherPlayer.render(player_.position.x, player_.position.y);
-			}
+    hideLoading();
 
-			addPlayer(otherPlayer);
+    log('Waiting for players..');
 
-		});
+    log('Click your name when you\'re ready', true);
 
-		hideLoading();
+});
 
-		log('Waiting for players..');
+socket.on('game-started', function () {
 
-		log('Click your name when you\'re ready', true);
+    clearPlayers();
 
-	});
+    hideStatus();
 
-	socket.on('game-started', function()
-	{
+    hideLoading();
 
-		clearPlayers();
+    showMenu();
 
-		hideStatus();
+    log('Game has already started', true, true);
 
-		hideLoading();
+});
 
-		showMenu();
+socket.on('game-not-found', function () {
+    clearPlayers();
 
-		log('Game has already started', true, true);
+    hideStatus();
 
-	});
+    hideLoading();
 
-	socket.on('game-not-found', function()
-	{
-		clearPlayers();
+    showMenu();
 
-		hideStatus();
+    log('Game not found', true, true);
 
-		hideLoading();
+});
 
-		showMenu();
+socket.on('ready', function (player, isReady) {
+    readyPlayer(player, isReady);
 
-		log('Game not found', true, true);
+});
 
-	});
+socket.on('start', function (matrix) {
+    console.log("start")
+    startCountdown();
 
-	socket.on('ready', function(player, isReady)
-	{
-		readyPlayer(player, isReady);
+    frozen = true;
 
-	});
+    init(matrix);
 
-	socket.on('start', function(matrix)
-	{
-		console.log("start")
-		startCountdown();
+    players.forEach(function (player) {
+        console.log(player);
 
-		frozen = true;
+        var map = playerMap[player.index];
+        console.log(map);
+        player.render(map.x, map.y, true);
 
-		init(matrix);
+    });
 
-		players.forEach(function(player)
-		{
-			console.log(player);
+    setTimeout(function () {
+        gameOn = true;
 
-			var map = playerMap[player.index];
-			console.log(map);
-			player.render(map.x, map.y, true);
+        frozen = false;
+        socket.emit("action", player.name);
 
-		});
+    }, startTimer);
 
-		setTimeout(function()
-		{
-			gameOn = true;
 
-			frozen = false;
-			socket.emit("action",player.name);
+});
 
-		}, startTimer);
+socket.on('stop', function () {
+    gameOn = false;
 
+});
 
-	});
+socket.on('win', function (player) {
+    gameOn = false;
+    frozen = true;
 
-	socket.on('stop', function()
-	{
-		gameOn = false;
+    log(player.name + ' has won!', true);
 
-	});
+    endGame(player.name);
 
-	socket.on('win', function(player)
-	{
-		gameOn = false;
-		frozen = true;
+});
 
-		log(player.name + ' has won!', true);
+socket.on('move', function (id, position) {
+    players.forEach(function (player) {
+        if (player.id == id) {
+            player.render(position.x, position.y, true);
+        }
 
-		endGame(player.name);
+    });
 
-	});
 
-	socket.on('move', function(id, position)
-	{
-		players.forEach(function(player)
-		{
-			if (player.id == id)
-			{
-				player.render(position.x, position.y, true);
-			}
+});
+socket.on('action', function () {
 
-		});
+    eval(codeBot);
 
+    console.log("io:" + player.name)
+    if (gameOn != false && frozen != true) {
+        setTimeout(function () {
+            socket.emit("action", player.name);
+        }, 1500);
 
-	});
-	socket.on('action',function(){
+    }
 
-<<<<<<< HEAD
+})
+socket.on('bomb', function (position) {
+    var bomb = new Bomb(position.x, position.y);
+
+    bomb.render();
+
+});
+
+socket.on('death', function (id) {
+    players.forEach(function (player) {
+        if (player.id == id) {
+            player.isAlive = false;
+
+            player.render();
+
+            log(player.name + ' is dead!', true, true);
+        }
+
+    });
+
+});
+
+socket.on('player-joined', function (player) {
+    console.log("player-joined")
+    console.log(player)
+    var map = playerMap[player.index],
+        newPlayer = Player.create(map.context, player);
+
+    newPlayer.render(map.x, map.y, true);
+
+    addPlayer(newPlayer);
+
+});
+
+socket.on('left', function (id) {
+    removePlayer(id);
+
+});
+
+//	game methods
+
+function newGame(name) {
+    var fieldBotId = $('option[name=user-id]');
+    var idBot = fieldBotId.val();
    
-        eval(codeBot);
-		
-		console.log("gameOn:"+ gameOn);
-		console.log("fronze: " + frozen);
-        if (gameOn != false && frozen != true) {
-=======
-		eval(exec());
+    $.ajax({
+        type: "GET",
+        url: urlApi + "/bot",
+        data: { "idBot": idBot },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            codeBot = data.codeBot;
 
-		console.log("io:"+player.name)
-		if(gameOn != false && frozen != true){
->>>>>>> develop
-			setTimeout(function(){
-				socket.emit("action",player.name);
-			}, 15000);
+            /*
+            unBot = require(data.codeBot)
+            unBot.test()*/
+        }
+    })
 
-		}
+    hideMenu();
 
-	})
-	socket.on('bomb', function(position)
-	{
-		var bomb = new Bomb(position.x, position.y);
+    showLoading();
 
-		bomb.render();
+    showStatus();
 
-	});
+    log('Creating game..');
 
-	socket.on('death', function(id)
-	{
-		players.forEach(function(player)
-		{
-			if (player.id == id)
-			{
-				player.isAlive = false;
+    var chars = Object.keys(avatars);
 
-				player.render();
+    var random = chars[Math.floor(Math.random() * chars.length)],
+        avatar = avatars[random];
 
-				log(player.name + ' is dead!', true, true);
-			}
+    init(null, true);
 
-		});
+    log('Connecting to server..');
 
-	});
+    socket.emit('create', createGameId(), name, avatar.alt, matrix);
+}
 
-	socket.on('player-joined', function(player)
-	{
-		console.log("player-joined")
-		console.log(player)
-		var map = playerMap[player.index],
-			newPlayer = Player.create(map.context, player);
+function joinGame(name, id) {
+    hideMenu();
 
-		newPlayer.render(map.x, map.y, true);
+    showLoading();
 
-		addPlayer(newPlayer);
+    showStatus();
 
-	});
+    clearLog();
 
-	socket.on('left', function(id)
-	{
-		removePlayer(id);
+    log('Joining game..');
 
-	});
+    log('Connecting to server..');
+    console.log("join")
+    socket2.emit('join', id, name);
 
-	//	game methods
+}
 
-	function newGame(name)
-	{
+function endGame(winner) {
+    var loading = $('.loading');
 
-	    var fieldBotId = $('option[name=user-id]');
-	    var idBot = fieldBotId.val();
+    loading.text(winner + ' has won!');
 
-	    $.ajax({
-	        type: "GET",
-	        url: urlApi + "/bot",
-	        data: { "idBot": idBot },
-	        dataType: 'json',
-	        async: false,
-	        success: function (data) {
-	            codeBot = data.codeBot;
-
-	            /*
-                unBot = require(data.codeBot)
-                unBot.test()*/
-	        }
-	    })
-
-	    hideMenu();
-
-		showLoading();
-
-		showStatus();
-
-		log('Creating game..');
-
-		var chars = Object.keys(avatars);
-
-		var random = chars[Math.floor(Math.random() * chars.length)],
-			avatar = avatars[random];
-		
-		init(null, true);
-
-		log('Connecting to server..');
-
-		socket.emit('create', createGameId(), name, avatar.alt, matrix);
-	}
-
-	function joinGame(name, id)
-	{
-	    var fieldBotId = $('option[name=user-id]');
-	    var idBot = fieldBotId.val();
-	    console.log(idBot)
-	    $.ajax({
-	        type: "GET",
-	        url: urlApi + "/bot",
-	        data: { "idBot": idBot },
-	        dataType: 'json',
-	        async: false,
-	        success: function (data) {
-	            codeBot = data.codeBot;
-
-	            /*
-                unBot = require(data.codeBot)
-                unBot.test()*/
-	        }
-	    })
-
-	    hideMenu();
-
-		showLoading();
-
-		showStatus();
-
-		clearLog();
-
-		log('Joining game..');
-
-		log('Connecting to server..');
-		console.log("join")
-		socket2.emit('join', id, name);
-
-	}
-
-	function endGame(winner)
-	{
-		var loading = $('.loading');
-
-		loading.text(winner + ' has won!');
-
-		showLoading();
-	}
+    showLoading();
+}
