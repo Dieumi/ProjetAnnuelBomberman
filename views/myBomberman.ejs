@@ -10,7 +10,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-1 bomber-block">
+        <div class="bomber-block col-sm-6 col-sm-push-3">
 
             <h1 class="bomber-text">Mes Bomberbots</h1>
             <hr class = "bomber-line" >
@@ -19,44 +19,49 @@
         </div>
     </div>
 
-    <%
-    console.log(listBot)
-    for(var i =0; i < 3; i++) { %>
 
-    <div class="col-md-offset-1 col-md-2 bomber-block">
-
-        <% if (listBot[i]) { %>
-
-        <h3 class="bomber-text"><%=listBot[i].nameBot%></h3>
-
+    <div class="row">
         <%
-            var total = listBot[i].winBot + listBot[i].loseBot
-            var victory = (listBot[i].winBot / total) * 100
-            var lose = (listBot[i].loseBot / total) * 100
-        %>
+        console.log(listBot)
+        for(var i =0; i < 3; i++) { %>
 
-        <div class="progress">
-            <div class="progress-bar progress-bar-success"  style="width: <%=victory%>%"> V <%=listBot[i].winBot%>
+        <div class="bomber-block col-sm-4 col-sm-push-1" style="margin-left: 20px; margin-right: 20px; width: 25%">
+
+            <% if (listBot[i]) { %>
+
+            <h3 class="bomber-text"><%=listBot[i].nameBot%></h3>
+
+            <%
+                var total = listBot[i].winBot + listBot[i].loseBot
+                var victory = (listBot[i].winBot / total) * 100
+                var lose = (listBot[i].loseBot / total) * 100
+            %>
+
+            <div class="progress">
+                <div class="progress-bar progress-bar-success"  style="width: <%=victory%>%"> V <%=listBot[i].winBot%>
+                </div>
+                <div class="progress-bar progress-bar-danger" style="width: <%=lose%>%"> D <%=listBot[i].loseBot%>
+                </div>
             </div>
-            <div class="progress-bar progress-bar-danger" style="width: <%=lose%>%"> D <%=listBot[i].loseBot%>
+
+            <div style="text-align: center">
+                <p><b class="bomber-bold"><%=listBot[i].pointBot%> points</b></p>
+                <p>Mode : Peaceful</p>
+                <a class="btn btn-lg bomber-btn" href = "/bomberCode/<%=listBot[i].idBot%>">Modifier</a><br>
             </div>
+
+            <% } else if (i < 3) { %>
+
+            <div style="text-align: center">
+                <a href="/bomberCode" style="font-size: 40px"> + </a>
+            </div>
+            <% } %>
+
         </div>
-
-        <div style="text-align: center">
-            <p><b class="bomber-bold"><%=listBot[i].pointBot%> points</b></p>
-            <p>Mode : Peaceful</p>
-            <a class="btn btn-lg bomber-btn" href = "/bomberCode/<%=listBot[i].idBot%>">Modifier</a><br>
-        </div>
-
-        <% } else if (i < 3) { %>
-
-        <a href="/bomberCode" style="font-size: 40px"> + </a>
 
         <% } %>
 
     </div>
-
-    <% } %>
 
 </div>
 

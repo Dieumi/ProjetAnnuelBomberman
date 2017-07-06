@@ -173,7 +173,7 @@ module.exports = function(app, models) {
             var limit = req.params.limit;
             var offset = 0;
             Bot.findAndCountAll()
-            .then((data) => {
+            .then(function(data) {
                 var page = req.params.page;
                 var pages = Math.ceil(data.count / limit);
                 offset = limit * (page - 1);
