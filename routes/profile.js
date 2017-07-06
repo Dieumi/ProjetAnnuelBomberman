@@ -10,9 +10,8 @@ module.exports = function(app, urlApi){
                 'Content-Type': 'application/json'
             }
         }).then(function(body) {
-
             var profile = body;
-
+            var idProfile = JSON.parse(body).idUser;
             rp({
                 url: urlApi + "/botByUser",
                 method: "GET",
@@ -20,10 +19,10 @@ module.exports = function(app, urlApi){
                     'Content-Type': 'application/json'
                 },
                 json: {
-                    "userIdBot": req.session.idUser
+                    "userIdBot": idProfile
                 }
             }).then(function(body) {
-            	console.log(body)
+
                 res.render('profile.ejs', {
                     session : req.session,
                     profile : profile,
