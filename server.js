@@ -6,7 +6,7 @@ var utils = require("./utils");
 var cookieParser = require('cookie-parser');
 var session  = require('express-session');
 
-var urlApi = "http://bomberbot1dev.herokuapp.com"
+var urlApi = "https://bomberbot1dev.herokuapp.com"
 //var urlApi = "http://localhost:8888"
 var socket = require("socket.io");
 module.exports = app;
@@ -38,9 +38,10 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 require("./routes")(app, models, utils, urlApi)
 var port=process.env.PORT || 8888;
 var server=app.listen(port, function() {
-    console.log(port);
 
-    console.log("Server started port 8888...");
+  console.log(port);
+	console.log("Server started port 8888...");
+
 
 });
 

@@ -10,7 +10,6 @@
 <% include ./partials/navbar %>
 
 <% if(!session.type) { %>
-
 <div class="container">
     <div class="col-sm-8 col-sm-offset-2 bomber-block ">
         <h2 class="bomber-text"><span class="fa fa-globe"></span>BomberBot</h2>
@@ -29,36 +28,25 @@
             </div>
         </div>
     </div>
-
-
     <% } else {
     if(session.type == "admin"){
     %>
-
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1><span class="fa fa-sign-in"></span> Hello Admin!</h1>
     </div>
-
     <%
     }
     if(session.type){
     %>
-
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
-        <h1><i class="fa fa-globe" aria-hidden="true"></i> Hello <b class="bomber-bold"><%=session.login%></b>!</h1>
-
+        <h1><i class="fa fa-globe" aria-hidden="true"></i> Hello <b class="bomber-bold"><%= session.login %></b>!</h1>
     </div>
-
     <%
     }
-
     }
     %>
-
     <% include ./partials/podium.ejs %>
-
 </div>
 <% include ./partials/footer %>
-
 </body>
 </html>
