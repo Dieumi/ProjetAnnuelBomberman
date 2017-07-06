@@ -13,31 +13,12 @@
 	socket.on('welcome', function(id, playerInfo)
     {
 
-        var fieldBotId = $('option[name=user-id]');
-        var idBot = fieldBotId.val();
+       
 
         gameId = window.location.hash = id;
 
         player = Player.create(contextPlayerOne, playerInfo);
-
-        
-        $.ajax({
-            type: "GET",
-            url: urlApi + "/bot",
-            data: { "idBot": idBot },
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                codeBot = data.codeBot;
-                
-                /*
-                unBot = require(data.codeBot)
-                unBot.test()*/
-            }
-        })
-
-
-
+       
 		player.render(0, 0);
 
 		addPlayer(player);
@@ -59,6 +40,7 @@
 		init(game.matrix);
 
 		clearPlayers();
+
 
 		game.players.forEach(function(player_)
 		{
@@ -242,7 +224,26 @@
 
 	function newGame(name)
 	{
-		hideMenu();
+
+	    var fieldBotId = $('option[name=user-id]');
+	    var idBot = fieldBotId.val();
+
+	    $.ajax({
+	        type: "GET",
+	        url: urlApi + "/bot",
+	        data: { "idBot": idBot },
+	        dataType: 'json',
+	        async: false,
+	        success: function (data) {
+	            codeBot = data.codeBot;
+
+	            /*
+                unBot = require(data.codeBot)
+                unBot.test()*/
+	        }
+	    })
+
+	    hideMenu();
 
 		showLoading();
 
@@ -264,7 +265,25 @@
 
 	function joinGame(name, id)
 	{
-		hideMenu();
+	    var fieldBotId = $('option[name=user-id]');
+	    var idBot = fieldBotId.val();
+	    console.log(idBot)
+	    $.ajax({
+	        type: "GET",
+	        url: urlApi + "/bot",
+	        data: { "idBot": idBot },
+	        dataType: 'json',
+	        async: false,
+	        success: function (data) {
+	            codeBot = data.codeBot;
+
+	            /*
+                unBot = require(data.codeBot)
+                unBot.test()*/
+	        }
+	    })
+
+	    hideMenu();
 
 		showLoading();
 
