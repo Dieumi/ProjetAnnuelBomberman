@@ -1,12 +1,12 @@
-module.exports = function(app, models, urlApi){
+﻿module.exports = function (app, models, urlApi) {
 
     var rp = require('request-promise')
     var api = models.myApi;
 
-	app.get('/myBomberman', function(req, res) {
-        if(!req.session.type){
+    app.get('/bomberGame', function (req, res) {
+        if (!req.session.type) {
             res.redirect("/");
-        }else {
+        } else {
             //On recup la liste de bot :
             rp({
                 url: urlApi + "/botByUser",
@@ -17,15 +17,15 @@ module.exports = function(app, models, urlApi){
                 json: {
                     "userIdBot": req.session.idUser
                 }
-            }).then(function(body) {
-                res.render('myBomberman.ejs', {
+            }).then(function (body) {
+                res.render('bomberGame.ejs', {
                     session: req.session,
-                    listBot: body
+                    listBot: body,
+                    api : api
                 });
             })
 
         }
-	});
-
+    });
 
 }

@@ -20,6 +20,8 @@
 </head>
 
 <body>
+<input type="hidden" id="idSessionUser" value="<%=session.idUser%>">
+<input type="hidden" id="urlApi" value="<%=api%>">
 <div class="growl">
 </div>
 <div class="wrapper">
@@ -29,6 +31,7 @@
 	<section>
 		<div class="about">
 
+
 		</div>
 		<div class="status players">
 		</div>
@@ -36,14 +39,16 @@
 		</div>
 	</section>
 	<div class="game">
-
-		<form class="menu">
-
-
+				<form class="menu">
 					<ul>
 						<li>
-							<input type="text" name="user-name" placeholder="Your name" value="<%=namebot%>" tabindex="1" maxlength="10">
-							<input type="hidden" name="user-nameAD" placeholder="Your name" value="<%=namebotAd%>" tabindex="1" maxlength="10">
+							<Select name="user-id"  tabindex="1">
+								<% for (var i = 0; i<listBot.length; i++){ %>
+								<option name="user-id" value="<%=listBot[i].idBot%>"><%=listBot[i].nameBot%></option>
+								<% } %>
+							</Select>
+							
+
 							<button type="submit">New Game</button>
 						</li>
 						<li>
@@ -71,10 +76,11 @@
 	<script src="/lib/hashids.min.js"></script>
 	<script src="/js/scripts.js"></script>
 	<script src="/js/test.js"></script>
-		<script src="/js/test0.js"></script>
+	<script src="/js/test0.js"></script>
 	<script src="/js/game.js"></script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-<script src="/js/io.js"></script>
-<script src="/js/io2.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+	<script src="/js/io.js"></script>
+	<script src="/js/io2.js"></script>
 	<!--<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
+

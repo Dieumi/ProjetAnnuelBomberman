@@ -7,7 +7,7 @@ module.exports = function(app, models, urlApi){
     var api = models.myApi;
     var request = require('request');
     var myBot;
-
+    var player = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){}};var player = new Player(null, \"test\", null);"
 
     app.get('/bomberCode/:idBot?', function(req, res) {
         myBot=null;
@@ -16,7 +16,7 @@ module.exports = function(app, models, urlApi){
         }else {*/
             if(req.params.idBot){
                 rp({
-                    url: urlApi+"/bot" ,
+                    url: urlApi+"/bot",
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ module.exports = function(app, models, urlApi){
                             res.render('bomberCode.ejs', {
                                 msgError: "",
                                 msgSuccess: "",
-                                code: fs.readFileSync("./"+body.codeBot, "UTF-8"),
+                                code:body.codeBot,
                                 name: body.nameBot,
                                 idBot: req.params.idBot,
                                 session: req.session
@@ -83,129 +83,105 @@ module.exports = function(app, models, urlApi){
                     session: req.session
                 });
             } else {
-                var completePath="";
-                if(!myBot) {
-                    //Création du fichier de test + ouverture
-                    var dir = "botFiles/" + req.session.login + "/";
-                    mkdirp(dir, function (err) {
-                    });
-                    completePath = dir + "testBot.js"
-                }else{
-                    completePath = "./"+myBot.codeBot;
+
+                var checkCode = "";
+                try {
+                    
+                    var myObject = eval(player+"\n\r"+req.body.bomberEditor);
+                } catch (error) {
+                    var errorType = error.split(":");
+                    var tSplit = req.body.bomberEditor.split("\n")
+                    for (var i = 0; i < sizeOf(tSplit) ; i++) {
+
+                    }
+                    checkCode = error;
                 }
+                console.log("checkcode : " + checkCode)
 
-                fs.writeFile(completePath, req.body.bomberEditor, function (err) {
-                    if (err) return console.log(err);
-                });
-
-                var workerProcess = child_process.exec('node ' + completePath, function
-                    (error, stdout, stderr) {
-                    if (error) {
-                        
-                        var tmp = stderr.split("Error:");
-                        tmp = tmp[1].split("\n")
+                if (checkCode!="") {
                    
-                        res.render('bomberCode.ejs', {
-                            msgError: "Error code: " + error.code + "\n stderr: " + tmp[0],
-                            msgSuccess: "",
-                            code: req.body.bomberEditor,
-                            name: req.body.name,
-                            idBot : req.body.idBot,
-                            session: req.session
-                        });
-                        /*console.log(error.stack);
-                         console.log('Error code: '+error.code);
-                         console.log('Signal received: '+error.signal);*/
-                    } else {
-                        /*Si nouveau bot create sinon update*/
+                    res.render('bomberCode.ejs', {
+                        msgError: ""+checkCode,
+                        msgSuccess: "",
+                        code: req.body.bomberEditor,
+                        name: req.body.name,
+                        idBot : req.body.idBot,
+                        session: req.session
+                    });
+                } else {
+                    /*Si nouveau bot create sinon update*/
 
-                        if(!myBot) {
-                            rp({
-                                url: urlApi + "/bot",
-                                method: "POST",
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                json: {
-                                    "nameBot": req.body.name,
-                                    "codeBot":  "",
-                                    "winBot": 0,
-                                    "loseBot": 0,
-                                    "pointBot": 0,
-                                    "modeBot": "peaceful",
-                                    "userIdBot": req.session.idUser,
-                                }
-                            }).then(function (body) {
-                                /*rename file*/
-                                rp({
-                                    url: urlApi + "/updateBot",
-                                    method: "POST",
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    json: {
-                                        "codeBot": "botFiles/" + req.session.login + "/"+body.idBot+".js",
-                                        "idBot": body.idBot
-                                    }
-                                }).then(function(body){}).catch(function (err) {})
-                                myBot = body
-                                myBot.codeBot = "botFiles/" + req.session.login + "/"+body.idBot+".js"
-                                fs.rename(completePath, myBot.codeBot)
-                                res.render('bomberCode.ejs', {
-                                    msgError: "",
-                                    msgSuccess: "Bomber prêt au combat !",
-                                    code: req.body.bomberEditor,
-                                    name: req.body.name,
-                                    idBot: body.idBot,
-                                    session: req.session
-                                });
-                            }).catch(function (err) {
-                                res.render('bomberCode.ejs', {
-                                    msgError: "Erreur lors de la création du Bomber. Merci de réessayer.",
-                                    msgSuccess: "",
-                                    code: req.body.bomberEditor,
-                                    name: req.body.name,
-                                    idBot: req.body.idBot,
-                                    session: req.session
-                                });
-                            });
-                        }else{
-
-                            rp({
-                                url: urlApi + "/updateBot",
-                                method: "POST",
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                json: {
-                                    "nameBot": req.body.name,
-                                    "idBot": myBot.id
-                                }
-                            }).then(function(body){}).catch(function (err) {})
-
+                    if(!myBot) {
+                        rp({
+                            url: urlApi + "/bot",
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            json: {
+                                "nameBot": req.body.name,
+                                "codeBot": req.body.bomberEditor,
+                                "winBot": 0,
+                                "loseBot": 0,
+                                "pointBot": 0,
+                                "modeBot": "peaceful",
+                                "userIdBot": req.session.idUser,
+                            }
+                        }).then(function (body) {
+                            myBot = body
+                            myBot.codeBot = req.body.bomberEditor
                             res.render('bomberCode.ejs', {
                                 msgError: "",
                                 msgSuccess: "Bomber prêt au combat !",
                                 code: req.body.bomberEditor,
                                 name: req.body.name,
+                                idBot: body.idBot,
+                                session: req.session
+                            });
+                        }).catch(function (err) {
+                            res.render('bomberCode.ejs', {
+                                msgError: "Erreur lors de la création du Bomber. Merci de réessayer.",
+                                msgSuccess: "",
+                                code: req.body.bomberEditor,
+                                name: req.body.name,
                                 idBot: req.body.idBot,
                                 session: req.session
                             });
-                        }
+                        });
+                    }else{
 
+                        rp({
+                            url: urlApi + "/updateBot",
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            json: {
+                                "nameBot": req.body.name,
+                                "idBot": myBot.idBot,
+                                "codeBot": req.body.bomberEditor
+                            }
+                        }).then(function(body){}).catch(function (err) {})
+
+                        res.render('bomberCode.ejs', {
+                            msgError: "",
+                            msgSuccess: "Bomber prêt au combat !",
+                            code: req.body.bomberEditor,
+                            name: req.body.name,
+                            idBot: req.body.idBot,
+                            session: req.session
+                        });
                     }
 
-                });
+                }
 
-                workerProcess.on('exit', function (code) {
-                    console.log('Child process exited with exit code ' + code);
-                });
+                
             }
 
         //}
     });
 
     /**/
-
+ 
 
 }

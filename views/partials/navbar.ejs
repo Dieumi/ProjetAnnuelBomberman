@@ -6,7 +6,7 @@
 
         <ul class="nav navbar-nav navbar-left">
             <%if (session.type) {%>
-            <li><a href="/Choix"><p class="bomber-title-menu">Jouer</p></a></li>
+            <li><a href="/bomberGame"><p class="bomber-title-menu">Jouer</p></a></li>
             <li><a href="/myBomberman"><p class="bomber-title-menu">Mes Bombers</p></a></li>
             <li><a href="/classement/10/1"><p class="bomber-title-menu">Classement</p></a></li>
             <% } else if (session.type == "admin"){%>
@@ -22,6 +22,5 @@
             <li><a href="/signup"><p class="bomber-title-menu">Inscription</p></a></li>
             <%}%>
         </ul>
-
     </div>
 </nav>
