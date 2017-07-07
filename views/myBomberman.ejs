@@ -14,8 +14,12 @@
 
             <h1 class="bomber-text"><i class="fa fa-users" aria-hidden="true"></i> Mes Bomberbots</h1>
             <hr class = "bomber-line" >
-            <p>Je propose que cet espace soit réserver à un texte présentant les bots dans le détail.</p>
-            <p>Nihil est enim virtute amabilius, nihil quod magis adliciat ad diligendum, quippe cum propter virtutem et probitatem etiam eos, quos numquam vidimus, quodam modo diligamus. Quis est qui C. Fabrici, M'. Curi non cum caritate aliqua benevola memoriam usurpet, quos numquam viderit? quis autem est, qui Tarquinium Superbum, qui Sp. Cassium, Sp.</p>
+
+            <p>Avant de coder, d'établir des stratégies ou d’affronter les plus redoutables adversaires, il va falloir en apprendre un peu plus sur BomberBot.</p>
+            <p>Il ne suffit pas de lancer vos <b>bombers</b> au combat, il faut d'abord leur apprendre à combattre ! BomberBot est avant tout un jeu de programmation, vous devrez donc créer une <b>intelligence artificielle</b>, une <b>IA</b>.</p>
+            <p>Ainsi, l'IA est une sorte de script que votre bomber exécutera afin de prendre des décisions et agir en conséquence.</p>
+            <p>Vous êtes prêts ? Alors commençons !</p>
+
         </div>
     </div>
 
@@ -36,15 +40,17 @@
                 var victory = (listBot[i].winBot / total) * 100
                 var lose = (listBot[i].loseBot / total) * 100
             %>
-
-            <div class="progress">
-                <div class="progress-bar progress-bar-success"  style="width: <%=victory%>%"> V <%=listBot[i].winBot%>
-                </div>
-                <div class="progress-bar progress-bar-danger" style="width: <%=lose%>%"> D <%=listBot[i].loseBot%>
-                </div>
-            </div>
-
             <div style="text-align: center">
+
+                <p><b class="bomber-bold">Parties jouées  : <%=total%></b></p>
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success"  style="width: <%=victory%>%"> V <%=listBot[i].winBot%>
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: <%=lose%>%"> D <%=listBot[i].loseBot%>
+                    </div>
+                </div>
+
                 <p><b class="bomber-bold"><%=listBot[i].pointBot%> points</b></p>
                 <p>Mode : Peaceful</p>
                 <a class="btn btn-lg bomber-btn" href = "/bomberCode/<%=listBot[i].idBot%>"> Modifier</a><br>
