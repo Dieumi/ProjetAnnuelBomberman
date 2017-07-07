@@ -1,159 +1,193 @@
 
-	//	inits
+//	inits
 /*var models=require("./models");
 var playersummary=models.player;
 var player=new playersummary();
 var bombsummary=models.bomb;
 var bomb=new bombsummary();*/
-	var canvasTiles = document.getElementById('tiles'),
-		contextTiles = canvasTiles.getContext('2d'),
-		canvasBombs = document.getElementById('bombs'),
-		contextBombs = canvasBombs.getContext('2d'),
-		canvasPlayerOne = document.getElementById('player-one'),
-		contextPlayerOne = canvasPlayerOne.getContext('2d'),
-		canvasPlayerTwo = document.getElementById('player-two'),
-		contextPlayerTwo = canvasPlayerTwo.getContext('2d'),
-		canvasPlayerThree = document.getElementById('player-three'),
-		contextPlayerThree = canvasPlayerTwo.getContext('2d'),
-		canvasPlayerFour = document.getElementById('player-four'),
-		contextPlayerFour = canvasPlayerTwo.getContext('2d');
 
-	var matrix = {},
-		matrixSize = 9,
-		brickSize = 64;
+var idBot1 = "";
+var idBot2 = "";
+var bot1;
+var bot2;
+var urlApi = document.getElementById('urlApi').value;
 
-	var upperLimit = matrixSize - 1,
-		upperLimitMinusOne = upperLimit - 1,
-		empty = ['0 0', upperLimit + ' 0', '0 ' + upperLimit, upperLimit + ' ' + upperLimit, '1 0', upperLimitMinusOne + ' 0', '0 ' + upperLimitMinusOne, upperLimit + ' ' + upperLimitMinusOne, '0 1', upperLimit + ' 1', '1 ' + upperLimit, upperLimitMinusOne + ' ' + upperLimit];
-
-	var iconBomb = new Image(),
-
-		patternBrick = new Image(),
-		patternPillar = new Image(),
-		patternFloor = new Image(),
-		patternFire = new Image(),
-
-		playerBirdie = new Image(),
-		playerElephant = new Image(),
-		playerFishy = new Image(),
-		playerMonkey = new Image(),
-		playerRam = new Image(),
-		playerOx = new Image(),
-		playerPiggle = new Image(),
-		playerWhale = new Image();
-
-	var BOMB_TIMER = 5000,
-		BOMB_CLEAR_TIMER = 400;
-
-	var gameId,
-		gameOn = false,
-		frozen = false,
-		startTimer = 3000,
-		movementDelay = 100,
-		movementTimer,
-		controlsBound = false,
-		player,
-		player2,
-		players = [],
-		avatars = {
-			birdie: playerBirdie,
-			elephant: playerElephant,
-			fishy: playerFishy,
-			monkey: playerMonkey,
-			ram: playerRam,
-			ox: playerOx,
-			piggle: playerPiggle,
-			whale: playerWhale,
-		},
-		playerMap = [
-			{
-				context: contextPlayerOne,
-				x: 0,
-				y: 0,
-			},
-			{
-				context: contextPlayerTwo,
-				x: upperLimit,
-				y: 0,
-			},
-			{
-				context: contextPlayerThree,
-				x: 0,
-				y: upperLimit,
-			},
-			{
-				context: contextPlayerFour,
-				x: upperLimit,
-				y: upperLimit,
-			}
-		];
-
-	$(document).ready(function()
-	{
-		showLoading();
-
-		iconBomb.src = 'images//bomb.png';
-
-		patternBrick.src = 'images//brick.png';
-		patternPillar.src = 'images//pillar.png';
-		patternFloor.src = 'images//floor.png';
-		patternFire.src = 'images//fire.png';
-
-		playerBirdie.src = 'images//birdie.png';
-		playerBirdie.alt = 'birdie';
-
-		playerElephant.src = 'images//elephant.png';
-		playerElephant.alt = 'elephant';
-
-		playerFishy.src = 'images//fishy.png';
-		playerFishy.alt = 'fishy';
-
-		playerMonkey.src = 'images//monkey.png';
-		playerMonkey.alt = 'monkey';
-
-		playerRam.src = 'images//ram.png';
-		playerRam.alt = 'ram';
-
-		playerOx.src = 'images//ox.png';
-		playerOx.alt = 'ox';
-
-		playerPiggle.src = 'images//piggle.png';
-		playerPiggle.alt = 'piggle';
-
-		playerWhale.src = 'images//whale.png';
-		playerWhale.alt = 'whale';
+var canvasTiles = document.getElementById('tiles'),
+    contextTiles = canvasTiles.getContext('2d'),
+    canvasBombs = document.getElementById('bombs'),
+    contextBombs = canvasBombs.getContext('2d'),
+    canvasPlayerOne = document.getElementById('player-one'),
+    contextPlayerOne = canvasPlayerOne.getContext('2d'),
+    canvasPlayerTwo = document.getElementById('player-two'),
+    contextPlayerTwo = canvasPlayerTwo.getContext('2d'),
+    canvasPlayerThree = document.getElementById('player-three'),
+    contextPlayerThree = canvasPlayerTwo.getContext('2d'),
+    canvasPlayerFour = document.getElementById('player-four'),
+    contextPlayerFour = canvasPlayerTwo.getContext('2d');
 
 
 
-	});
+var matrix = {},
+    matrixSize = 9,
+    brickSize = 64;
 
-	$(window).load(function()
-	{
-		hideLoading();
+var upperLimit = matrixSize - 1,
+    upperLimitMinusOne = upperLimit - 1,
+    empty = ['0 0', upperLimit + ' 0', '0 ' + upperLimit, upperLimit + ' ' + upperLimit, '1 0', upperLimitMinusOne + ' 0', '0 ' + upperLimitMinusOne, upperLimit + ' ' + upperLimitMinusOne, '0 1', upperLimit + ' 1', '1 ' + upperLimit, upperLimitMinusOne + ' ' + upperLimit];
 
-		showMenu();
+var iconBomb = new Image(),
 
-		if (window.location.hash.length == 10)
-		{
-			$('input[name=game-id]').val(window.location.hash.substr(1));
-		}
-	attachEventListeners();
-	});
+    patternBrick = new Image(),
+    patternPillar = new Image(),
+    patternFloor = new Image(),
+    patternFire = new Image(),
 
-	//	functions
+    playerBirdie = new Image(),
+    playerElephant = new Image(),
+    playerFishy = new Image(),
+    playerMonkey = new Image(),
+    playerRam = new Image(),
+    playerOx = new Image(),
+    playerPiggle = new Image(),
+    playerWhale = new Image();
 
-	function attachEventListeners()
-	{
+var BOMB_TIMER = 5000,
+    BOMB_CLEAR_TIMER = 400;
 
-			var element = $(this);
+var gameId,
+    gameOn = false,
+    frozen = false,
+    startTimer = 3000,
+    movementDelay = 100,
+    movementTimer,
+    controlsBound = false,
+    player,
+    player2,
+    players = [],
+    avatars = {
+        birdie: playerBirdie,
+        elephant: playerElephant,
+        fishy: playerFishy,
+        monkey: playerMonkey,
+        ram: playerRam,
+        ox: playerOx,
+        piggle: playerPiggle,
+        whale: playerWhale,
+    },
+    playerMap = [
+        {
+            context: contextPlayerOne,
+            x: 0,
+            y: 0,
+        },
+        {
+            context: contextPlayerTwo,
+            x: upperLimit,
+            y: 0,
+        },
+        {
+            context: contextPlayerThree,
+            x: 0,
+            y: upperLimit,
+        },
+        {
+            context: contextPlayerFour,
+            x: upperLimit,
+            y: upperLimit,
+        }
+    ];
 
-			var fieldUserName = $('input[name=user-name]'),
-				fieldGameId = $('input[name=game-id]');
+$(document).ready(function () {
+    showLoading();
 
-			var userName = fieldUserName.val(),
-				gameId = fieldGameId.val();
+    iconBomb.src = 'images//bomb.png';
 
-	/*		if (userName && gameId)
+    patternBrick.src = 'images//brick.png';
+    patternPillar.src = 'images//pillar.png';
+    patternFloor.src = 'images//floor.png';
+    patternFire.src = 'images//fire.png';
+
+    playerBirdie.src = 'images//birdie.png';
+    playerBirdie.alt = 'birdie';
+
+    playerElephant.src = 'images//elephant.png';
+    playerElephant.alt = 'elephant';
+
+    playerFishy.src = 'images//fishy.png';
+    playerFishy.alt = 'fishy';
+
+    playerMonkey.src = 'images//monkey.png';
+    playerMonkey.alt = 'monkey';
+
+    playerRam.src = 'images//ram.png';
+    playerRam.alt = 'ram';
+
+    playerOx.src = 'images//ox.png';
+    playerOx.alt = 'ox';
+
+    playerPiggle.src = 'images//piggle.png';
+    playerPiggle.alt = 'piggle';
+
+    playerWhale.src = 'images//whale.png';
+    playerWhale.alt = 'whale';
+
+
+
+});
+
+$(window).load(function () {
+    hideLoading();
+
+    showMenu();
+
+    if (window.location.hash.length == 10) {
+        $('input[name=game-id]').val(window.location.hash.substr(1));
+    }
+    attachEventListeners();
+});
+
+//	functions
+
+function attachEventListeners() {
+    
+    idBot1 = document.getElementById('idBot1').value;
+    idBot2 = document.getElementById('idBot2').value;
+    
+    var element = $(this);
+
+    var fieldUserName = $('input[name=user-name]'),
+        fieldGameId = $('input[name=game-id]');
+
+    var userName = fieldUserName.val(),
+        gameId = fieldGameId.val();
+
+
+    $.ajax({
+        type: "GET",
+        url: urlApi + "/bot",
+        data: { "idBot": idBot1 },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            bot1 = data
+            console.log(bot1);
+        }
+    })
+
+
+    $.ajax({
+        type: "GET",
+        url: urlApi + "/bot",
+        data: { "idBot": idBot2 },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            bot2 = data
+            console.log(bot2);
+        }
+    })
+
+    /*		if (userName && gameId)
 			{
 				if (gameId.length !== 9) return growl('Enter a game ID from your friend', true), fieldGameId.focus();
 
@@ -162,521 +196,471 @@ var bomb=new bombsummary();*/
 			else if (userName)
 			{*/
 
-				newGame(userName);
+    newGame(userName);
 
-				//joinGame($('input[name=user-nameAD]').val(), gameId);
-			/*}
-			else
-			{
-				return growl('Enter your name', true), fieldUserName.focus()
-			}
+    //joinGame($('input[name=user-nameAD]').val(), gameId);
+    /*}
+    else
+    {
+        return growl('Enter your name', true), fieldUserName.focus()
+    }
 */
 
 
-		$('.show-about').on('click', function(e)
-		{
-			e.preventDefault();
-
-			status() ? hideStatus() : showStatus();
-
-		});
-	}
-
-	function bindControls()
-	{
-		if (controlsBound) return;
-
-		$(document).on('keydown', function(e)
-		{
-			if (!player || frozen) return;
-
-
-
-
-/*
-			if (e.which == 32)
-			{
-				player.plantBomb();
-			}
-			else if (e.which == 38)
-			{
-				player.move('up');
-
-				frozen = true;
-			}
-			else if (e.which == 40)
-			{
-				player.move('down');
-
-				frozen = true;
-			}
-			else if (e.which == 37)
-			{
-				player.move('left');
-
-				frozen = true;
-			}
-			else if (e.which == 39)
-			{
-				player.move('right');
-
-				frozen = true;
-			}*/
-
-			movementTimer = setTimeout(function()
-			{
-				frozen = false;
-
-			}, movementDelay);
-
-		});
-
-		controlsBound = true;
-	}
-
-	function init(matrix_, clear)
-	{
-		if (matrix_)
-		{
-			for (var x = 0; x < matrixSize; x ++)
-			{
-				matrix[x] = {};
-
-				for (var y = 0; y < matrixSize; y ++)
-				{
-					var tile = new Tile(matrix_[x][y].type);
-
-					tile.render(x, y);
-
-					setTile(tile, x, y);
-				}
-			}
-		}
-		else
-		{
-			for (var x = 0; x < matrixSize; x ++)
-			{
-				matrix[x] = {};
+    $('.show-about').on('click', function (e) {
+        e.preventDefault();
+
+        status() ? hideStatus() : showStatus();
+
+    });
+}
+
+function bindControls() {
+    if (controlsBound) return;
+
+    $(document).on('keydown', function (e) {
+        if (!player || frozen) return;
+
+
+
+
+        /*
+                    if (e.which == 32)
+                    {
+                        player.plantBomb();
+                    }
+                    else if (e.which == 38)
+                    {
+                        player.move('up');
+        
+                        frozen = true;
+                    }
+                    else if (e.which == 40)
+                    {
+                        player.move('down');
+        
+                        frozen = true;
+                    }
+                    else if (e.which == 37)
+                    {
+                        player.move('left');
+        
+                        frozen = true;
+                    }
+                    else if (e.which == 39)
+                    {
+                        player.move('right');
+        
+                        frozen = true;
+                    }*/
 
-				for (var y = 0; y < matrixSize; y ++)
-				{
-					matrix[x][y] = drawTile(x, y);
-				}
-			}
-		}
+        movementTimer = setTimeout(function () {
+            frozen = false;
 
-		if (clear === true)
-		{
-			clearLog();
+        }, movementDelay);
 
-			clearPlayers();
-		}
+    });
 
-		$('.game').addClass('play');
+    controlsBound = true;
+}
 
-		bindControls();
-	}
+function init(matrix_, clear) {
+    if (matrix_) {
+        for (var x = 0; x < matrixSize; x++) {
+            matrix[x] = {};
 
-	function drawTile(x, y)
-	{
-		if (x % 2 == 1 && y % 2 == 1)
-		{
-			type = 'pillar';
-		}
-		else
-		{
-			type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
-		}
+            for (var y = 0; y < matrixSize; y++) {
+                var tile = new Tile(matrix_[x][y].type);
 
-		if (empty.indexOf(x + ' ' + y) > -1)
-		{
-			type = 'empty';
-		}
+                tile.render(x, y);
 
-		var tile = new Tile(type);
+                setTile(tile, x, y);
+            }
+        }
+    }
+    else {
+        for (var x = 0; x < matrixSize; x++) {
+            matrix[x] = {};
 
-		tile.render(x, y);
+            for (var y = 0; y < matrixSize; y++) {
+                matrix[x][y] = drawTile(x, y);
+            }
+        }
+    }
 
-		return tile;
-	}
+    if (clear === true) {
+        clearLog();
 
-	function getTile(x, y)
-	{
-		return matrix[x] && matrix[x][y];
-	}
+        clearPlayers();
+    }
 
-	function setTile(tile, x, y)
-	{
-		if (matrix[x])
-		{
-			matrix[x][y] = tile;
-		}
-	}
+    $('.game').addClass('play');
 
-	function updateTile(x, y, key, value)
-	{
-		if (matrix[x] && matrix[x][y])
-		{
-			matrix[x][y][key] = value;
-		}
-	}
+    bindControls();
+}
 
-	//	classes
+function drawTile(x, y) {
+    if (x % 2 == 1 && y % 2 == 1) {
+        type = 'pillar';
+    }
+    else {
+        type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
+    }
 
-	function Tile(type)
-	{
-		this.position = {};
+    if (empty.indexOf(x + ' ' + y) > -1) {
+        type = 'empty';
+    }
 
-		this.type = type || 'empty';
+    var tile = new Tile(type);
 
-		//	can show explosions on empty tiles or bricks
-		this.canExplode = this.type == 'pillar' ? false : true;
+    tile.render(x, y);
 
-		//	can only move on empty tiles
-		this.canMove = this.type == 'empty' ? true : false;
+    return tile;
+}
 
-		this.hasBomb = false;
+function getTile(x, y) {
+    return matrix[x] && matrix[x][y];
+}
 
-		this.setType = function(type)
-		{
-			this.type = type || 'empty';
+function setTile(tile, x, y) {
+    if (matrix[x]) {
+        matrix[x][y] = tile;
+    }
+}
 
-			this.canExplode = this.type == 'pillar' ? false : true;
+function updateTile(x, y, key, value) {
+    if (matrix[x] && matrix[x][y]) {
+        matrix[x][y][key] = value;
+    }
+}
 
-			this.canMove = this.type == 'empty' ? true : false;
-		}
+//	classes
 
-		this.render = function(x, y)
-		{
-			this.position.x = x;
-			this.position.y = y;
+function Tile(type) {
+    this.position = {};
 
-			switch (this.type)
-			{
-				case 'pillar':
+    this.type = type || 'empty';
 
-					contextTiles.drawImage(patternPillar, x * brickSize, y * brickSize, brickSize, brickSize);
+    //	can show explosions on empty tiles or bricks
+    this.canExplode = this.type == 'pillar' ? false : true;
 
-					break;
+    //	can only move on empty tiles
+    this.canMove = this.type == 'empty' ? true : false;
 
-				case 'normal':
+    this.hasBomb = false;
 
-					contextTiles.drawImage(patternBrick, x * brickSize, y * brickSize, brickSize, brickSize);
+    this.setType = function (type) {
+        this.type = type || 'empty';
 
-					break;
+        this.canExplode = this.type == 'pillar' ? false : true;
 
-				case 'bomb':
+        this.canMove = this.type == 'empty' ? true : false;
+    }
 
-					contextTiles.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
+    this.render = function (x, y) {
+        this.position.x = x;
+        this.position.y = y;
 
-					break;
+        switch (this.type) {
+            case 'pillar':
 
-				case 'empty':
-				default:
+                contextTiles.drawImage(patternPillar, x * brickSize, y * brickSize, brickSize, brickSize);
 
-					contextTiles.drawImage(patternFloor, x * brickSize, y * brickSize, brickSize, brickSize);
+                break;
 
-					break;
-			}
+            case 'normal':
 
-			//	matrix numbers
-			// contextTiles.fillStyle = 'rgb(100, 100, 100)';
-			// contextTiles.fillText(x + ',' + y, x * brickSize + 27, y * brickSize + 40);
-		}
-	}
-  function Player(context, name, avatar)
-	{
-		this.context = context;
+                contextTiles.drawImage(patternBrick, x * brickSize, y * brickSize, brickSize, brickSize);
 
-		this.name = name || 'Whale';
-		this.avatar = avatar || playerWhale;
+                break;
 
-		this.isAlive = true;
+            case 'bomb':
 
-		this.position = {};
+                contextTiles.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
 
-		this.maxBombs = 1;
-		this.bombs = 0;
+                break;
 
-		this.move = function(direction)
-		{
-			// can't move if dead, son
-			if (!this.isAlive) return;
+            case 'empty':
+            default:
 
-			//	check if we can move in that direction
-			if (!this.canGo(direction, this.position)) return;
+                contextTiles.drawImage(patternFloor, x * brickSize, y * brickSize, brickSize, brickSize);
 
-			switch (direction)
-			{
-				case 'up':
+                break;
+        }
 
-					this.render(this.position.x, this.position.y - 1);
+        //	matrix numbers
+        // contextTiles.fillStyle = 'rgb(100, 100, 100)';
+        // contextTiles.fillText(x + ',' + y, x * brickSize + 27, y * brickSize + 40);
+    }
+}
+function Player(context, name, avatar) {
+    this.context = context;
 
-					break;
+    this.name = name || 'Whale';
+    this.avatar = avatar || playerWhale;
 
-				case 'down':
+    this.isAlive = true;
 
-					this.render(this.position.x, this.position.y + 1);
+    this.position = {};
 
-					break;
+    this.maxBombs = 1;
+    this.bombs = 0;
 
-				case 'left':
+    this.move = function (direction) {
+        // can't move if dead, son
+        if (!this.isAlive) return;
 
-					this.render(this.position.x - 1, this.position.y);
+        //	check if we can move in that direction
+        if (!this.canGo(direction, this.position)) return;
 
-					break;
+        switch (direction) {
+            case 'up':
 
-				case 'right':
+                this.render(this.position.x, this.position.y - 1);
 
-					this.render(this.position.x + 1, this.position.y);
+                break;
 
-					break;
-			}
-		}
+            case 'down':
 
-		this.canGo = function(direction, position)
-		{
-			var x = position.x,
-				y = position.y;
+                this.render(this.position.x, this.position.y + 1);
 
-			switch (direction)
-			{
-				case 'up':
+                break;
 
-					y = position.y - 1;
+            case 'left':
 
-					break;
+                this.render(this.position.x - 1, this.position.y);
 
-				case 'down':
+                break;
 
-					y = position.y + 1;
+            case 'right':
 
-					break;
+                this.render(this.position.x + 1, this.position.y);
 
-				case 'left':
+                break;
+        }
+    }
 
-					x = position.x - 1;
+    this.canGo = function (direction, position) {
+        var x = position.x,
+            y = position.y;
 
-					break;
+        switch (direction) {
+            case 'up':
 
-				case 'right':
+                y = position.y - 1;
 
-					x = position.x + 1;
+                break;
 
-					break;
-			}
+            case 'down':
 
-			var tile = getTile(x, y);
+                y = position.y + 1;
 
-			return tile && tile.canMove && !tile.hasBomb;
-		}
+                break;
 
-		this.clearBomb = function()
-		{
-			this.bombs--;
-		}
+            case 'left':
 
-		this.plantBomb = function()
-		{
-			// dead people don't plant bombs
-			if (!this.isAlive) return;
+                x = position.x - 1;
 
-			//	make sure we're not exceeding the max bomb limit
-			if (this.bombs >= this.maxBombs) return;
+                break;
 
-			//	check if bomb is planted on the same spot
-			if (getTile(this.position.x, this.position.y).hasBomb) return;
+            case 'right':
 
-			//	else plant bomb
-			var bomb = new Bomb(this.position.x, this.position.y);
+                x = position.x + 1;
 
-			this.bombs++;
+                break;
+        }
 
-			setTimeout(this.clearBomb.bind(this), BOMB_TIMER);
+        var tile = getTile(x, y);
 
-			//	fake bomb planting while the server responds
-			Bomb.plant(this.position.x, this.position.y);
+        return tile && tile.canMove && !tile.hasBomb;
+    }
 
-			//	notify the server
-			if (socket && this==player)
-			{
-				socket.emit('bomb', gameId, this.position);
-			}
-			if (socket2 && this==player2)
-			{
-				socket2.emit('bomb', gameId, this.position);
-			}
-		}
+    this.clearBomb = function () {
+        this.bombs--;
+    }
 
-		this.render = function(x, y, dontNotify)
-		{
-			this.context.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+    this.plantBomb = function () {
+        // dead people don't plant bombs
+        if (!this.isAlive) return;
 
-			//	don't render if player is dead
-			if (!this.isAlive) return;
+        //	make sure we're not exceeding the max bomb limit
+        if (this.bombs >= this.maxBombs) return;
 
-			//	draw player
-			this.context.drawImage(this.avatar, x * brickSize, y * brickSize, brickSize, brickSize);
+        //	check if bomb is planted on the same spot
+        if (getTile(this.position.x, this.position.y).hasBomb) return;
 
-			//	update position
-			this.position.x = x;
-			this.position.y = y;
+        //	else plant bomb
+        var bomb = new Bomb(this.position.x, this.position.y);
 
-			//	let the server know player has moved
-			if (socket && this==player && !dontNotify)
-			{
-				socket.emit('move', gameId, player.id, this.position);
+        this.bombs++;
 
-			} else if (socket2 && this==player2 && !dontNotify)
-			{
-				socket2.emit('move', gameId, player2.id, this.position);
+        setTimeout(this.clearBomb.bind(this), BOMB_TIMER);
 
-			}
-		}
+        //	fake bomb planting while the server responds
+        Bomb.plant(this.position.x, this.position.y);
 
-		this.remove = function()
-		{
-			this.context.clearRect(0, 0, brickSize * matrixSize, brickSize * matrixSize);
-		}
-	}
+        //	notify the server
+        if (socket && this == player) {
+            socket.emit('bomb', gameId, this.position);
+        }
+        if (socket2 && this == player2) {
+            socket2.emit('bomb', gameId, this.position);
+        }
+    }
 
-	Player.create = function(context, data)
-	{
-		var player = new Player(context, data.name, avatars[data.avatar]);
+    this.render = function (x, y, dontNotify) {
+        this.context.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
 
-		player.id = data.id;
-		player.index = data.index;
-		player.ready = true;
+        //	don't render if player is dead
+        if (!this.isAlive) return;
 
-		return player;
-	}
+        //	draw player
+        this.context.drawImage(this.avatar, x * brickSize, y * brickSize, brickSize, brickSize);
 
-	function Bomb(x, y, strength)
-	{
-		this.position = { x: x, y: y };
+        //	update position
+        this.position.x = x;
+        this.position.y = y;
 
-		this.isAlive = true;
-		this.strength = strength || 1;
+        //	let the server know player has moved
+        if (socket && this == player && !dontNotify) {
+            socket.emit('move', gameId, player.id, this.position);
 
-		this.blown = [];
+        } else if (socket2 && this == player2 && !dontNotify) {
+            socket2.emit('move', gameId, player2.id, this.position);
 
-		this.powerUp = function()
-		{
-			this.strength++;
-		}
+        }
+    }
 
-		this.cleanUp = function()
-		{
-			this.blown.forEach(function(spot)
-			{
-				//	clear up explosion
-				contextBombs.clearRect(spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
+    this.remove = function () {
+        this.context.clearRect(0, 0, brickSize * matrixSize, brickSize * matrixSize);
+    }
+}
 
-				var tile = getTile(spot.x, spot.y);
+Player.create = function (context, data) {
+    var player = new Player(context, data.name, avatars[data.avatar]);
 
-				//	update the tile
-				updateTile(spot.x, spot.y, 'type', 'empty');
-				updateTile(spot.x, spot.y, 'canMove', true);
+    player.id = data.id;
+    player.index = data.index;
+    player.ready = true;
 
-				tile.render(tile.position.x, tile.position.y);
+    return player;
+}
 
-			});
-		}
+function Bomb(x, y, strength) {
+    this.position = { x: x, y: y };
 
-		this.detonate = function()
-		{
-			clearTimeout(this.explosionTimer);
+    this.isAlive = true;
+    this.strength = strength || 1;
 
-			//	make it a dud
-			this.isAlive = false;
+    this.blown = [];
 
-			contextBombs.fillStyle = 'rgb(231, 76, 60)';
+    this.powerUp = function () {
+        this.strength++;
+    }
 
-			//	clear the bomb flag from the tile
-			updateTile(this.position.x, this.position.y, 'hasBomb', false);
+    this.cleanUp = function () {
+        this.blown.forEach(function (spot) {
+            //	clear up explosion
+            contextBombs.clearRect(spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
 
-			//	detonate the bomb
-			//	and blow any adjacent tiles
-			var blown = [
-				{
-					x: this.position.x,
-					y: this.position.y
-				},
-				{
-					x: this.position.x,
-					y: this.position.y - this.strength
-				},
-				{
-					x: this.position.x,
-					y: this.position.y + this.strength
-				},
-				{
-					x: this.position.x - this.strength,
-					y: this.position.y
-				},
-				{
-					x: this.position.x + this.strength,
-					y: this.position.y
-				}
-			];
+            var tile = getTile(spot.x, spot.y);
 
-			blown.forEach(function(spot)
-			{
-				if (this.canExplode(spot.x, spot.y))
-				{
-					this.blown.push(
-					{
-						x: spot.x,
-						y: spot.y
+            //	update the tile
+            updateTile(spot.x, spot.y, 'type', 'empty');
+            updateTile(spot.x, spot.y, 'canMove', true);
 
-					});
+            tile.render(tile.position.x, tile.position.y);
 
-					updateTile(spot.x, spot.y, 'canMove', false);
+        });
+    }
 
-					contextBombs.drawImage(patternFire, spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
-				}
+    this.detonate = function () {
+        clearTimeout(this.explosionTimer);
 
-			}, this);
+        //	make it a dud
+        this.isAlive = false;
 
-			//	clear up the explosion
-			setTimeout(this.cleanUp.bind(this), BOMB_CLEAR_TIMER);
-		}
+        contextBombs.fillStyle = 'rgb(231, 76, 60)';
 
-		this.canExplode = function(x, y)
-		{
-			var tile = getTile(x, y);
+        //	clear the bomb flag from the tile
+        updateTile(this.position.x, this.position.y, 'hasBomb', false);
 
-			//	check if tile can explode
-			return tile && tile.canExplode;
-		}
+        //	detonate the bomb
+        //	and blow any adjacent tiles
+        var blown = [
+            {
+                x: this.position.x,
+                y: this.position.y
+            },
+            {
+                x: this.position.x,
+                y: this.position.y - this.strength
+            },
+            {
+                x: this.position.x,
+                y: this.position.y + this.strength
+            },
+            {
+                x: this.position.x - this.strength,
+                y: this.position.y
+            },
+            {
+                x: this.position.x + this.strength,
+                y: this.position.y
+            }
+        ];
 
-		this.render = function()
-		{
-			if (this.isAlive)
-			{
-				//	clear the cell before drawing bomb
-				contextBombs.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+        blown.forEach(function (spot) {
+            if (this.canExplode(spot.x, spot.y)) {
+                this.blown.push(
+                {
+                    x: spot.x,
+                    y: spot.y
 
-				//	draw bomb
-				contextBombs.drawImage(iconBomb, this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+                });
 
-				//	update the tile with the `hasBomb` flag
-				updateTile(this.position.x, this.position.y, 'hasBomb', true);
+                updateTile(spot.x, spot.y, 'canMove', false);
 
-				if (this.explosionTimer) return;
+                contextBombs.drawImage(patternFire, spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
+            }
 
-				//	detonate the bomb
-				this.explosionTimer = setTimeout(this.detonate.bind(this), BOMB_TIMER);
-			}
-		}
-	}
+        }, this);
 
-	//	fake bomb plant on client-side
-	Bomb.plant = function(x, y)
-	{
-		//	clear the cell before drawing bomb
-		contextBombs.clearRect(x * brickSize, y * brickSize, brickSize, brickSize);
+        //	clear up the explosion
+        setTimeout(this.cleanUp.bind(this), BOMB_CLEAR_TIMER);
+    }
 
-		//	draw bomb
-		contextBombs.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
-	}
+    this.canExplode = function (x, y) {
+        var tile = getTile(x, y);
+
+        //	check if tile can explode
+        return tile && tile.canExplode;
+    }
+
+    this.render = function () {
+        if (this.isAlive) {
+            //	clear the cell before drawing bomb
+            contextBombs.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+
+            //	draw bomb
+            contextBombs.drawImage(iconBomb, this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+
+            //	update the tile with the `hasBomb` flag
+            updateTile(this.position.x, this.position.y, 'hasBomb', true);
+
+            if (this.explosionTimer) return;
+
+            //	detonate the bomb
+            this.explosionTimer = setTimeout(this.detonate.bind(this), BOMB_TIMER);
+        }
+    }
+}
+
+//	fake bomb plant on client-side
+Bomb.plant = function (x, y) {
+    //	clear the cell before drawing bomb
+    contextBombs.clearRect(x * brickSize, y * brickSize, brickSize, brickSize);
+
+    //	draw bomb
+    contextBombs.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
+}

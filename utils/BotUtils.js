@@ -48,7 +48,7 @@ BotUtils.prototype.findEnemy = function(idBot,iduser, callback) {
 				userIdBot : {
 					$ne : iduser
 				},
-				modeBot : "combat"
+				modeBot : "aggro"
 			},
 			"order":[
 				Sequelize.fn('RAND')

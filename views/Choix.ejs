@@ -85,6 +85,7 @@
                   txt+="<input type='hidden' name='iduser' value='"+$("#idUser").val()+"'/>"
                   txt+="<input type='hidden' name='idbot' value='"+$('input[name=choix]:checked').val()+"'/>"
                   txt+="<input type='hidden' name='namebotAD' value='"+code_html[i].nameBot+"'/>"
+				  txt+="<input type='hidden' name='idbotAd' value='"+code_html[i].idBot+"'/>"
                   txt+="<input type='hidden' name='namebot' value='"+$('input[name=choix]:checked').attr("id")+"'/>"
                   $("#iduser"+i).val(code_html[i].userIdBot)
                   $("#idbot"+i).val(code_html[i].idBot)

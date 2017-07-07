@@ -29,17 +29,20 @@ module.exports = function(app, models, urlApi){
   app.post('/index', function(req, res) {
         if(!req.session.type){
             res.redirect("/");
-        }else {
+        } else {
+            console.log("api : " + urlApi);
+            console.log( req.body);
             //On recup la liste de bot :
-            console.log(req.body.namebotAD)
+            //console.log(req.body.namebotAD)
             res.render('index.ejs', {
                 session: req.session,
                 idAd:req.body.idAd,
-                idbotAd: req.body.idbotAd,
+                idBotAd: req.body.idbotAd,
                 idBot:req.body.idbot,
                 iduser:req.body.iduser,
                 namebot:req.body.namebot,
-                namebotAd:req.body.namebotAD
+                namebotAd: req.body.namebotAD,
+                api: urlApi
             });
 
 
