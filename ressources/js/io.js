@@ -215,10 +215,9 @@ function newGame(name) {
         async: false,
         success: function (data) {
             codeBot = data.codeBot;
-
-            /*
-            unBot = require(data.codeBot)
-            unBot.test()*/
+ 
+            //bot1 = data
+            
         }
     })
 

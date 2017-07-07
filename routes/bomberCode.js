@@ -37,6 +37,7 @@ module.exports = function(app, models, urlApi){
                                 msgSuccess: "",
                                 code:body.codeBot,
                                 name: body.nameBot,
+                                mode : body.modeBot,
                                 idBot: req.params.idBot,
                                 session: req.session
                             });
@@ -51,6 +52,7 @@ module.exports = function(app, models, urlApi){
                     msgSuccess: "",
                     code: "",
                     name: "Mon Bomber",
+                    mode: "aggro",
                     idBot: "",
                     session: req.session
                 });
@@ -70,6 +72,7 @@ module.exports = function(app, models, urlApi){
                     msgSuccess: "",
                     code: req.body.bomberEditor,
                     name: "Mon Bomber",
+                    mode: req.body.modeBot,
                     idBot : req.body.idBot,
                     session: req.session
                 });
@@ -79,6 +82,7 @@ module.exports = function(app, models, urlApi){
                     msgSuccess: "",
                     code: "",
                     name: req.body.name,
+                    mode: req.body.modeBot,
                     idBot : req.body.idBot,
                     session: req.session
                 });
@@ -104,6 +108,7 @@ module.exports = function(app, models, urlApi){
                         msgError: ""+checkCode,
                         msgSuccess: "",
                         code: req.body.bomberEditor,
+                        mode: req.body.modeBot,
                         name: req.body.name,
                         idBot : req.body.idBot,
                         session: req.session
@@ -124,7 +129,7 @@ module.exports = function(app, models, urlApi){
                                 "winBot": 0,
                                 "loseBot": 0,
                                 "pointBot": 0,
-                                "modeBot": "peaceful",
+                                "modeBot": "aggro",
                                 "userIdBot": req.session.idUser,
                             }
                         }).then(function (body) {
@@ -135,6 +140,7 @@ module.exports = function(app, models, urlApi){
                                 msgSuccess: "Bomber prêt au combat !",
                                 code: req.body.bomberEditor,
                                 name: req.body.name,
+                                mode: req.body.modeBot,
                                 idBot: body.idBot,
                                 session: req.session
                             });
@@ -144,6 +150,7 @@ module.exports = function(app, models, urlApi){
                                 msgSuccess: "",
                                 code: req.body.bomberEditor,
                                 name: req.body.name,
+                                mode: req.body.modeBot,
                                 idBot: req.body.idBot,
                                 session: req.session
                             });
@@ -159,7 +166,8 @@ module.exports = function(app, models, urlApi){
                             json: {
                                 "nameBot": req.body.name,
                                 "idBot": myBot.idBot,
-                                "codeBot": req.body.bomberEditor
+                                "codeBot": req.body.bomberEditor,
+                                "modeBot": req.body.modeBot,
                             }
                         }).then(function(body){}).catch(function (err) {})
 
@@ -168,6 +176,7 @@ module.exports = function(app, models, urlApi){
                             msgSuccess: "Bomber prêt au combat !",
                             code: req.body.bomberEditor,
                             name: req.body.name,
+                            mode: req.body.modeBot,
                             idBot: req.body.idBot,
                             session: req.session
                         });
