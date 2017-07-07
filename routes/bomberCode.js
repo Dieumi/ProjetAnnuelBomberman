@@ -93,11 +93,33 @@ module.exports = function(app, models, urlApi){
                     
                     var myObject = eval(player+"\n\r"+req.body.bomberEditor);
                 } catch (error) {
-                    var errorType = error.split(":");
-                    var tSplit = req.body.bomberEditor.split("\n")
-                    for (var i = 0; i < sizeOf(tSplit) ; i++) {
+                    console.log(error.message)
+                    console.log(error.lineNumber)
+                    /* type d'erreur : 
+                       ReferenceError :
+                             ... is not defined
+                        
+                        SyntaxError :
+                            Unexpected end of input
+                            Unexpected token
 
+                    */
+
+                   /* var errorType = error.toString().split(":");
+
+                    if (errorType[0] == "ReferenceError") {
+                        var reg = new RegExp("is not defined");
+                        var resultat = reg.test(errorType[1]);
+                        if (resultat == true) {
+                            var oppUndefined = errorType[1].split(" ");
+
+                        }
                     }
+                    var tSplit = req.body.bomberEditor.split("\n")
+                    for (var i = 0; i < tSplit.length ; i++) {
+
+                    }*/
+                    console.log(typeof(error))
                     checkCode = error;
                 }
                 console.log("checkcode : " + checkCode)

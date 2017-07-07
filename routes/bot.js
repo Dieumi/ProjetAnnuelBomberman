@@ -40,7 +40,6 @@ module.exports = function(app, models,utils) {
 	});
 
     app.get("/bot", function (req, res, next) {
-        console.log(req.query.idBot)
         if(req.body.idBot || req.query.idBot){
             var Bot = models.Bot;
             var idBot;
@@ -64,7 +63,8 @@ module.exports = function(app, models,utils) {
 						"winBot"    : result.winBot,
 						"loseBot"   : result.winBot,
 						"modeBot"   : result.modeBot,
-						"userIdBot" : result.userIdBot
+						"userIdBot": result.userIdBot,
+						"pointBot": result.pointBot,
 					});
 				}else{
 					res.json({
@@ -268,14 +268,65 @@ module.exports = function(app, models,utils) {
 	        }else {
 
 	         var Bot = utils.Bot;
-					 console.log(Bot);
+					 
 					 var u1 = new Bot()
 					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
-		
 						 res.send(result)
 					 })
 
 
 	        }
 	  });
+
+
+	  app.get("/bot/matchmaking", function (req, res, next) {
+	      if (req.query.bornSup && req.query.bornInf) {
+	          var Bot = models.Bot;
+	          var bornSup = req.query.bornSup;
+	          var bornInf = req.query.bornInf;
+	          var request = {
+	              where: {
+	                  pointBot: {
+	                      $between: [bornInf, bornSup]
+	                  },
+                      modeBot: "aggro"
+	              },
+	              limit: 50
+	          }
+	         
+	            Bot.findAll(request).then(function (result) {
+	                if (result) {
+                       
+	                    var nb = Math.floor((Math.random() * result.length) + 1);
+	                    res.json({
+	                        "code": 0,
+	                        "idBot": result[nb].idBot,
+	                        "nameBot": result[nb].nameBot,
+	                        "codeBot": result[nb].codeBot,
+	                        "winBot": result[nb].winBot,
+	                        "loseBot": result[nb].winBot,
+	                        "modeBot": result[nb].modeBot,
+	                        "userIdBot": result[nb].userIdBot
+	                    });
+	                } else {               
+	                    res.json({
+	                        "code": 3,
+	                        "message": "Bot not found"
+	                    })
+	                }
+	            }).catch(function (err) {
+	                res.json({
+	                    "code": 2,
+	                    "message": "Sequelize error",
+	                    "error": err
+	                }) 
+	            })            
+	      } else {
+	          res.json({
+	              "code": 1,
+	              "message": "Missing required parameters"
+	          })
+	      }
+	  });
+
 }

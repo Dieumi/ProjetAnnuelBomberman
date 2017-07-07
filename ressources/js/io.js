@@ -3,7 +3,7 @@
 
 //var socket = io.connect('https://bman.herokuapp.com:443/');
 var codeBot = "";
-
+var bot1;
 var socket = io.connect('https://bmanserver.herokuapp.com/');
 //var socket = io.connect('http://localhost:3000/');
 console.log('check 1', socket.connected);
@@ -171,6 +171,7 @@ socket.on('bomb', function (position) {
 });
 
 socket.on('death', function (id) {
+    console.log("test death")
     players.forEach(function (player) {
         if (player.id == id) {
             player.isAlive = false;
@@ -185,6 +186,10 @@ socket.on('death', function (id) {
 });
 
 socket.on('player-joined', function (player) {
+
+   
+   
+
     console.log("player-joined")
     console.log(player)
     var map = playerMap[player.index],
@@ -215,11 +220,35 @@ function newGame(name) {
         async: false,
         success: function (data) {
             codeBot = data.codeBot;
- 
-            //bot1 = data
+            bot1 = data
             
         }
     })
+    var bornSup = bot1.pointBot + 20;
+    var bornInf = bot1.pointBot - 20;
+    var tour = 1;
+    /* player 2 */
+    while (bot2 == null && tour<100) {
+        bornSup = bot1.pointBot + (20 * tour);
+        bornInf = bot1.pointBot + (-20 * tour);
+        $.ajax({
+            type: "GET",
+            url: urlApi + "/bot/matchmaking",
+            data: { "bornSup": bornSup, "bornInf": bornInf },
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0) {
+                    codeBot2 = data.codeBot;
+                    bot2 = data
+                    console.log(data);
+                }  
+            }
+        })
+        tour++;
+    }
+   
 
     hideMenu();
 

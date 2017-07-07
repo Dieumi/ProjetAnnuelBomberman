@@ -3,13 +3,15 @@
 var socket2 = io.connect('https://bmanserver.herokuapp.com/', {'force new connection': true});
 console.log('check 1', socket2);
 //	setup event listeners
-
+var bot2;
+var codeBot2 = "";
 
 
 socket2.on('welcome', function(id, playerInfo)
 {
-  console.log("testwelcome")
- gameId = window.location.hash = id;
+
+console.log("testwelcome")
+gameId = window.location.hash = id;
 console.log(gameId)
 
  player2 = Player.create(contextPlayerOne, playerInfo);
@@ -29,6 +31,7 @@ console.log(gameId)
 
 socket2.on('joined', function(playerInfo, game)
 {
+    console.log("io2 : test");
   gameId = window.location.hash = game.id;
 
   init(game.matrix);
@@ -157,8 +160,9 @@ socket2.on('move', function(id, position)
 
 });
 socket2.on('action',function(){
- console.log("io2:"+player2.name);
-  eval(execAd());
+    console.log("io2:" + player2.name);
+    console.log(codeBot2)
+    eval(codeBot2);
   //player2.move("down");
 
   /*if(gameOn != false && frozen != true){
