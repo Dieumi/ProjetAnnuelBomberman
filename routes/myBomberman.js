@@ -30,6 +30,7 @@ module.exports = function(app, models, urlApi){
         if(!req.session.type){
             res.redirect("/");
         }else {
+          console.log(req.body);
             //On recup la liste de bot :
             console.log(req.body.namebotAD)
             res.render('index.ejs', {
@@ -60,6 +61,7 @@ module.exports = function(app, models, urlApi){
                     "userIdBot": req.session.idUser
                 }
             }).then(function(body) {
+              
                 res.render('Choix.ejs', {
                     session: req.session,
                     listBot: body

@@ -138,7 +138,7 @@ socket2.on('win', function(player2)
   gameOn = false;
   frozen = true;
 
-  log(player2.name + ' has won!', true);
+//  log(player2.name + ' has won!', true);
 
   endGame(player2.name);
 
@@ -188,7 +188,7 @@ socket2.on('death', function(id)
 
       player2.render();
 
-      log(player2.name + ' is dead!', true, true);
+  //    log(player2.name + ' is dead!', true, true);
     }
 
   });
