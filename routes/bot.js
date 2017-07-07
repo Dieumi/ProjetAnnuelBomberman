@@ -1,6 +1,6 @@
 var bcrypt = require("bcrypt-nodejs");
 
-module.exports = function(app, models) {
+module.exports = function(app, models,utils) {
 
 	app.post("/bot", function(req, res, next) {
 		if (req.body.nameBot && req.body.userIdBot) {
@@ -119,7 +119,23 @@ module.exports = function(app, models) {
 		})
 	});
 
-    app.get("/topBots", function (req, res, next) {
+	app.get("/topBots", function (req, res, next) {
+        var Bot = models.Bot;
+        var User = models.User;
+
+        Bot.sequelize.query("SELECT b.*, u.loginUser FROM bot AS b, user AS u WHERE b.userIdBot = u.idUser ORDER BY pointBot DESC LIMIT 3")
+        .then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            })
+        })
+    })
+
+    /**app.get("/topBots", function (req, res, next) {
         var Bot = models.Bot;
         Bot.findAll({
             order: '`pointBot` DESC',
@@ -133,7 +149,7 @@ module.exports = function(app, models) {
                 "error": err
             })
         })
-    });
+    });*/
 
     app.get("/classementBot", function (req, res, next) {
         var Bot = models.Bot;
@@ -209,4 +225,21 @@ module.exports = function(app, models) {
 
 
     });
+
+	  app.post('/adversaire', function(req, res) {
+	        if(!req.session.type){
+	            res.redirect("/");
+	        }else {
+
+	         var Bot = utils.Bot;
+					 console.log(Bot);
+					 var u1 = new Bot()
+					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
+		
+						 res.send(result)
+					 })
+
+
+	        }
+	  });
 }

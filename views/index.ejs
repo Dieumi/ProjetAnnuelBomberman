@@ -41,7 +41,8 @@
 
 					<ul>
 						<li>
-							<input type="text" name="user-name" placeholder="Your name" tabindex="1" maxlength="10">
+							<input type="text" name="user-name" placeholder="Your name" value="<%=namebot%>" tabindex="1" maxlength="10">
+							<input type="hidden" name="user-nameAD" placeholder="Your name" value="<%=namebotAd%>" tabindex="1" maxlength="10">
 							<button type="submit">New Game</button>
 						</li>
 						<li>
@@ -67,7 +68,10 @@
 	<script src="/lib/hashids.min.js"></script>
 	<script src="/js/scripts.js"></script>
 	<script src="/js/test.js"></script>
+		<script src="/js/test0.js"></script>
 	<script src="/js/game.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script src="/js/io.js"></script>
+<script src="/js/io2.js"></script>
 	<!--<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>

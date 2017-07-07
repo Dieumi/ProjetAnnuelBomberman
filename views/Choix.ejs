@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>Bomberman Accueil</title>
+  <% include ./partials/header %>
+</head>
+<body>
+
+<% include ./partials/navbar %>
+
+<div>
+    <input type="hidden" value='<%=session.idUser%>' id="idUser">
+    <% for(var i =0; i<3;i++){ %>
+    <div class="col-md-offset-1 col-md-2">
+        <% if(listBot[i]){ %>
+            <h3><%=listBot[i].nameBot%></h3>
+
+            <input type="radio" id="<%=listBot[i].nameBot%>" name="choix" value='<%=listBot[i].idBot%>'  />Choisir<br>
+        <% } %>
+
+    </div>
+    <% } %>
+
+</div>
+<button id="jouer" type="button" class="btn btn-primary">Jouer</button>
+<div id="dialog" class="dialogcss">
+  <form id="combat" action="/index" method="post" >
+    <div id="player0">
+    </div>
+  </form>
+  <form id="combat" action="/index" method="post" >
+        <input type="hidden" id="iduser1" name="idAd" value="" >
+          <input type="hidden" id="idbot1" name="idbotAd" value="" >
+    <div id="player1">
+    </div>
+  </form>
+  <form id="combat" action="/index" method="post" >
+    <input type="hidden" id="iduser2" name="idAd" value="" >
+      <input type="hidden" id="idbot2" name="idbotAd" value="" >
+    <div id="player2">
+    </div>
+  </form>
+
+</div>
+<% include ./partials/footer %>
+
+</body>
+<script type="text/javascript">
+  $("#jouer").on("click",function(){
+    var popo = $("#dialog").dialog({
+           autoOpen: false,
+           modal: true,
+           show: 'blind',
+           hide: 'blind',
+           title:"Figth",
+           maxWidth: 780,
+           maxHeight: 500,
+           width: 780,
+           height: 500
+
+
+       });
+       for(var i=0;i<3;i++){
+
+           $("#player"+i).empty();
+       }
+    var user={
+      iduser:  $("#idUser").val(),
+      idbot:$('input[name=choix]:checked').val()
+    }
+    console.log(user)
+    var txt;
+    $.ajax({
+           url : 'http://localhost:8888/adversaire',
+           type : 'POST',
+           dataType: 'json',
+           data: user,
+           success : function(code_html, statut){
+
+              for(var i=0;i<code_html.length;i++){
+                console.log(code_html[i])
+                  txt=code_html[i].nameBot+"<br>";
+                  txt+=code_html[i].pointBot+"<br>";
+                  txt+="<button id='affronter"+i+"'' type='submit' class='btn btn-primary'>Affronter</button>"
+                  txt+="<input type='hidden' name='iduser' value='"+$("#idUser").val()+"'/>"
+                  txt+="<input type='hidden' name='idbot' value='"+$('input[name=choix]:checked').val()+"'/>"
+                  txt+="<input type='hidden' name='namebotAD' value='"+code_html[i].nameBot+"'/>"
+                  txt+="<input type='hidden' name='namebot' value='"+$('input[name=choix]:checked').attr("id")+"'/>"
+                  $("#iduser"+i).val(code_html[i].userIdBot)
+                  $("#idbot"+i).val(code_html[i].idBot)
+                  $("#player"+i).append(txt);
+              }
+              popo.dialog("open");
+           }
+
+    });
+
+  })
+
+</script>
+</html>

@@ -66,6 +66,35 @@ module.exports = function(app, models,utils) {
 		}
 	})
 
+	app.get("/user/find/:idUser", function(req, res, next) {
+            if (req.params.idUser){
+                var User = models.User;
+                var request = {
+                    where: {
+                        idUser : req.params.idUser
+                    }
+                }
+                User.find(request).then(function(result) {
+                    if (result){
+                        res.json({
+                            "code" : 0,
+                            "loginUser" : result.loginUser
+                        });
+                    } else {
+                        res.json({
+                            "code" : 3,
+                            "message" : "User not found"
+                        })
+                    }
+                });
+    		} else {
+                res.json({
+                    "code" : 1,
+                    "message" : "Missing required parameters"
+                })
+    		}
+    	})
+
 	app.get("/user/auth", function(req, res, next) {
 		if (req.body.loginUser && req.body.passwordUser) {
 			var User = models.User;
@@ -128,7 +157,9 @@ module.exports = function(app, models,utils) {
 	app.get("/user/count", function (req, res, next) {
 		var user = models.User;
 		user.findAndCountAll().then(function (results) {
-			res.send(results.count);
+		    res.json({
+		        "userCount" : results.count
+		    });
 		}).catch(function (err) {
 
 			res.json({
@@ -163,7 +194,8 @@ module.exports = function(app, models,utils) {
 						"idUser" : result.idUser,
 						"loginUser" : result.loginUser,
 						"emailUser" : result.emailUser,
-						"typeUser" : result.typeUser
+						"typeUser" : result.typeUser,
+						"createdAt" : result.createdAt
 					});
 				}else{
 					res.json({

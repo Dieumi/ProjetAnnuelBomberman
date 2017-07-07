@@ -12,6 +12,7 @@ module.exports = function(app, urlApi){
 				'Content-Type': 'application/json'
 			}
 		}).then(function(body) {
+		console.log(body)
 			res.render('profile.ejs', {
 				session : req.session,
 				profile : body
