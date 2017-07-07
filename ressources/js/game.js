@@ -282,10 +282,12 @@ var bomb=new bombsummary();*/
 		if (x % 2 == 1 && y % 2 == 1)
 		{
 			type = 'pillar';
+
 		}
 		else
 		{
 			type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
+			
 		}
 
 		if (empty.indexOf(x + ' ' + y) > -1)
@@ -506,6 +508,7 @@ var bomb=new bombsummary();*/
 			{
 				socket2.emit('bomb', gameId, this.position);
 			}
+			this.bomb=bomb;
 		}
 
 		this.render = function(x, y, dontNotify)
