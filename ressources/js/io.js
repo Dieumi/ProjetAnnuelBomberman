@@ -5,7 +5,7 @@
 
 	//var socket = io.connect('http://bmanserver.herokuapp.com/');
 	var socket = io.connect('http://localhost:3000/');
-	console.log('check 1', socket.connected);
+	console.log('check 1', socket);
 	//	setup event listeners
 
 
