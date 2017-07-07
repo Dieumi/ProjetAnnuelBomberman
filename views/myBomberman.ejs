@@ -12,7 +12,7 @@
     <div class="row">
         <div class="bomber-block col-sm-6 col-sm-push-3">
 
-            <h1 class="bomber-text">Mes Bomberbots</h1>
+            <h1 class="bomber-text"><i class="fa fa-users" aria-hidden="true"></i> Mes Bomberbots</h1>
             <hr class = "bomber-line" >
             <p>Je propose que cet espace soit réserver à un texte présentant les bots dans le détail.</p>
             <p>Nihil est enim virtute amabilius, nihil quod magis adliciat ad diligendum, quippe cum propter virtutem et probitatem etiam eos, quos numquam vidimus, quodam modo diligamus. Quis est qui C. Fabrici, M'. Curi non cum caritate aliqua benevola memoriam usurpet, quos numquam viderit? quis autem est, qui Tarquinium Superbum, qui Sp. Cassium, Sp.</p>
@@ -29,7 +29,7 @@
 
             <% if (listBot[i]) { %>
 
-            <h3 class="bomber-text"><%=listBot[i].nameBot%></h3>
+            <h3 class="bomber-text"><i class="fa fa-user" aria-hidden="true"></i> <%=listBot[i].nameBot%></h3>
 
             <%
                 var total = listBot[i].winBot + listBot[i].loseBot
@@ -47,13 +47,13 @@
             <div style="text-align: center">
                 <p><b class="bomber-bold"><%=listBot[i].pointBot%> points</b></p>
                 <p>Mode : Peaceful</p>
-                <a class="btn btn-lg bomber-btn" href = "/bomberCode/<%=listBot[i].idBot%>">Modifier</a><br>
+                <a class="btn btn-lg bomber-btn" href = "/bomberCode/<%=listBot[i].idBot%>"> Modifier</a><br>
             </div>
 
             <% } else if (i < 3) { %>
 
             <div style="text-align: center">
-                <a href="/bomberCode" style="font-size: 40px"> + </a>
+                <a href="/bomberCode" style="font-size: 40px"> <i class="fa fa-user-plus" aria-hidden="true"></i> </a>
             </div>
             <% } %>
 
