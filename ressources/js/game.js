@@ -317,13 +317,40 @@ function drawTile(x, y) {
 
     return tile;
 }
+function drawTile(x, y)
+{
+    if (x % 2 == 1 && y % 2 == 1)
+    {
+        type = 'pillar';
 
-function getTile(x, y) {
+    }
+    else
+    {
+        type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
+			
+    }
+
+    if (empty.indexOf(x + ' ' + y) > -1)
+    {
+        type = 'empty';
+    }
+
+    var tile = new Tile(type);
+
+    tile.render(x, y);
+
+    return tile;
+}
+
+function getTile(x, y)
+{
     return matrix[x] && matrix[x][y];
 }
 
-function setTile(tile, x, y) {
-    if (matrix[x]) {
+function setTile(tile, x, y)
+{
+    if (matrix[x])
+    {
         matrix[x][y] = tile;
     }
 }
@@ -392,8 +419,7 @@ function Tile(type) {
         // contextTiles.fillStyle = 'rgb(100, 100, 100)';
         // contextTiles.fillText(x + ',' + y, x * brickSize + 27, y * brickSize + 40);
     }
-}
-function Player(context, name, avatar) {
+} function Player(context, name, avatar) {
     this.context = context;
 
     this.name = name || 'Whale';
@@ -506,6 +532,7 @@ function Player(context, name, avatar) {
         if (socket2 && this == player2) {
             socket2.emit('bomb', gameId, this.position);
         }
+        this.bomb = bomb;
     }
 
     this.render = function (x, y, dontNotify) {

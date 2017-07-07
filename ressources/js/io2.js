@@ -1,6 +1,6 @@
 var socket2 = io.connect('http://bmanserver.herokuapp.com/', { 'force new connection': true });
-
 //var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
+
 console.log('check 1', socket2);
 //	setup event listeners
 
@@ -124,7 +124,8 @@ socket2.on('win', function (player2) {
     gameOn = false;
     frozen = true;
 
-    log(player2.name + ' has won!', true);
+//  log(player2.name + ' has won!', true);
+
 
     endGame(player2.name);
 
@@ -168,9 +169,9 @@ socket2.on('death', function (id) {
             player2.isAlive = false;
 
             player2.render();
+  //    log(player2.name + ' is dead!', true, true);
+    }
 
-            log(player2.name + ' is dead!', true, true);
-        }
 
     });
 
