@@ -89,7 +89,12 @@ module.exports = function(app, models, urlApi){
                     
                     var myObject = eval(player+"\n\r"+req.body.bomberEditor);
                 } catch (error) {
-                     checkCode = error;
+                    var errorType = error.split(":");
+                    var tSplit = req.body.bomberEditor.split("\n")
+                    for (var i = 0; i < sizeOf(tSplit) ; i++) {
+
+                    }
+                    checkCode = error;
                 }
                 console.log("checkcode : " + checkCode)
 
