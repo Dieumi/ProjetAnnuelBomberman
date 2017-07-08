@@ -8,8 +8,8 @@ var bomb=new bombsummary();*/
 
 var idBot1 = "";
 var idBot2 = "";
-var bot1;
-var bot2;
+var codeBot1;
+var codeBot2;
 var urlApi = document.getElementById('urlApi').value;
 
 var canvasTiles = document.getElementById('tiles'),
@@ -152,6 +152,8 @@ function attachEventListeners() {
     
     idBot1 = document.getElementById('idBot1').value;
     idBot2 = document.getElementById('idBot2').value;
+    codeBot1 = document.getElementById('codeBot1').value;
+    codeBot2 = document.getElementById('codeBot2').value;
     
     var element = $(this);
 
@@ -162,7 +164,7 @@ function attachEventListeners() {
         gameId = fieldGameId.val();
 
 
-    $.ajax({
+    /*$.ajax({
         type: "GET",
         url: urlApi + "/bot",
         data: { "idBot": idBot1 },
@@ -185,7 +187,7 @@ function attachEventListeners() {
             bot2 = data
             console.log(bot2);
         }
-    })
+    })*/
 
     /*		if (userName && gameId)
 			{

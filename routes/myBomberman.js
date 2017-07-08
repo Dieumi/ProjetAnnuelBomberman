@@ -31,7 +31,7 @@ module.exports = function(app, models, urlApi){
             res.redirect("/");
         }else {
             //On recup la liste de bot :
-            //console.log(req.body.namebotAD)
+            console.log(req.body)
             res.render('index.ejs', {
                 session: req.session,
                 idAd:req.body.idAd,
@@ -40,7 +40,9 @@ module.exports = function(app, models, urlApi){
                 iduser:req.body.iduser,
                 namebot:req.body.namebot,
                 namebotAd: req.body.namebotAD,
-                api: urlApi
+                api: urlApi,
+                codeBot: req.body.codeBot,
+                codeBotAd: req.body.codeBotAd
             });
 
 
