@@ -1,686 +1,688 @@
 
-	//	inits
+//	inits
+/*var models=require("./models");
+var playersummary=models.player;
+var player=new playersummary();
+var bombsummary=models.bomb;
+var bomb=new bombsummary();*/
 
-    var idSessionUser = document.getElementById('idSessionUser').value
-    var urlApi = document.getElementById('urlApi').value
-    var unBot;
+var idBot1 = "";
+var idBot2 = "";
+var codeBot1="";
+var codeBot2="";
+var urlApi = document.getElementById('urlApi').value;
 
-	var canvasTiles = document.getElementById('tiles'),
-		contextTiles = canvasTiles.getContext('2d'),
-		canvasBombs = document.getElementById('bombs'),
-		contextBombs = canvasBombs.getContext('2d'),
-		canvasPlayerOne = document.getElementById('player-one'),
-		contextPlayerOne = canvasPlayerOne.getContext('2d'),
-		canvasPlayerTwo = document.getElementById('player-two'),
-		contextPlayerTwo = canvasPlayerTwo.getContext('2d'),
-		canvasPlayerThree = document.getElementById('player-three'),
-		contextPlayerThree = canvasPlayerTwo.getContext('2d'),
-		canvasPlayerFour = document.getElementById('player-four'),
-		contextPlayerFour = canvasPlayerTwo.getContext('2d');
+var canvasTiles = document.getElementById('tiles'),
+    contextTiles = canvasTiles.getContext('2d'),
+    canvasBombs = document.getElementById('bombs'),
+    contextBombs = canvasBombs.getContext('2d'),
+    canvasPlayerOne = document.getElementById('player-one'),
+    contextPlayerOne = canvasPlayerOne.getContext('2d'),
+    canvasPlayerTwo = document.getElementById('player-two'),
+    contextPlayerTwo = canvasPlayerTwo.getContext('2d'),
+    canvasPlayerThree = document.getElementById('player-three'),
+    contextPlayerThree = canvasPlayerTwo.getContext('2d'),
+    canvasPlayerFour = document.getElementById('player-four'),
+    contextPlayerFour = canvasPlayerTwo.getContext('2d');
 
-	var matrix = {},
-		matrixSize = 9,
-		brickSize = 64;
 
-	var upperLimit = matrixSize - 1,
-		upperLimitMinusOne = upperLimit - 1,
-		empty = ['0 0', upperLimit + ' 0', '0 ' + upperLimit, upperLimit + ' ' + upperLimit, '1 0', upperLimitMinusOne + ' 0', '0 ' + upperLimitMinusOne, upperLimit + ' ' + upperLimitMinusOne, '0 1', upperLimit + ' 1', '1 ' + upperLimit, upperLimitMinusOne + ' ' + upperLimit];
 
-	var iconBomb = new Image(),
+var matrix = {},
+    matrixSize = 9,
+    brickSize = 64;
 
-		patternBrick = new Image(),
-		patternPillar = new Image(),
-		patternFloor = new Image(),
-		patternFire = new Image(),
+var upperLimit = matrixSize - 1,
+    upperLimitMinusOne = upperLimit - 1,
+    empty = ['0 0', upperLimit + ' 0', '0 ' + upperLimit, upperLimit + ' ' + upperLimit, '1 0', upperLimitMinusOne + ' 0', '0 ' + upperLimitMinusOne, upperLimit + ' ' + upperLimitMinusOne, '0 1', upperLimit + ' 1', '1 ' + upperLimit, upperLimitMinusOne + ' ' + upperLimit];
 
-		playerBirdie = new Image(),
-		playerElephant = new Image(),
-		playerFishy = new Image(),
-		playerMonkey = new Image(),
-		playerRam = new Image(),
-		playerOx = new Image(),
-		playerPiggle = new Image(),
-		playerWhale = new Image();
+var iconBomb = new Image(),
 
-	var BOMB_TIMER = 5000,
-		BOMB_CLEAR_TIMER = 400;
+    patternBrick = new Image(),
+    patternPillar = new Image(),
+    patternFloor = new Image(),
+    patternFire = new Image(),
 
-	var gameId,
-		gameOn = false,
-		frozen = false,
-		startTimer = 3000,
-		movementDelay = 100,
-		movementTimer,
-		controlsBound = false,
-		player,
-		player2,
-		players = [],
-		avatars = {
-			birdie: playerBirdie,
-			elephant: playerElephant,
-			fishy: playerFishy,
-			monkey: playerMonkey,
-			ram: playerRam,
-			ox: playerOx,
-			piggle: playerPiggle,
-			whale: playerWhale,
-		},
-		playerMap = [
+    playerBirdie = new Image(),
+    playerElephant = new Image(),
+    playerFishy = new Image(),
+    playerMonkey = new Image(),
+    playerRam = new Image(),
+    playerOx = new Image(),
+    playerPiggle = new Image(),
+    playerWhale = new Image();
+
+var BOMB_TIMER = 5000,
+    BOMB_CLEAR_TIMER = 400;
+
+var gameId,
+    gameOn = false,
+    frozen = false,
+    startTimer = 3000,
+    movementDelay = 100,
+    movementTimer,
+    controlsBound = false,
+    player,
+    player2,
+    players = [],
+    avatars = {
+        birdie: playerBirdie,
+        elephant: playerElephant,
+        fishy: playerFishy,
+        monkey: playerMonkey,
+        ram: playerRam,
+        ox: playerOx,
+        piggle: playerPiggle,
+        whale: playerWhale,
+    },
+    playerMap = [
+        {
+            context: contextPlayerOne,
+            x: 0,
+            y: 0,
+        },
+        {
+            context: contextPlayerTwo,
+            x: upperLimit,
+            y: 0,
+        },
+        {
+            context: contextPlayerThree,
+            x: 0,
+            y: upperLimit,
+        },
+        {
+            context: contextPlayerFour,
+            x: upperLimit,
+            y: upperLimit,
+        }
+    ];
+
+$(document).ready(function () {
+    showLoading();
+
+    iconBomb.src = 'images//bomb.png';
+
+    patternBrick.src = 'images//brick.png';
+    patternPillar.src = 'images//pillar.png';
+    patternFloor.src = 'images//floor.png';
+    patternFire.src = 'images//fire.png';
+
+    playerBirdie.src = 'images//birdie.png';
+    playerBirdie.alt = 'birdie';
+
+    playerElephant.src = 'images//elephant.png';
+    playerElephant.alt = 'elephant';
+
+    playerFishy.src = 'images//fishy.png';
+    playerFishy.alt = 'fishy';
+
+    playerMonkey.src = 'images//monkey.png';
+    playerMonkey.alt = 'monkey';
+
+    playerRam.src = 'images//ram.png';
+    playerRam.alt = 'ram';
+
+    playerOx.src = 'images//ox.png';
+    playerOx.alt = 'ox';
+
+    playerPiggle.src = 'images//piggle.png';
+    playerPiggle.alt = 'piggle';
+
+    playerWhale.src = 'images//whale.png';
+    playerWhale.alt = 'whale';
+
+
+
+});
+
+$(window).load(function () {
+    hideLoading();
+
+    showMenu();
+
+    if (window.location.hash.length == 10) {
+        $('input[name=game-id]').val(window.location.hash.substr(1));
+    }
+    attachEventListeners();
+});
+
+//	functions
+
+function attachEventListeners() {
+
+    idBot1 = document.getElementById('idBot1').value;
+    idBot2 = document.getElementById('idBot2').value;
+    codeBot1 = document.getElementById('codeBot1').value;
+    codeBot2 = document.getElementById('codeBot2').value;
+
+    var element = $(this);
+
+    var fieldUserName = $('input[name=user-name]'),
+        fieldGameId = $('input[name=game-id]');
+
+    var userName = fieldUserName.val(),
+        gameId = fieldGameId.val();
+
+
+    /*$.ajax({
+        type: "GET",
+        url: urlApi + "/bot",
+        data: { "idBot": idBot1 },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            bot1 = data
+            console.log(bot1);
+        }
+    })
+
+
+    $.ajax({
+        type: "GET",
+        url: urlApi + "/bot",
+        data: { "idBot": idBot2 },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            bot2 = data
+            console.log(bot2);
+        }
+    })*/
+
+    /*		if (userName && gameId)
 			{
-				context: contextPlayerOne,
-				x: 0,
-				y: 0,
-			},
-			{
-				context: contextPlayerTwo,
-				x: upperLimit,
-				y: 0,
-			},
-			{
-				context: contextPlayerThree,
-				x: 0,
-				y: upperLimit,
-			},
-			{
-				context: contextPlayerFour,
-				x: upperLimit,
-				y: upperLimit,
+				if (gameId.length !== 9) return growl('Enter a game ID from your friend', true), fieldGameId.focus();
+
+				joinGame(userName, gameId);
 			}
-		];
+			else if (userName)
+			{*/
 
-	$(document).ready(function()
-	{
-		showLoading();
+    newGame(userName);
 
-		iconBomb.src = 'images//bomb.png';
-
-		patternBrick.src = 'images//brick.png';
-		patternPillar.src = 'images//pillar.png';
-		patternFloor.src = 'images//floor.png';
-		patternFire.src = 'images//fire.png';
-
-		playerBirdie.src = 'images//birdie.png';
-		playerBirdie.alt = 'birdie';
-
-		playerElephant.src = 'images//elephant.png';
-		playerElephant.alt = 'elephant';
-
-		playerFishy.src = 'images//fishy.png';
-		playerFishy.alt = 'fishy';
-
-		playerMonkey.src = 'images//monkey.png';
-		playerMonkey.alt = 'monkey';
-
-		playerRam.src = 'images//ram.png';
-		playerRam.alt = 'ram';
-
-		playerOx.src = 'images//ox.png';
-		playerOx.alt = 'ox';
-
-		playerPiggle.src = 'images//piggle.png';
-		playerPiggle.alt = 'piggle';
-
-		playerWhale.src = 'images//whale.png';
-		playerWhale.alt = 'whale';
+    //joinGame($('input[name=user-nameAD]').val(), gameId);
+    /*}
+    else
+    {
+        return growl('Enter your name', true), fieldUserName.focus()
+    }
+*/
 
 
+    $('.show-about').on('click', function (e) {
+        e.preventDefault();
 
-	});
+        status() ? hideStatus() : showStatus();
 
-	$(window).load(function()
-	{
-		hideLoading();
+    });
+}
 
-		showMenu();
+function bindControls() {
+    if (controlsBound) return;
 
-		if (window.location.hash.length == 10)
-		{
-			$('input[name=game-id]').val(window.location.hash.substr(1));
-		}
-	attachEventListeners();
-	});
-
-	//	functions
-
-	function attachEventListeners()
-	{
-
-	    $('.menu').on('submit', function (e) {
-	        e.preventDefault();
-
-	        var element = $(this);
-
-	        var fieldBotId = $('option[name=user-id]');
-	        var fieldGameId = $('input[name=game-id]');
-	        /*on récupere le bot choisi*/
-
-
-	        var idBot = fieldBotId.val(),
-                gameId = fieldGameId.val();
-	        var userName;
-
-	        $.ajax({
-	            type: "GET",
-	            url: urlApi + "/bot",
-	            data: { "idBot": idBot },
-	            dataType: 'json',
-	            async: false,
-	            success: function (data) {
-	                userName = data.nameBot
-	                unBot = data
-	            }
-	        })
-
-	        newGame(userName);
-
-	    });
-		$('.show-about').on('click', function(e)
-		{
-			e.preventDefault();
-
-			status() ? hideStatus() : showStatus();
-
-		});
-	}
-
-	function bindControls()
-	{
-		if (controlsBound) return;
-
-		$(document).on('keydown', function(e)
-		{
-			if (!player || frozen) return;
+    $(document).on('keydown', function (e) {
+        if (!player || frozen) return;
 
 
 
 
-/*
-			if (e.which == 32)
-			{
-				player.plantBomb();
-			}
-			else if (e.which == 38)
-			{
-				player.move('up');
-
-				frozen = true;
-			}
-			else if (e.which == 40)
-			{
-				player.move('down');
-
-				frozen = true;
-			}
-			else if (e.which == 37)
-			{
-				player.move('left');
-
-				frozen = true;
-			}
-			else if (e.which == 39)
-			{
-				player.move('right');
-
-				frozen = true;
-			}*/
-
-			movementTimer = setTimeout(function()
-			{
-				frozen = false;
-
-			}, movementDelay);
-
-		});
-
-		controlsBound = true;
-	}
-
-	function init(matrix_, clear)
-	{
+        /*
+                    if (e.which == 32)
+                    {
+                        player.plantBomb();
+                    }
+                    else if (e.which == 38)
+                    {
+                        player.move('up');
         
-        /*Récupération de mon code bot !*/
-
-		if (matrix_)
-		{
-			for (var x = 0; x < matrixSize; x ++)
-			{
-				matrix[x] = {};
-                
-				for (var y = 0; y < matrixSize; y ++)
-				{
-					var tile = new Tile(matrix_[x][y].type);
-
-					tile.render(x, y);
-
-					setTile(tile, x, y);
-				}
-			}
-		}
-		else
-		{
-			for (var x = 0; x < matrixSize; x ++)
-			{
-				matrix[x] = {};
-
-				for (var y = 0; y < matrixSize; y ++)
-				{
-					matrix[x][y] = drawTile(x, y);
-				}
-			}
-		}
-
-		if (clear === true)
-		{
-			clearLog();
+                        frozen = true;
+                    }
+                    else if (e.which == 40)
+                    {
+                        player.move('down');
+        
+                        frozen = true;
+                    }
+                    else if (e.which == 37)
+                    {
+                        player.move('left');
+        
+                        frozen = true;
+                    }
+                    else if (e.which == 39)
+                    {
+                        player.move('right');
+        
+                        frozen = true;
+                    }*/
+
+        movementTimer = setTimeout(function () {
+            frozen = false;
+
+        }, movementDelay);
+
+    });
+
+    controlsBound = true;
+}
+
+function init(matrix_, clear) {
+    if (matrix_) {
+        for (var x = 0; x < matrixSize; x++) {
+            matrix[x] = {};
+
+            for (var y = 0; y < matrixSize; y++) {
+                var tile = new Tile(matrix_[x][y].type);
+
+                tile.render(x, y);
 
-			clearPlayers();
-		}
+                setTile(tile, x, y);
+            }
+        }
+    }
+    else {
+        for (var x = 0; x < matrixSize; x++) {
+            matrix[x] = {};
 
-		$('.game').addClass('play');
+            for (var y = 0; y < matrixSize; y++) {
+                matrix[x][y] = drawTile(x, y);
+            }
+        }
+    }
 
-		bindControls();
-	}
+    if (clear === true) {
+        clearLog();
 
-	function drawTile(x, y)
-	{
-		if (x % 2 == 1 && y % 2 == 1)
-		{
-			type = 'pillar';
-		}
-		else
-		{
-			type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
-		}
+        clearPlayers();
+    }
 
-		if (empty.indexOf(x + ' ' + y) > -1)
-		{
-			type = 'empty';
-		}
+    $('.game').addClass('play');
 
-		var tile = new Tile(type);
+    bindControls();
+}
 
-		tile.render(x, y);
+function drawTile(x, y) {
+    if (x % 2 == 1 && y % 2 == 1) {
+        type = 'pillar';
+    }
+    else {
+        type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
+    }
 
-		return tile;
-	}
+    if (empty.indexOf(x + ' ' + y) > -1) {
+        type = 'empty';
+    }
 
-	function getTile(x, y)
-	{
-		return matrix[x] && matrix[x][y];
-	}
+    var tile = new Tile(type);
 
-	function setTile(tile, x, y)
-	{
-		if (matrix[x])
-		{
-			matrix[x][y] = tile;
-		}
-	}
+    tile.render(x, y);
 
-	function updateTile(x, y, key, value)
-	{
-		if (matrix[x] && matrix[x][y])
-		{
-			matrix[x][y][key] = value;
-		}
-	}
+    return tile;
+}
+function drawTile(x, y) {
+    if (x % 2 == 1 && y % 2 == 1) {
+        type = 'pillar';
 
-	//	classes
+    }
+    else {
+        type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
 
-	function Tile(type)
-	{
-		this.position = {};
+    }
 
-		this.type = type || 'empty';
+    if (empty.indexOf(x + ' ' + y) > -1) {
+        type = 'empty';
+    }
 
-		//	can show explosions on empty tiles or bricks
-		this.canExplode = this.type == 'pillar' ? false : true;
+    var tile = new Tile(type);
 
-		//	can only move on empty tiles
-		this.canMove = this.type == 'empty' ? true : false;
+    tile.render(x, y);
 
-		this.hasBomb = false;
+    return tile;
+}
 
-		this.setType = function(type)
-		{
-			this.type = type || 'empty';
+function getTile(x, y) {
+    return matrix[x] && matrix[x][y];
+}
 
-			this.canExplode = this.type == 'pillar' ? false : true;
+function setTile(tile, x, y) {
+    if (matrix[x]) {
+        matrix[x][y] = tile;
+    }
+}
 
-			this.canMove = this.type == 'empty' ? true : false;
-		}
+function updateTile(x, y, key, value) {
+    if (matrix[x] && matrix[x][y]) {
+        matrix[x][y][key] = value;
+    }
+}
 
-		this.render = function(x, y)
-		{
-			this.position.x = x;
-			this.position.y = y;
+//	classes
 
-			switch (this.type)
-			{
-				case 'pillar':
+function Tile(type) {
+    this.position = {};
 
-					contextTiles.drawImage(patternPillar, x * brickSize, y * brickSize, brickSize, brickSize);
+    this.type = type || 'empty';
 
-					break;
+    //	can show explosions on empty tiles or bricks
+    this.canExplode = this.type == 'pillar' ? false : true;
 
-				case 'normal':
+    //	can only move on empty tiles
+    this.canMove = this.type == 'empty' ? true : false;
 
-					contextTiles.drawImage(patternBrick, x * brickSize, y * brickSize, brickSize, brickSize);
+    this.hasBomb = false;
 
-					break;
+    this.setType = function (type) {
+        this.type = type || 'empty';
 
-				case 'bomb':
+        this.canExplode = this.type == 'pillar' ? false : true;
 
-					contextTiles.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
+        this.canMove = this.type == 'empty' ? true : false;
+    }
 
-					break;
+    this.render = function (x, y) {
+        this.position.x = x;
+        this.position.y = y;
 
-				case 'empty':
-				default:
+        switch (this.type) {
+            case 'pillar':
 
-					contextTiles.drawImage(patternFloor, x * brickSize, y * brickSize, brickSize, brickSize);
+                contextTiles.drawImage(patternPillar, x * brickSize, y * brickSize, brickSize, brickSize);
 
-					break;
-			}
+                break;
 
-			//	matrix numbers
-			// contextTiles.fillStyle = 'rgb(100, 100, 100)';
-			// contextTiles.fillText(x + ',' + y, x * brickSize + 27, y * brickSize + 40);
-		}
-	}
-  function Player(context, name, avatar)
-	{
-		this.context = context;
+            case 'normal':
 
-		this.name = name || 'Whale';
-		this.avatar = avatar || playerWhale;
+                contextTiles.drawImage(patternBrick, x * brickSize, y * brickSize, brickSize, brickSize);
 
-		this.isAlive = true;
+                break;
 
-		this.position = {};
+            case 'bomb':
 
-		this.maxBombs = 1;
-		this.bombs = 0;
+                contextTiles.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
 
-		this.move = function(direction)
-		{
-			// can't move if dead, son
-			if (!this.isAlive) return;
+                break;
 
-			//	check if we can move in that direction
-			if (!this.canGo(direction, this.position)) return;
+            case 'empty':
+            default:
 
-			switch (direction)
-			{
-				case 'up':
+                contextTiles.drawImage(patternFloor, x * brickSize, y * brickSize, brickSize, brickSize);
 
-					this.render(this.position.x, this.position.y - 1);
+                break;
+        }
 
-					break;
+        //	matrix numbers
+        // contextTiles.fillStyle = 'rgb(100, 100, 100)';
+        // contextTiles.fillText(x + ',' + y, x * brickSize + 27, y * brickSize + 40);
+    }
+} function Player(context, name, avatar) {
+    this.context = context;
 
-				case 'down':
+    this.name = name || 'Whale';
+    this.avatar = avatar || playerWhale;
 
-					this.render(this.position.x, this.position.y + 1);
+    this.isAlive = true;
 
-					break;
+    this.position = {};
 
-				case 'left':
+    this.maxBombs = 1;
+    this.bombs = 0;
 
-					this.render(this.position.x - 1, this.position.y);
+    this.move = function (direction) {
+        // can't move if dead, son
+        if (!this.isAlive) return;
 
-					break;
+        //	check if we can move in that direction
+        if (!this.canGo(direction, this.position)) return;
 
-				case 'right':
+        switch (direction) {
+            case 'up':
 
-					this.render(this.position.x + 1, this.position.y);
+                this.render(this.position.x, this.position.y - 1);
 
-					break;
-			}
-		}
+                break;
 
-		this.canGo = function(direction, position)
-		{
-			var x = position.x,
-				y = position.y;
+            case 'down':
 
-			switch (direction)
-			{
-				case 'up':
-				    
-					y = position.y - 1;
+                this.render(this.position.x, this.position.y + 1);
 
-					break;
+                break;
 
-				case 'down':
+            case 'left':
 
-					y = position.y + 1;
+                this.render(this.position.x - 1, this.position.y);
 
-					break;
+                break;
 
-				case 'left':
+            case 'right':
 
-					x = position.x - 1;
+                this.render(this.position.x + 1, this.position.y);
 
-					break;
+                break;
+        }
+    }
 
-				case 'right':
+    this.canGo = function (direction, position) {
+        var x = position.x,
+            y = position.y;
 
-					x = position.x + 1;
+        switch (direction) {
+            case 'up':
 
-					break;
-			}
+                y = position.y - 1;
 
-			var tile = getTile(x, y);
+                break;
 
-			return tile && tile.canMove && !tile.hasBomb;
-		}
+            case 'down':
 
-		this.clearBomb = function()
-		{
-			this.bombs--;
-		}
+                y = position.y + 1;
 
-		this.plantBomb = function()
-		{
-			// dead people don't plant bombs
-			if (!this.isAlive) return;
+                break;
 
-			//	make sure we're not exceeding the max bomb limit
-			if (this.bombs >= this.maxBombs) return;
+            case 'left':
 
-			//	check if bomb is planted on the same spot
-			if (getTile(this.position.x, this.position.y).hasBomb) return;
+                x = position.x - 1;
 
-			//	else plant bomb
-			var bomb = new Bomb(this.position.x, this.position.y);
+                break;
 
-			this.bombs++;
+            case 'right':
 
-			setTimeout(this.clearBomb.bind(this), BOMB_TIMER);
+                x = position.x + 1;
 
-			//	fake bomb planting while the server responds
-			Bomb.plant(this.position.x, this.position.y);
+                break;
+        }
 
-			//	notify the server
-			if (socket && this==player)
-			{
-				socket.emit('bomb', gameId, this.position);
-			}
-			if (socket2 && this==player2)
-			{
-				socket2.emit('bomb', gameId, this.position);
-			}
-		}
+        var tile = getTile(x, y);
 
-		this.render = function(x, y, dontNotify)
-		{
-			this.context.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+        return tile && tile.canMove && !tile.hasBomb;
+    }
 
-			//	don't render if player is dead
-			if (!this.isAlive) return;
+    this.clearBomb = function () {
+        this.bombs--;
+    }
 
-			//	draw player
-			this.context.drawImage(this.avatar, x * brickSize, y * brickSize, brickSize, brickSize);
+    this.plantBomb = function () {
+        // dead people don't plant bombs
+        if (!this.isAlive) return;
 
-			//	update position
-			this.position.x = x;
-			this.position.y = y;
+        //	make sure we're not exceeding the max bomb limit
+        if (this.bombs >= this.maxBombs) return;
 
-			//	let the server know player has moved
-			if (socket && this==player && !dontNotify)
-			{
-				socket.emit('move', gameId, player.id, this.position);
+        //	check if bomb is planted on the same spot
+        if (getTile(this.position.x, this.position.y).hasBomb) return;
 
-			} else if (socket2 && this==player2 && !dontNotify)
-			{
-				socket2.emit('move', gameId, player2.id, this.position);
+        //	else plant bomb
+        var bomb = new Bomb(this.position.x, this.position.y);
 
-			}
-		}
+        this.bombs++;
 
-		this.remove = function()
-		{
-			this.context.clearRect(0, 0, brickSize * matrixSize, brickSize * matrixSize);
-		}
-	}
+        setTimeout(this.clearBomb.bind(this), BOMB_TIMER);
 
-	Player.create = function(context, data)
-	{
-		var player = new Player(context, data.name, avatars[data.avatar]);
+        //	fake bomb planting while the server responds
+        Bomb.plant(this.position.x, this.position.y);
 
-		player.id = data.id;
-		player.index = data.index;
-		player.ready = true;
+        //	notify the server
+        if (socket && this == player) {
+            socket.emit('bomb', gameId, this.position);
+        }
+        if (socket2 && this == player2) {
+            socket2.emit('bomb', gameId, this.position);
+        }
+        this.bomb = bomb;
+    }
 
-		return player;
-	}
+    this.render = function (x, y, dontNotify) {
+        this.context.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
 
-	function Bomb(x, y, strength)
-	{
-		this.position = { x: x, y: y };
+        //	don't render if player is dead
+        if (!this.isAlive) return;
 
-		this.isAlive = true;
-		this.strength = strength || 1;
+        //	draw player
+        this.context.drawImage(this.avatar, x * brickSize, y * brickSize, brickSize, brickSize);
 
-		this.blown = [];
+        //	update position
+        this.position.x = x;
+        this.position.y = y;
 
-		this.powerUp = function()
-		{
-			this.strength++;
-		}
+        //	let the server know player has moved
+        if (socket && this == player && !dontNotify) {
+            socket.emit('move', gameId, player.id, this.position);
 
-		this.cleanUp = function()
-		{
-			this.blown.forEach(function(spot)
-			{
-				//	clear up explosion
-				contextBombs.clearRect(spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
+        } else if (socket2 && this == player2 && !dontNotify) {
+            socket2.emit('move', gameId, player2.id, this.position);
 
-				var tile = getTile(spot.x, spot.y);
+        }
+    }
 
-				//	update the tile
-				updateTile(spot.x, spot.y, 'type', 'empty');
-				updateTile(spot.x, spot.y, 'canMove', true);
+    this.remove = function () {
+        this.context.clearRect(0, 0, brickSize * matrixSize, brickSize * matrixSize);
+    }
+}
 
-				tile.render(tile.position.x, tile.position.y);
+Player.create = function (context, data) {
+    var player = new Player(context, data.name, avatars[data.avatar]);
 
-			});
-		}
+    player.id = data.id;
+    player.index = data.index;
+    player.ready = true;
 
-		this.detonate = function()
-		{
-			clearTimeout(this.explosionTimer);
+    return player;
+}
 
-			//	make it a dud
-			this.isAlive = false;
+function Bomb(x, y, strength) {
+    this.position = { x: x, y: y };
 
-			contextBombs.fillStyle = 'rgb(231, 76, 60)';
+    this.isAlive = true;
+    this.strength = strength || 1;
 
-			//	clear the bomb flag from the tile
-			updateTile(this.position.x, this.position.y, 'hasBomb', false);
+    this.blown = [];
 
-			//	detonate the bomb
-			//	and blow any adjacent tiles
-			var blown = [
-				{
-					x: this.position.x,
-					y: this.position.y
-				},
-				{
-					x: this.position.x,
-					y: this.position.y - this.strength
-				},
-				{
-					x: this.position.x,
-					y: this.position.y + this.strength
-				},
-				{
-					x: this.position.x - this.strength,
-					y: this.position.y
-				},
-				{
-					x: this.position.x + this.strength,
-					y: this.position.y
-				}
-			];
+    this.powerUp = function () {
+        this.strength++;
+    }
 
-			blown.forEach(function(spot)
-			{
-				if (this.canExplode(spot.x, spot.y))
-				{
-					this.blown.push(
-					{
-						x: spot.x,
-						y: spot.y
+    this.cleanUp = function () {
+        this.blown.forEach(function (spot) {
+            //	clear up explosion
+            contextBombs.clearRect(spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
 
-					});
+            var tile = getTile(spot.x, spot.y);
 
-					updateTile(spot.x, spot.y, 'canMove', false);
+            //	update the tile
+            updateTile(spot.x, spot.y, 'type', 'empty');
+            updateTile(spot.x, spot.y, 'canMove', true);
 
-					contextBombs.drawImage(patternFire, spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
-				}
+            tile.render(tile.position.x, tile.position.y);
 
-			}, this);
+        });
+    }
 
-			//	clear up the explosion
-			setTimeout(this.cleanUp.bind(this), BOMB_CLEAR_TIMER);
-		}
+    this.detonate = function () {
+        clearTimeout(this.explosionTimer);
 
-		this.canExplode = function(x, y)
-		{
-			var tile = getTile(x, y);
+        //	make it a dud
+        this.isAlive = false;
 
-			//	check if tile can explode
-			return tile && tile.canExplode;
-		}
+        contextBombs.fillStyle = 'rgb(231, 76, 60)';
 
-		this.render = function()
-		{
-			if (this.isAlive)
-			{
-				//	clear the cell before drawing bomb
-				contextBombs.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+        //	clear the bomb flag from the tile
+        updateTile(this.position.x, this.position.y, 'hasBomb', false);
 
-				//	draw bomb
-				contextBombs.drawImage(iconBomb, this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+        //	detonate the bomb
+        //	and blow any adjacent tiles
+        var blown = [
+            {
+                x: this.position.x,
+                y: this.position.y
+            },
+            {
+                x: this.position.x,
+                y: this.position.y - this.strength
+            },
+            {
+                x: this.position.x,
+                y: this.position.y + this.strength
+            },
+            {
+                x: this.position.x - this.strength,
+                y: this.position.y
+            },
+            {
+                x: this.position.x + this.strength,
+                y: this.position.y
+            }
+        ];
 
-				//	update the tile with the `hasBomb` flag
-				updateTile(this.position.x, this.position.y, 'hasBomb', true);
+        blown.forEach(function (spot) {
+            if (this.canExplode(spot.x, spot.y)) {
+                this.blown.push(
+                    {
+                        x: spot.x,
+                        y: spot.y
 
-				if (this.explosionTimer) return;
+                    });
 
-				//	detonate the bomb
-				this.explosionTimer = setTimeout(this.detonate.bind(this), BOMB_TIMER);
-			}
-		}
-	}
+                updateTile(spot.x, spot.y, 'canMove', false);
 
-	//	fake bomb plant on client-side
-	Bomb.plant = function(x, y)
-	{
-		//	clear the cell before drawing bomb
-		contextBombs.clearRect(x * brickSize, y * brickSize, brickSize, brickSize);
+                contextBombs.drawImage(patternFire, spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
+            }
 
-		//	draw bomb
-		contextBombs.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
-	}
+        }, this);
+
+        //	clear up the explosion
+        setTimeout(this.cleanUp.bind(this), BOMB_CLEAR_TIMER);
+    }
+
+    this.canExplode = function (x, y) {
+        var tile = getTile(x, y);
+
+        //	check if tile can explode
+        return tile && tile.canExplode;
+    }
+
+    this.render = function () {
+        if (this.isAlive) {
+            //	clear the cell before drawing bomb
+            contextBombs.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+
+            //	draw bomb
+            contextBombs.drawImage(iconBomb, this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
+
+            //	update the tile with the `hasBomb` flag
+            updateTile(this.position.x, this.position.y, 'hasBomb', true);
+
+            if (this.explosionTimer) return;
+
+            //	detonate the bomb
+            this.explosionTimer = setTimeout(this.detonate.bind(this), BOMB_TIMER);
+        }
+    }
+}
+
+//	fake bomb plant on client-side
+Bomb.plant = function (x, y) {
+    //	clear the cell before drawing bomb
+    contextBombs.clearRect(x * brickSize, y * brickSize, brickSize, brickSize);
+
+    //	draw bomb
+    contextBombs.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
+}

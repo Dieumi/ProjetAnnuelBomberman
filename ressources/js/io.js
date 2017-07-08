@@ -2,12 +2,10 @@
 //	connect
 
 //var socket = io.connect('https://bman.herokuapp.com:443/');
-var codeBot = "";
 
-var socket = io.connect('https://bmanserver.herokuapp.com/');
+var socket = io.connect('http://bmanserver.herokuapp.com/');
 //var socket = io.connect('http://localhost:3000/');
-console.log('check 1', socket.connected);
-
+console.log('check 1', socket);
 //	setup event listeners
 
 
@@ -152,7 +150,8 @@ socket.on('move', function (id, position) {
 });
 socket.on('action', function () {
 
-    eval(codeBot);
+    eval(codeBot1);
+
 
     console.log("io:" + player.name)
     if (gameOn != false && frozen != true) {
@@ -204,23 +203,6 @@ socket.on('left', function (id) {
 //	game methods
 
 function newGame(name) {
-    var fieldBotId = $('option[name=user-id]');
-    var idBot = fieldBotId.val();
-   
-    $.ajax({
-        type: "GET",
-        url: urlApi + "/bot",
-        data: { "idBot": idBot },
-        dataType: 'json',
-        async: false,
-        success: function (data) {
-            codeBot = data.codeBot;
-
-            /*
-            unBot = require(data.codeBot)
-            unBot.test()*/
-        }
-    })
 
     hideMenu();
 

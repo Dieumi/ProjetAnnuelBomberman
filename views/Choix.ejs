@@ -72,6 +72,19 @@
     }
     console.log(user)
     var txt;
+	var codeBot="";
+	$.ajax({
+        type: "GET",
+        url: "http://localhost:8888/bot",
+        data: { "idBot": $('input[name=choix]:checked').val() },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            codeBot = data.codeBot
+            
+        }
+    })
+
     $.ajax({
            url : 'http://localhost:8888/adversaire',
            type : 'POST',
@@ -87,6 +100,9 @@
                   txt+="<input type='hidden' name='iduser' value='"+$("#idUser").val()+"'/>"
                   txt+="<input type='hidden' name='idbot' value='"+$('input[name=choix]:checked').val()+"'/>"
                   txt+="<input type='hidden' name='namebotAD' value='"+code_html[i].nameBot+"'/>"
+				  txt+="<input type='hidden' name='idbotAd' value='"+code_html[i].idBot+"'/>"
+				  txt+="<input type='hidden' name='codeBotAd' value='"+code_html[i].codeBot+"'/>"
+				  txt+="<input type='hidden' name='codeBot' value='"+codeBot+"'/>"
                   txt+="<input type='hidden' name='namebot' value='"+$('input[name=choix]:checked').attr("id")+"'/>"
                   $("#iduser"+i).val(code_html[i].userIdBot)
                   $("#idbot"+i).val(code_html[i].idBot)

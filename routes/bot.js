@@ -39,8 +39,8 @@ module.exports = function(app, models,utils) {
 		}
 	});
 
+
     app.get("/bot", function (req, res, next) {
-        console.log(req.query.idBot)
         if(req.body.idBot || req.query.idBot){
             var Bot = models.Bot;
             var idBot;
