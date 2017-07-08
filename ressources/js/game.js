@@ -319,6 +319,7 @@ function drawTile(x, y) {
 
     return tile;
 }
+/*
 function drawTile(x, y) {
     if (x % 2 == 1 && y % 2 == 1) {
         type = 'pillar';
@@ -338,7 +339,7 @@ function drawTile(x, y) {
     tile.render(x, y);
 
     return tile;
-}
+}*/
 
 function getTile(x, y) {
     return matrix[x] && matrix[x][y];
@@ -460,6 +461,47 @@ function Tile(type) {
                 break;
         }
     }
+
+    this.moveTowardCell = function(x, y){
+        
+    }
+
+    this.isObstacle = function (x, y) {
+        if (getTile(x, y).type == "pillar"){
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isWall = function (x, y) {
+        if (getTile(x, y).type == "normal") {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isEmpty = function (x, y) {
+        if (getTile(x, y).type == "empty") {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isBomb = function (x, y) {
+        if (getTile(x, y).type == "bomb") {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
 
     this.canGo = function (direction, position) {
         var x = position.x,
