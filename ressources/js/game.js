@@ -494,14 +494,26 @@ function Tile(type) {
     }
 
     this.isBomb = function (x, y) {
-        if (getTile(x, y).type == "bomb") {
-            return true;
-        }
-        else {
-            return false
-        }
+        return getTile(x, y).hasBomb
     }
 
+    this.isBomber = function(x, y){
+        if (player.id != this.id) {
+            if (player.position.y == y && player.position.x == x) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } else { 
+            if (player2.position.y == y && player2.position.x == x) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
 
     this.canGo = function (direction, position) {
         var x = position.x,
