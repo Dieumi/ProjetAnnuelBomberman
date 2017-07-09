@@ -144,8 +144,13 @@ socket2.on('move', function (id, position) {
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
 
+<<<<<<< HEAD
     //var codeExec = bot2.codeBot.replace("player", "player2");
     eval(execAd());
+=======
+    var codeExec = codeBot2.replace(/player/g , "player2");
+    eval(codeExec);
+>>>>>>> 6c5b951ff2fb18cd007e500c54191f19bd2dee7f
     //player2.move("down");
 
     /*if(gameOn != false && frozen != true){
