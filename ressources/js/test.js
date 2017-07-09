@@ -17,7 +17,8 @@ function exec(){
   var tile =player.canGo("up",player.position);
 
   player.plantBomb();
-  if(this.bomb){
+      player.move("down")
+/*  if(this.bomb){
     if(this.bomb.isAlive==true){
       if(tile==true && this.bomb.position.x!=player.position.x-1 && this.bomb.position.y!=player.position.y-1){
         console.log("up")
@@ -28,20 +29,21 @@ function exec(){
             player.move("down")
       }
     }else {
-      if(tile==true ){
-        console.log("up")
-            player.move("up")
 
-      }else{
-          console.log("down")
-            player.move("down")
-      }
     }
   }else{
       console.log("down")
         player.move("down")
   }
+*/
+if(tile==true ){
+  console.log("up")
+      player.move("up")
 
+}else{
+    console.log("down")
+      player.move("down")
+}
   console.log(tile);
 
 

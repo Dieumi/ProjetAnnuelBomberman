@@ -149,10 +149,10 @@ $(window).load(function () {
 //	functions
 
 function attachEventListeners() {
-    
+
     idBot1 = document.getElementById('idBot1').value;
     idBot2 = document.getElementById('idBot2').value;
-    
+
     var element = $(this);
 
     var fieldUserName = $('input[name=user-name]'),
@@ -232,25 +232,25 @@ function bindControls() {
                     else if (e.which == 38)
                     {
                         player.move('up');
-        
+
                         frozen = true;
                     }
                     else if (e.which == 40)
                     {
                         player.move('down');
-        
+
                         frozen = true;
                     }
                     else if (e.which == 37)
                     {
                         player.move('left');
-        
+
                         frozen = true;
                     }
                     else if (e.which == 39)
                     {
                         player.move('right');
-        
+
                         frozen = true;
                     }*/
 
@@ -327,7 +327,7 @@ function drawTile(x, y)
     else
     {
         type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
-			
+
     }
 
     if (empty.indexOf(x + ' ' + y) > -1)

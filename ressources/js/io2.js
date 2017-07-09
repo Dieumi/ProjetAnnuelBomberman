@@ -1,5 +1,5 @@
-var socket2 = io.connect('http://bmanserver.herokuapp.com/', { 'force new connection': true });
-//var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
+//var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
+var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
 console.log('check 1', socket2);
 //	setup event listeners
@@ -144,15 +144,15 @@ socket2.on('move', function (id, position) {
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
 
-    var codeExec = bot2.codeBot.replace("player", "player2");
-    eval(codeExec);
+    //var codeExec = bot2.codeBot.replace("player", "player2");
+    eval(execAd());
     //player2.move("down");
 
     /*if(gameOn != false && frozen != true){
       setTimeout(function(){
         socket2.emit("action",player2.name);
       }, 1500);
-  
+
     }*/
 
 })
