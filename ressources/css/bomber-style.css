@@ -50,7 +50,7 @@
     bottom: 0px;
     width: 100%;
     height: 150px;
-    z-index: 0;
+    z-index: -1;
 }
 
 .bomber-block {
@@ -108,15 +108,15 @@ td {
     width: 100px; /* Largeur de chaques colonnes*/
 }
 #first {
-    height: 250px;
+    height: 240px;
     background: #ffc215;
 }
 #second {
-    height: 200px;
+    height: 190px;
     background: #A8A8A8;
 }
 #third {
-    height: 150px;
+    height: 140px;
     background: #965A38;
 }
 .text-center {
@@ -128,7 +128,7 @@ td {
 }
 .text-inside {
     text-align:center;
-    padding-top:20px;
+    padding-top:15px;
     font-family: 'Libre Franklin', sans-serif;
 }
 .player {
@@ -150,4 +150,10 @@ td {
 
 #podium {
     margin: 0 auto;
+}
+
+.functionality {
+    z-index: 4;
+    width: 320px;
+    font-size: 12px;
 }

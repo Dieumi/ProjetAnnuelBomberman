@@ -1,6 +1,6 @@
 var Code = function (){ 
  this.exec = function() {
- 
+  
  var nb=Math.floor((Math.random() * 100) + 1);
 		if(nb>0 && nb<20){
 			player.move("right")
@@ -22,7 +22,7 @@ var Code = function (){
 			if(this.bomb.isAlive==true){
 			  if(tile==true && this.bomb.position.x!=player.position.x-1 && this.bomb.position.y!=player.position.y-1){
 				console.log("up")
-					player.move("up")
+					plmmayer.move("up")
 
 			  }else{
 				  console.log("down")
@@ -44,6 +44,8 @@ var Code = function (){
 		}
 
 		console.log(tile)
+
+ 
 
  
 

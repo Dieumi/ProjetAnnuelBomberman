@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Classement</title>
+    <title> Classement</title>
     <% include ./partials/header %>
 </head>
 <body class="bomber-background">
@@ -14,18 +14,19 @@ if(session.type){
 %>
 <div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
-        <h1><i class="fa fa-globe" aria-hidden="true"></i>Classement</h1>
+        <h1 class="bomber-text"><span class="fa fa-trophy"></span> Classement</h1>
         <% if (top) {
             top = JSON.parse(top)
             currentPage = JSON.parse(currentPage)
             var index = (currentPage-1) * top.limit%>
-        <div class="row">
+        <div class="row" style="padding: 20px;">
             <table class="table table-hover table-responsive bomber-tabler">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>Bomber</th>
                     <th>Points</th>
+                    <th>Ratio</th>
                     <th>Joueur</th>
                 </tr>
                 </thead>
@@ -44,11 +45,18 @@ if(session.type){
                     } else {
                         color = ""
                     }
+                    var ratio = 0
+                    var win = top.result[0][i].winBot
+                    var lose = top.result[0][i].loseBot
+                    if (win > 0 && lose > 0) {
+                        ratio = (win / lose).toFixed(2)
+                    }
                 %>
                 <tr>
                     <td bgcolor=<%=color%>><%=position%></td>
                     <td><%=top.result[0][i].nameBot%></td>
                     <td><%=top.result[0][i].pointBot%></td>
+                    <td><%=ratio%></td>
                     <td><a href="/profile/<%=top.result[0][i].userIdBot%>"><%=top.result[0][i].loginUser%></a></td>
                 </tr>
                 <% } %>
