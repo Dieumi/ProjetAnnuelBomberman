@@ -2,7 +2,7 @@ module.exports = function(app, models, urlApi){
 
     var rp = require('request-promise')
     var api = models.myApi;
-
+    var fs = require("fs");
 	app.get('/myBomberman', function(req, res) {
         if(!req.session.type){
             res.redirect("/");
@@ -31,8 +31,17 @@ module.exports = function(app, models, urlApi){
         if(!req.session.type){
             res.redirect("/");
         }else {
-            //On recup la liste de bot :
-            //console.log(req.body)
+            
+            /*On crée un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
+            var file = req.body.codeBot.substring(8, req.body.codeBotAd.length);
+            var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
+            var contentP2 = fs.readFileSync("./" + req.body.codeBotAd, "UTF-8");
+            contentP2 = contentP2.replace(/player/g, "player2");
+           /* fs.writeFile(fileP2, contentP2, function (err) {
+                if (err) return console.log(err);
+            });*/
+            
+
             res.render('index.ejs', {
                 session: req.session,
                 idAd:req.body.idAd,
@@ -42,8 +51,8 @@ module.exports = function(app, models, urlApi){
                 namebot:req.body.namebot,
                 namebotAd: req.body.namebotAD,
                 api: urlApi,
-                codeBot: req.body.codeBot,
-                codeBotAd: req.body.codeBotAd
+                codeBot: file,
+                codeBotAd: fileP2
             });
 
 

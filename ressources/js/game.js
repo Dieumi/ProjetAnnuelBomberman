@@ -8,8 +8,7 @@ var bomb=new bombsummary();*/
 
 var idBot1 = "";
 var idBot2 = "";
-var codeBot1="";
-var codeBot2="";
+
 var urlApi = document.getElementById('urlApi').value;
 
 var canvasTiles = document.getElementById('tiles'),
@@ -152,8 +151,7 @@ function attachEventListeners() {
 
     idBot1 = document.getElementById('idBot1').value;
     idBot2 = document.getElementById('idBot2').value;
-    codeBot1 = document.getElementById('codeBot1').value;
-    codeBot2 = document.getElementById('codeBot2').value;
+
 
     var element = $(this);
 

@@ -150,7 +150,7 @@ socket.on('move', function (id, position) {
 });
 socket.on('action', function () {
 
-    eval(codeBot1);
+    codeBot1["exec"].exec();
 
 
     console.log("io:" + player.name)

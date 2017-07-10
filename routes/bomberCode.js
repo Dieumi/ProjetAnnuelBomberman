@@ -7,9 +7,9 @@ module.exports = function(app, models, urlApi){
     var api = models.myApi;
     var request = require('request');
     var myBot;
-    var player = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);"
+    var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);"
 
-    app.get('/bomberCode/:idBot?', function(req, res) {
+    app.get('/bomberCode/:idBot?', function (req, res) {
         myBot=null;
         /*if(req.session.type && req.session.type!=""){
             res.redirect("/");
@@ -27,15 +27,22 @@ module.exports = function(app, models, urlApi){
                 }).then(function(body){
                     if(body.code != 0){
                         res.redirect('/myBomberman');
-                    }else{
+                    } else {
                         if(body.userIdBot != req.session.idUser){
                             res.redirect('/myBomberman');
                         }else{
                             myBot = body;
+                            var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
+                            // on retire la def des fonctions
+                            if (allCode != "") {
+                                var code = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "")
+                                code = code.substring(0, code.length - 3);
+                            }
+
                             res.render('bomberCode.ejs', {
                                 msgError: "",
                                 msgSuccess: "",
-                                code:body.codeBot,
+                                code: code,
                                 name: body.nameBot,
                                 idBot: req.params.idBot,
                                 session: req.session
@@ -57,6 +64,71 @@ module.exports = function(app, models, urlApi){
             }
         //}
 	});
+
+    app.post('/bomberCode/testInGame', function (req, res) {
+        /*if(req.session.type && req.session.type!=""){
+         res.redirect("/");
+         }else {*/
+
+            if (!req.body.name) {
+                res.render('bomberCode.ejs', {
+                    msgError: "Veuillez saisir un nom pour votre Bomber !",
+                    msgSuccess: "",
+                    code: req.body.bomberEditor,
+                    name: "Mon Bomber",
+                    idBot : req.body.idBot,
+                    session: req.session
+                });
+            } else if (!req.body.bomberEditor) {
+                res.render('bomberCode.ejs', {
+                    msgError: "Veuillez saisir un code !",
+                    msgSuccess: "",
+                    code: "",
+                    name: req.body.name,
+                    idBot: req.body.idBot,
+                    session: req.session
+                });
+            } else {
+                var erreur = "";
+                var F = new Function(players + "\n\r" + req.body.bomberEditor);
+                try {
+                    F();
+                } catch (e) {
+                    var erreur = e
+                }
+
+
+                if (erreur != "") {
+
+                    res.render('bomberCode.ejs', {
+                        msgError: "" + erreur,
+                        msgSuccess: "",
+                        code: req.body.bomberEditor,
+                        name: req.body.name,
+                        idBot: req.body.idBot,
+                        session: req.session
+                    });
+
+                } else {
+                    res.render('index.ejs', {
+                        session: req.session,
+                        idAd: req.body.idAd,
+                        idBotAd: req.body.idbotAd,
+                        idBot: req.body.idbot,
+                        iduser: req.body.iduser,
+                        namebot: req.body.namebot,
+                        namebotAd: req.body.namebotAD,
+                        api: urlApi,
+                        codeBot: req.body.codeBot,
+                        codeBotAd: req.body.codeBotAd
+                    });
+                }
+        }
+        //}
+
+
+    })
+
 
 
     app.post('/bomberCode', function(req, res) {
@@ -83,30 +155,44 @@ module.exports = function(app, models, urlApi){
                     session: req.session
                 });
             } else {
-
-                var checkCode = "";
+                var erreur = "";
                 try {
-                    
-                    var myObject = eval(player+"\n\r"+req.body.bomberEditor);
-                } catch (error) {
-                     checkCode = error;
+                    var F = new Function(players + "\n\r" + req.body.bomberEditor);
+                    F();
+                } catch (e) {
+                    var erreur = e
                 }
-                console.log("checkcode : " + checkCode)
 
-                if (checkCode!="") {
-                   
+              
+                if (erreur != "") {
+
                     res.render('bomberCode.ejs', {
-                        msgError: ""+checkCode,
+                        msgError: "" + erreur,
                         msgSuccess: "",
                         code: req.body.bomberEditor,
                         name: req.body.name,
-                        idBot : req.body.idBot,
+                        idBot: req.body.idBot,
                         session: req.session
                     });
                 } else {
+
+
+                    var completePath = "";
+                    //Création du fichier de test + ouverture
+                    var dir = "botFiles/" + req.session.login + "/";
+                    mkdirp(dir, function (err) {
+                    });
+                    completePath = dir + "testBot.js"
+
+                    //completePath = "./" + myBot.codeBot;
+                     
+                    fs.writeFile(completePath, "var Code = function (){ \n\r this.exec = function() {\n\r " + req.body.bomberEditor + "\n\r } }" , function (err) {
+                        if (err) return console.log(err);
+                    });
+
                     /*Si nouveau bot create sinon update*/
 
-                    if(!myBot) {
+                    if (!myBot) {
                         rp({
                             url: urlApi + "/bot",
                             method: "POST",
@@ -115,7 +201,7 @@ module.exports = function(app, models, urlApi){
                             },
                             json: {
                                 "nameBot": req.body.name,
-                                "codeBot": req.body.bomberEditor,
+                                "codeBot": "",
                                 "winBot": 0,
                                 "loseBot": 0,
                                 "pointBot": 0,
@@ -123,8 +209,20 @@ module.exports = function(app, models, urlApi){
                                 "userIdBot": req.session.idUser,
                             }
                         }).then(function (body) {
+                            rp({
+                                url: urlApi + "/updateBot",
+                                method: "POST",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                json: {
+                                    "codeBot": "botFiles/" + req.session.login + "/" + body.idBot + ".js",
+                                    "idBot": body.idBot
+                                }
+                            }).then(function (body) { }).catch(function (err) { })
                             myBot = body
-                            myBot.codeBot = req.body.bomberEditor
+                            myBot.codeBot = "botFiles/" + req.session.login + "/" + body.idBot + ".js"
+                            fs.rename(completePath, myBot.codeBot)
                             res.render('bomberCode.ejs', {
                                 msgError: "",
                                 msgSuccess: "Bomber prêt au combat !",
@@ -143,8 +241,11 @@ module.exports = function(app, models, urlApi){
                                 session: req.session
                             });
                         });
-                    }else{
-
+                    } else {
+                        myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js"
+                        fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() {\n\r " + req.body.bomberEditor + "\n\r } }", function (err) {
+                            if (err) return console.log(err);
+                        });
                         rp({
                             url: urlApi + "/updateBot",
                             method: "POST",
@@ -154,9 +255,8 @@ module.exports = function(app, models, urlApi){
                             json: {
                                 "nameBot": req.body.name,
                                 "idBot": myBot.idBot,
-                                "codeBot": req.body.bomberEditor
                             }
-                        }).then(function(body){}).catch(function (err) {})
+                        }).then(function (body) { }).catch(function (err) { })
 
                         res.render('bomberCode.ejs', {
                             msgError: "",
@@ -168,7 +268,7 @@ module.exports = function(app, models, urlApi){
                         });
                     }
 
-                }
+                } 
 
                 
             }
