@@ -44,6 +44,7 @@ module.exports = function(app, models, urlApi){
                                 msgSuccess: "",
                                 code: code,
                                 name: body.nameBot,
+                                modeBot: body.modeBot,
                                 idBot: req.params.idBot,
                                 session: req.session
                             });
@@ -59,6 +60,7 @@ module.exports = function(app, models, urlApi){
                     code: "",
                     name: "Mon Bomber",
                     idBot: "",
+                    modeBot: "",
                     session: req.session
                 });
             }
@@ -76,7 +78,8 @@ module.exports = function(app, models, urlApi){
                     msgSuccess: "",
                     code: req.body.bomberEditor,
                     name: "Mon Bomber",
-                    idBot : req.body.idBot,
+                    idBot: req.body.idBot,
+                    modeBot: req.body.modeBot,
                     session: req.session
                 });
             } else if (!req.body.bomberEditor) {
@@ -86,6 +89,7 @@ module.exports = function(app, models, urlApi){
                     code: "",
                     name: req.body.name,
                     idBot: req.body.idBot,
+                    modeBot: req.body.modeBot,
                     session: req.session
                 });
             } else {
@@ -106,6 +110,7 @@ module.exports = function(app, models, urlApi){
                         code: req.body.bomberEditor,
                         name: req.body.name,
                         idBot: req.body.idBot,
+                        modeBot: req.body.modeBot,
                         session: req.session
                     });
 
@@ -142,7 +147,8 @@ module.exports = function(app, models, urlApi){
                     msgSuccess: "",
                     code: req.body.bomberEditor,
                     name: "Mon Bomber",
-                    idBot : req.body.idBot,
+                    idBot: req.body.idBot,
+                    modeBot: req.body.modeBot,
                     session: req.session
                 });
             } else if (!req.body.bomberEditor) {
@@ -151,7 +157,8 @@ module.exports = function(app, models, urlApi){
                     msgSuccess: "",
                     code: "",
                     name: req.body.name,
-                    idBot : req.body.idBot,
+                    idBot: req.body.idBot,
+                    modeBot: req.body.modeBot,
                     session: req.session
                 });
             } else {
@@ -172,6 +179,7 @@ module.exports = function(app, models, urlApi){
                         code: req.body.bomberEditor,
                         name: req.body.name,
                         idBot: req.body.idBot,
+                        modeBot: req.body.modeBot,
                         session: req.session
                     });
                 } else {
@@ -205,7 +213,7 @@ module.exports = function(app, models, urlApi){
                                 "winBot": 0,
                                 "loseBot": 0,
                                 "pointBot": 0,
-                                "modeBot": "peaceful",
+                                "modeBot": req.body.modeBot,
                                 "userIdBot": req.session.idUser,
                             }
                         }).then(function (body) {
@@ -229,6 +237,7 @@ module.exports = function(app, models, urlApi){
                                 code: req.body.bomberEditor,
                                 name: req.body.name,
                                 idBot: body.idBot,
+                                modeBot: req.body.modeBot,
                                 session: req.session
                             });
                         }).catch(function (err) {
@@ -237,6 +246,7 @@ module.exports = function(app, models, urlApi){
                                 msgSuccess: "",
                                 code: req.body.bomberEditor,
                                 name: req.body.name,
+                                modeBot: req.body.modeBot,
                                 idBot: req.body.idBot,
                                 session: req.session
                             });
@@ -255,6 +265,7 @@ module.exports = function(app, models, urlApi){
                             json: {
                                 "nameBot": req.body.name,
                                 "idBot": myBot.idBot,
+                                "modeBot" : req.body.modeBot
                             }
                         }).then(function (body) { }).catch(function (err) { })
 
@@ -263,6 +274,7 @@ module.exports = function(app, models, urlApi){
                             msgSuccess: "Bomber prêt au combat !",
                             code: req.body.bomberEditor,
                             name: req.body.name,
+                            modeBot: req.body.modeBot,
                             idBot: req.body.idBot,
                             session: req.session
                         });

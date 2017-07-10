@@ -53,6 +53,14 @@
                 <label>Nom du Bomber :</label>
                 <input type="text" class="form-control" name="name" value="<%=name%>" required>
             </div>
+			<div class="form-group">
+                <label>Mode :</label>
+                <Select name="modeBot">
+					<option name="modeBot" value = "aggro" <% if(modeBot == "aggro"){ %> selected="selected" <% } %> >Aggro</option>
+					<option name="modeBot" value = "peaceful" <% if(modeBot == "peaceful"){ %> selected="selected" <% } %> >Peaceful</option>
+				</select>
+            </div>
+
             <textarea id="bomberEditor" name="bomberEditor" ><%=code%></textarea>
 
             <input type="hidden" name="idBot" value = "<%= idBot %>">
