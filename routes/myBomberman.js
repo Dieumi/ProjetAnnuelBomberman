@@ -32,14 +32,17 @@ module.exports = function(app, models, urlApi){
             res.redirect("/");
         }else {
 
+
             /*On cr�e un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
-            var file = req.body.codeBot.substring(8, req.body.codeBotAd.length);
+            var file = req.body.codeBot.substring(8, req.body.codeBot.length);
             var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
             var contentP2 = fs.readFileSync("./" + req.body.codeBotAd, "UTF-8");
             contentP2 = contentP2.replace(/player/g, "player2");
-           /* fs.writeFile(fileP2, contentP2, function (err) {
+            fs.writeFile("botFiles/"+fileP2, contentP2, function (err) {
                 if (err) return console.log(err);
-            });*/
+
+            });
+
 
 
             res.render('index.ejs', {
@@ -52,7 +55,8 @@ module.exports = function(app, models, urlApi){
                 namebotAd: req.body.namebotAD,
                 api: urlApi,
                 codeBot: file,
-                codeBotAd: fileP2
+                codeBotAd: fileP2,
+                type: "game"
             });
 
 

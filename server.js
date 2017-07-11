@@ -6,8 +6,8 @@ var utils = require("./utils");
 var cookieParser = require('cookie-parser');
 var session  = require('express-session');
 
-//var urlApi = "http://bomberbot1dev.herokuapp.com"
-var urlApi = "http://localhost:8888"
+//var urlApi = "http://bomberbot1dev.herokuapp.com";
+var urlApi = "http://localhost:8888";
 
 
 var socket = require("socket.io");
@@ -35,7 +35,7 @@ app.use(express.static(__dirname + '/botFiles'));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
-require("./routes")(app, models, utils, urlApi)
+require("./routes")(app, models, utils, urlApi);
 
 var port=process.env.PORT || 8888;
 var server=app.listen(port, function() {

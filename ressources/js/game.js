@@ -99,35 +99,35 @@ var gameId,
 $(document).ready(function () {
     showLoading();
 
-    iconBomb.src = 'images//bomb.png';
+    iconBomb.src = '/images/bomb.png';
 
-    patternBrick.src = 'images//brick.png';
-    patternPillar.src = 'images//pillar.png';
-    patternFloor.src = 'images//floor.png';
-    patternFire.src = 'images//fire.png';
+    patternBrick.src = '/images//brick.png';
+    patternPillar.src = '/images/pillar.png';
+    patternFloor.src = '/images/floor.png';
+    patternFire.src = '/images/fire.png';
 
-    playerBirdie.src = 'images//birdie.png';
+    playerBirdie.src = '/images/birdie.png';
     playerBirdie.alt = 'birdie';
 
-    playerElephant.src = 'images//elephant.png';
+    playerElephant.src = '/images/elephant.png';
     playerElephant.alt = 'elephant';
 
-    playerFishy.src = 'images//fishy.png';
+    playerFishy.src = '/images/fishy.png';
     playerFishy.alt = 'fishy';
 
-    playerMonkey.src = 'images//monkey.png';
+    playerMonkey.src = '/images/monkey.png';
     playerMonkey.alt = 'monkey';
 
-    playerRam.src = 'images//ram.png';
+    playerRam.src = '/images/ram.png';
     playerRam.alt = 'ram';
 
-    playerOx.src = 'images//ox.png';
+    playerOx.src = '/images/ox.png';
     playerOx.alt = 'ox';
 
-    playerPiggle.src = 'images//piggle.png';
+    playerPiggle.src = '/images/piggle.png';
     playerPiggle.alt = 'piggle';
 
-    playerWhale.src = 'images//whale.png';
+    playerWhale.src = '/images/whale.png';
     playerWhale.alt = 'whale';
 
 
