@@ -1,6 +1,6 @@
 var models=require("../models");
-var MapUtils=function(id,nameMap){
 
+var MapUtils=function(id,nameMap){
     this.idMap=id;
     this.nameMap=nameMap;
 };

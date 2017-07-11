@@ -21,7 +21,7 @@ TournamentUtils.prototype.delete = function(idT, callback) {
                     callback(err);
                 });
             } else {
-                callback("error can't find " + idTournament);
+                callback("error can't find " + idT);
             }
         }).catch(function(err) {
             callback(err);

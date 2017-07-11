@@ -26,7 +26,7 @@ module.exports = function(app, urlApi){
                     profile : profileBody,
                     listBot : body
                 });
-            })
+            });
         })
     });
 };

@@ -40,7 +40,7 @@ module.exports = function(app, models) {
 				"code": 2,
 				"message": "Sequelize error",
 				"error": err
-			})
+			});
 		})
 	});
 };

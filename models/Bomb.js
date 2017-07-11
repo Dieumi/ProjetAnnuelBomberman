@@ -11,12 +11,11 @@ bombsummary.prototype.Bomb= function(x, y, strength)
   this.powerUp = function()
   {
     this.strength++;
-  }
+  };
 
   this.cleanUp = function()
   {
-    this.blown.forEach(function(spot)
-    {
+    this.blown.forEach(function(spot) {
       //	clear up explosion
       contextBombs.clearRect(spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
 
@@ -29,7 +28,7 @@ bombsummary.prototype.Bomb= function(x, y, strength)
       tile.render(tile.position.x, tile.position.y);
 
     });
-  }
+  };
 
   this.detonate = function()
   {
@@ -79,7 +78,7 @@ bombsummary.prototype.Bomb= function(x, y, strength)
 
         });
 
-        updateTile(spot.x, spot.y, 'canMove', false);
+        updateTile(spot.x, spot.y, "canMove", false);
 
         contextBombs.drawImage(patternFire, spot.x * brickSize, spot.y * brickSize, brickSize, brickSize);
       }
@@ -88,7 +87,7 @@ bombsummary.prototype.Bomb= function(x, y, strength)
 
     //	clear up the explosion
     setTimeout(this.cleanUp.bind(this), BOMB_CLEAR_TIMER);
-  }
+  };
 
   this.canExplode = function(x, y)
   {
@@ -96,7 +95,7 @@ bombsummary.prototype.Bomb= function(x, y, strength)
 
     //	check if tile can explode
     return tile && tile.canExplode;
-  }
+  };
 
   this.render = function()
   {
@@ -109,7 +108,7 @@ bombsummary.prototype.Bomb= function(x, y, strength)
       contextBombs.drawImage(iconBomb, this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
 
       //	update the tile with the `hasBomb` flag
-      updateTile(this.position.x, this.position.y, 'hasBomb', true);
+      updateTile(this.position.x, this.position.y, "hasBomb", true);
 
       if (this.explosionTimer) return;
 
@@ -117,7 +116,7 @@ bombsummary.prototype.Bomb= function(x, y, strength)
       this.explosionTimer = setTimeout(this.detonate.bind(this), BOMB_TIMER);
     }
   }
-}
+};
 
 //	fake bomb plant on client-side
 bombsummary.prototype.plant= function(x, y)
@@ -127,4 +126,4 @@ bombsummary.prototype.plant= function(x, y)
 
   //	draw bomb
   contextBombs.drawImage(iconBomb, x * brickSize, y * brickSize, brickSize, brickSize);
-}
+};

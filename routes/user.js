@@ -130,10 +130,10 @@ module.exports = function(app, models,utils) {
                 res.json({
                     "code" : 2,
                     "message" : "Sequelize error",
-					"error" : err
+                    "error" : err
                 });
-            })
-        }else{
+            });
+        } else {
             res.json({
                 "code" : 1,
                 "message" : "Missing required parameters"

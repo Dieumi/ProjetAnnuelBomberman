@@ -22,7 +22,7 @@ module.exports = function(app, models, urlApi){
                     session: req.session,
                     listBot: body
                 });
-            })
+            });
         }
     });
 

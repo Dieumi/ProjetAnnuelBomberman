@@ -24,17 +24,17 @@ module.exports = function(app, models, urlApi){
                     "idBot" : req.params.idBot
                 }
             }).then(function(body){
-                if(body.code !== 0) {
+                if(body.code != 0) {
                     res.redirect("/myBomberman");
                 } else {
-                    if(body.userIdBot !== req.session.idUser) {
+                    if(body.userIdBot != req.session.idUser) {
                         res.redirect("/myBomberman");
                     } else {
                         myBot = body;
                         var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
                         // on retire la def des fonctions
                         var theCode = "";
-                        if (allCode !== "") {
+                        if (allCode != "") {
                             theCode = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "");
                             theCode = theCode.substring(0, theCode.length - 3);
                         }
@@ -101,7 +101,7 @@ module.exports = function(app, models, urlApi){
                 console.log(e);
             }
 
-            if (error !== "") {
+            if (error != "") {
                 res.render("bomberCode.ejs", {
                     msgError: "" + error,
                     msgSuccess: "",
@@ -163,9 +163,9 @@ module.exports = function(app, models, urlApi){
                 console.log(e);
             }
 
-            if (error !== "") {
+            if (error != "") {
                 res.render("bomberCode.ejs", {
-                    msgError: "" + erreur,
+                    msgError: "" + error,
                     msgSuccess: "",
                     code: req.body.bomberEditor,
                     name: req.body.name,

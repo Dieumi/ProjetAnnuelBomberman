@@ -89,7 +89,7 @@ module.exports = function(app, models,utils) {
         if (req.body.idTournamentMatch) {
             attributes.idTournamentMatch = req.body.idTournamentMatch;
         }
-        var u1 = new Match();
+        var u1 = new match();
         u1.update(request, attributes, function (err, data) {
             res.send("/ListMatch");
         });

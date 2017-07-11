@@ -92,7 +92,7 @@ playersummary.prototype.Player = function(context, name, avatar) {
 
         //	notify the server
         if (socket && player) {
-            socket.emit('bomb', gameId, this.position);
+            socket.emit("bomb", gameId, this.position);
         }
     };
 
@@ -117,7 +117,7 @@ playersummary.prototype.Player = function(context, name, avatar) {
 
     this.remove = function() {
         this.context.clearRect(0, 0, brickSize * matrixSize, brickSize * matrixSize);
-    }
+    };
 };
 
 playersummary.prototype.create = function(context, data) {
