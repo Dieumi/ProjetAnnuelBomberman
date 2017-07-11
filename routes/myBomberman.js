@@ -34,7 +34,7 @@ module.exports = function(app, models, urlApi){
             var file = req.body.codeBot.substring(8, req.body.codeBotAd.length);
             var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
             var contentP2 = fs.readFileSync("./" + req.body.codeBotAd, "UTF-8");
-            contentP2 = contentP2.replace("/player/g", "player2");
+            contentP2 = contentP2.replace(/player/g, "player2");
             /* fs.writeFile(fileP2, contentP2, function (err) {
              if (err) return console.log(err);
              });*/

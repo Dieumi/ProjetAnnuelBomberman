@@ -45,7 +45,7 @@ module.exports = function(app, models,utils) {
                 "message": "Sequelize error",
                 "error": err
             });
-        })
+        });
     });
     app.get("/updatematch/:id", function (req, res, next) {
         var match = models.Match;
@@ -55,7 +55,7 @@ module.exports = function(app, models,utils) {
             }
         };
         match.find(request).then(function (results) {
-            res.send(results)
+            res.send(results);
         }).catch(function (err) {
             res.json({
                 "code": 2,
@@ -89,7 +89,7 @@ module.exports = function(app, models,utils) {
         if (req.body.idTournamentMatch) {
             attributes.idTournamentMatch = req.body.idTournamentMatch;
         }
-        var u1 = new match();
+        var u1 = new Match();
         u1.update(request, attributes, function (err, data) {
             res.send("/ListMatch");
         });

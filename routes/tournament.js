@@ -32,7 +32,7 @@ module.exports = function(app, models) {
 			res.json({
 				"code" : 1,
 				"message" : "Missing required parameters"
-			})
+			});
 		}
 	});
 

@@ -1,20 +1,18 @@
 var models=require("../models");
 var MatchUtils=function(id,resultMatch,dateMatch,idMapMatch,idTournamentMatch){
-
     this.idMatch=id;
     this.resultMatch=resultMatch;
     this.dateMatch=dateMatch;
     this.idMapMatch=idMapMatch;
     this.idTournamentMatch=idTournamentMatch;
-
 };
 
-MatchUtils.prototype.delete = function(idMatch, callback) {
+MatchUtils.prototype.delete = function(id, callback) {
     var Match = models.Match;
-    if(idMatch) {
+    if(id) {
         Match.find({
             "where" : {
-                idMatch : idMatch
+                idMatch : id
             }
         }).then(function(result) {
             if(result) {
@@ -24,7 +22,7 @@ MatchUtils.prototype.delete = function(idMatch, callback) {
                     callback(err);
                 });
             } else {
-                callback("error can't find "+idMatch);
+                callback("error can't find " + id);
             }
         }).catch(function(err) {
             callback(err);

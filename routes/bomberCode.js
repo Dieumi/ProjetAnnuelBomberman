@@ -6,14 +6,14 @@ module.exports = function(app, models, urlApi){
     var rp = require("request-promise");
     var request = require("request");
     var myBot;
-    var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);"
+    var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
 
     app.get("/bomberCode/:idBot?", function (req, res) {
         myBot=null;
         /*if(req.session.type && req.session.type!=""){
          res.redirect("/");
          }else {*/
-        if(req.params.idBot){
+        if(req.params.idBot) {
             rp({
                 url: urlApi+"/bot",
                 method: "GET",
@@ -24,17 +24,18 @@ module.exports = function(app, models, urlApi){
                     "idBot" : req.params.idBot
                 }
             }).then(function(body){
-                if(body.code !== 0){
-                    res.redirect('/myBomberman');
+                if(body.code !== 0) {
+                    res.redirect("/myBomberman");
                 } else {
-                    if(body.userIdBot !== req.session.idUser){
-                        res.redirect('/myBomberman');
-                    }else{
+                    if(body.userIdBot !== req.session.idUser) {
+                        res.redirect("/myBomberman");
+                    } else {
                         myBot = body;
                         var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
                         // on retire la def des fonctions
+                        var theCode = "";
                         if (allCode !== "") {
-                            var theCode = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "");
+                            theCode = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "");
                             theCode = theCode.substring(0, theCode.length - 3);
                         }
 
@@ -51,8 +52,8 @@ module.exports = function(app, models, urlApi){
                 }
             }).catch(function (err) {
                 res.redirect("/myBomberman");
-            })
-        }else{
+            });
+        } else {
             res.render("bomberCode.ejs", {
                 msgError: "",
                 msgSuccess: "",
@@ -97,7 +98,7 @@ module.exports = function(app, models, urlApi){
             try {
                 F();
             } catch (e) {
-                var error2 = e
+                console.log(e);
             }
 
             if (error !== "") {
@@ -159,7 +160,7 @@ module.exports = function(app, models, urlApi){
                 var F = new Function(players + "\n\r" + req.body.bomberEditor);
                 F();
             } catch (e) {
-                var error2 = e
+                console.log(e);
             }
 
             if (error !== "") {
@@ -183,7 +184,9 @@ module.exports = function(app, models, urlApi){
                 //completePath = "./" + myBot.codeBot;
 
                 fs.writeFile(completePath, "var Code = function (){ \n\r this.exec = function() {\n\r " + req.body.bomberEditor + "\n\r } }" , function (err) {
-                    if (err) return console.log(err);
+                    if (err) {
+                        return err;
+                    }
                 });
 
                 /*Si nouveau bot create sinon update*/
