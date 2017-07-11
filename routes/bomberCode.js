@@ -19,6 +19,24 @@ module.exports = function (app, models, urlApi) {
         /*if(req.session.type && req.session.type!=""){
             res.redirect("/");
         }else {*/
+
+
+        var workerProcess = child_process.exec('node botFiles/test/22.js', function (error, stdout, stderr) {
+
+            if (error) {
+                console.log(error.stack);
+                console.log('Error code: ' + error.code);
+                console.log('Signal received: ' + error.signal);
+            }
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            console.log('err : ' + error);
+        });
+
+        workerProcess.on('exit', function (code) {
+            console.log('Child process exited with exit code ' + code);
+        });
+
         rp({
             url: urlApi + "/gameApiDesc",
             method: "GET"
@@ -125,7 +143,6 @@ module.exports = function (app, models, urlApi) {
             });
         } else {
             var erreur = "";
-            console.log(player)
             var F = new Function(player + "\n\r" + req.body.bomberEditor);
             try {
                 F();
@@ -210,11 +227,14 @@ module.exports = function (app, models, urlApi) {
         } else {
             var erreur = "";
             try {
-                console.log(player);
                 var F = new Function(player + "\n\r" + req.body.bomberEditor);
                 F();
             } catch (e) {
-                erreur = e;
+                console.log(e)
+                console.log("e.lineNumber")
+                console.log(e.lineNumber)
+                /* filtre a faire sur .stack*/
+                erreur = e.name + ": " + e.message;
             }
 
 
@@ -302,6 +322,7 @@ module.exports = function (app, models, urlApi) {
                         });
                     });
                 } else {
+                    console.log("test")
                     myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js";
                     fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                         if (err) return console.log(err);

@@ -43,6 +43,7 @@
         <h2>Code ton Bomber !</h2>
         <form method="POST" id="formBomberCode" action="/bomberCode">
 			<input type="submit"  value="Sauvegarder"><% if(idBot) { %><input type="button" value="Tester en partie" onclick="testInGame()"> <% } %>
+			
             <% if (msgError.length > 0) { %>
             <div class="alert alert-danger"> <%= msgError %> </div>
             <% } %>
