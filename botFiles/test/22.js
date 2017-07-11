@@ -1,7 +1,6 @@
 var Code = function (){ 
- this.exec = function() {
-  
- var nb=Math.floor((Math.random() * 100) + 1);
+ this.exec = function() {      var tedst;
+  var nb=Math.floor((Math.random() * 100) + 1);
 		if(nb>0 && nb<20){
 			player.move("right")
 			   player.plantBomb()
@@ -44,6 +43,12 @@ var Code = function (){
 		}
 
 		console.log(tile)
+
+ 
+
+ 
+
+ 
 
  
 
