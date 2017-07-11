@@ -16,11 +16,11 @@
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="/codemirror/addon/edit/matchbrackets.js"></script>
     <script src="/codemirror/doc/activebookmark.js"></script>
-	
+
 	<script src="/js/test.js"> </script>
 	<script>
 		var exec1 = {"exec1" : new Code()}
-		
+
 	</script>
 	<script src="/js/test0.js"></script>
 	<script>
@@ -42,7 +42,7 @@
     <div class="col-md-offset-1 col-md-9">
         <h2>Code ton Bomber !</h2>
         <form method="POST" id="formBomberCode" action="/bomberCode">
-			<input type="submit"  value="Sauvegarder"><% if(idBot) { %><input type="button" value="Tester en partie" onclick="testInGame()"> <% } %>
+			<input type="submit"  value="Tester"><input type="button" value="Tester en partie" onclick="testInGame()">
             <% if (msgError.length > 0) { %>
             <div class="alert alert-danger"> <%= msgError %> </div>
             <% } %>
@@ -72,17 +72,16 @@
                 mode: "javascript",
                 matchBrackets: true,
                 indentUnit : 4,
-
             });
         </script>
 		<script>
-							
+
 			function testInGame(){
-				
+
 				document.getElementById("formBomberCode").setAttribute("action", "/bomberCode/testInGame");
 				document.getElementById("formBomberCode").submit();
 			}
-			
+
 		</script>
     </div>
 </div>

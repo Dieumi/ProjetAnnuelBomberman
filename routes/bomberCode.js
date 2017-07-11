@@ -122,7 +122,8 @@ module.exports = function(app, models, urlApi){
                     namebotAd: req.body.namebotAD,
                     api: urlApi,
                     codeBot: req.body.codeBot,
-                    codeBotAd: req.body.codeBotAd
+                    codeBotAd: req.body.codeBotAd,
+                    type:"test"
                 });
             }
         }
@@ -274,3 +275,4 @@ module.exports = function(app, models, urlApi){
         //}
     });
     /**/
+};
