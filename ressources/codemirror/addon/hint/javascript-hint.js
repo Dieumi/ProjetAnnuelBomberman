@@ -96,7 +96,9 @@
                   "if in instanceof new null return switch throw true try typeof var void while with").split(" ");
   var coffeescriptKeywords = ("and break catch class continue delete do else extends false finally for " +
                   "if in instanceof isnt new no not null of off on or return switch then throw true try typeof until void while with yes").split(" ");
-
+  
+  var arrayPlayer = ("test")
+  
   function forAllProps(obj, callback) {
     if (!Object.getOwnPropertyNames || !Object.getPrototypeOf) {
       for (var name in obj) callback(name)
@@ -115,6 +117,7 @@
       if (typeof obj == "string") forEach(stringProps, maybeAdd);
       else if (obj instanceof Array) forEach(arrayProps, maybeAdd);
       else if (obj instanceof Function) forEach(funcProps, maybeAdd);
+	  else if (typeof obj == "Player") forEach(arrayPlayer, maybeAdd);
       forAllProps(obj, maybeAdd)
     }
 

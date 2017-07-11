@@ -151,10 +151,14 @@ socket.on('move', function (id, position) {
 socket.on('action', function () {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     eval(exec());
 =======
     eval(codeBot1);
 >>>>>>> 6c5b951ff2fb18cd007e500c54191f19bd2dee7f
+=======
+    codeBot1["exec"].exec();
+>>>>>>> 2a7a3b11980fc3d8fb28f6019c7dc8ca8b22df04
 
 
     console.log("io:" + player.name)

@@ -95,14 +95,19 @@
 
 			div.toggleClass('ready');
 
+
 			socket.emit('ready', gameId, !isReady);
 			socket2.emit('ready', gameId, !isReady);
+
+
 		});
+
+
+
 
 		players.push(player_);
 		player2=player_;
-		console.log("player2")
-		console.log(player2)
+	
 		if (!player || player_.id !== player.id) log(player_.name + ' has joined the game', true);
 	}
 

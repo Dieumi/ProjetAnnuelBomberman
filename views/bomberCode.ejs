@@ -16,12 +16,22 @@
     <script src="/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="/codemirror/addon/edit/matchbrackets.js"></script>
     <script src="/codemirror/doc/activebookmark.js"></script>
+	
+	<script src="/js/test.js"> </script>
+	<script>
+		var exec1 = {"exec1" : new Code()}
+		
+	</script>
+	<script src="/js/test0.js"></script>
+	<script>
+		var exec2 = {"exec2" : new Code()}
+	</script>
 
-<style>
-    .CodeMirror { height: 400px; border: 1px solid #ddd; }
-    .CodeMirror-scroll { max-height: 500px; }
-    .CodeMirror pre { padding-left: 7px; line-height: 1.25; }
-</style>
+    <style>
+        .CodeMirror { height: 400px; border: 1px solid #ddd; }
+        .CodeMirror-scroll { max-height: 500px; }
+        .CodeMirror pre { padding-left: 7px; line-height: 1.25; }
+    </style>
 
 </head>
 <body class="bomber-background">
@@ -31,7 +41,8 @@
 <div>
     <div class="col-md-offset-1 col-md-9">
         <h2>Code ton Bomber !</h2>
-        <form method="POST" action="/bomberCode">
+        <form method="POST" id="formBomberCode" action="/bomberCode">
+			<input type="submit"  value="Tester"><input type="button" value="Tester en partie" onclick="testInGame()">
             <% if (msgError.length > 0) { %>
             <div class="alert alert-danger"> <%= msgError %> </div>
             <% } %>
@@ -42,10 +53,18 @@
                 <label>Nom du Bomber :</label>
                 <input type="text" class="form-control" name="name" value="<%=name%>" required>
             </div>
-            <textarea id="bomberEditor" name="bomberEditor"><%=code%></textarea>
+			<div class="form-group">
+                <label>Mode :</label>
+                <Select name="modeBot">
+					<option name="modeBot" value = "aggro" <% if(modeBot == "aggro"){ %> selected="selected" <% } %> >Aggro</option>
+					<option name="modeBot" value = "peaceful" <% if(modeBot == "peaceful"){ %> selected="selected" <% } %> >Peaceful</option>
+				</select>
+            </div>
+
+            <textarea id="bomberEditor" name="bomberEditor" ><%=code%></textarea>
 
             <input type="hidden" name="idBot" value = "<%= idBot %>">
-            <input type="submit" value="Tester">
+
         </form>
         <script>
             var editor = CodeMirror.fromTextArea(document.getElementById("bomberEditor"), {
@@ -53,14 +72,22 @@
                 mode: "javascript",
                 matchBrackets: true,
                 indentUnit : 4,
+
             });
         </script>
+		<script>
+							
+			function testInGame(){
+				
+				document.getElementById("formBomberCode").setAttribute("action", "/bomberCode/testInGame");
+				document.getElementById("formBomberCode").submit();
+			}
+			
+		</script>
     </div>
 </div>
-
 
 </body>
 
 <% include ./partials/footer %>
 </html>
-

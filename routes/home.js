@@ -1,3 +1,4 @@
+
 module.exports = function(app, urlApi){
     // =====================================
     // HOME PAGE (with login links) ========
@@ -6,11 +7,12 @@ module.exports = function(app, urlApi){
 
     app.get('/', function(req, res) {
 		rp({
-			url: urlApi + "/topBots",
+			url: urlApi + "/classementBot/3/1",
 			method: "GET",
 			headers: {
 				'Content-Type': 'application/json'
 			}
+      
 		}).then(function(body) {
 		var topBots = body
 		    rp({

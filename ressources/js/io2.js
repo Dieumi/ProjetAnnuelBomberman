@@ -35,7 +35,7 @@ socket2.on('joined', function (playerInfo, game) {
 
     game.players.forEach(function (player_) {
         var otherPlayer,
-          map = playerMap[player_.index];
+            map = playerMap[player_.index];
 
         if (socket2.io.engine.id == player_.id) {
             otherPlayer = player = Player.create(map.context, player_);
@@ -124,7 +124,7 @@ socket2.on('win', function (player2) {
     gameOn = false;
     frozen = true;
 
-//  log(player2.name + ' has won!', true);
+    //  log(player2.name + ' has won!', true);
 
 
     endGame(player2.name);
@@ -144,13 +144,10 @@ socket2.on('move', function (id, position) {
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
 
-<<<<<<< HEAD
-    //var codeExec = bot2.codeBot.replace("player", "player2");
-    eval(execAd());
-=======
-    var codeExec = codeBot2.replace(/player/g , "player2");
-    eval(codeExec);
->>>>>>> 6c5b951ff2fb18cd007e500c54191f19bd2dee7f
+
+    //var codeExec = codeBot2.replace(/player/g, "player2");
+    codeBot2["exec"].exec();
+
     //player2.move("down");
 
     /*if(gameOn != false && frozen != true){
@@ -174,8 +171,8 @@ socket2.on('death', function (id) {
             player2.isAlive = false;
 
             player2.render();
-  //    log(player2.name + ' is dead!', true, true);
-    }
+            //    log(player2.name + ' is dead!', true, true);
+        }
 
 
     });
@@ -186,7 +183,7 @@ socket2.on('player-joined', function (player2) {
     console.log("player2-joined")
     console.log(player2)
     var map = playerMap[player2.index],
-      newPlayer = Player.create(map.context, player2);
+        newPlayer = Player.create(map.context, player2);
 
     newPlayer.render(map.x, map.y, true);
 

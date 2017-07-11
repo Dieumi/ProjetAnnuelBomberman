@@ -8,8 +8,7 @@ var bomb=new bombsummary();*/
 
 var idBot1 = "";
 var idBot2 = "";
-var codeBot1;
-var codeBot2;
+
 var urlApi = document.getElementById('urlApi').value;
 
 var canvasTiles = document.getElementById('tiles'),
@@ -152,13 +151,11 @@ function attachEventListeners() {
 
     idBot1 = document.getElementById('idBot1').value;
     idBot2 = document.getElementById('idBot2').value;
-<<<<<<< HEAD
 
-=======
     codeBot1 = document.getElementById('codeBot1').value;
     codeBot2 = document.getElementById('codeBot2').value;
-    
->>>>>>> 6c5b951ff2fb18cd007e500c54191f19bd2dee7f
+
+
     var element = $(this);
 
     var fieldUserName = $('input[name=user-name]'),
@@ -323,21 +320,18 @@ function drawTile(x, y) {
 
     return tile;
 }
-function drawTile(x, y)
-{
-    if (x % 2 == 1 && y % 2 == 1)
-    {
+/*
+function drawTile(x, y) {
+    if (x % 2 == 1 && y % 2 == 1) {
         type = 'pillar';
 
     }
-    else
-    {
+    else {
         type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
 
     }
 
-    if (empty.indexOf(x + ' ' + y) > -1)
-    {
+    if (empty.indexOf(x + ' ' + y) > -1) {
         type = 'empty';
     }
 
@@ -346,17 +340,14 @@ function drawTile(x, y)
     tile.render(x, y);
 
     return tile;
-}
+}*/
 
-function getTile(x, y)
-{
+function getTile(x, y) {
     return matrix[x] && matrix[x][y];
 }
 
-function setTile(tile, x, y)
-{
-    if (matrix[x])
-    {
+function setTile(tile, x, y) {
+    if (matrix[x]) {
         matrix[x][y] = tile;
     }
 }
@@ -469,6 +460,59 @@ function Tile(type) {
                 this.render(this.position.x + 1, this.position.y);
 
                 break;
+        }
+    }
+
+    this.moveTowardCell = function(x, y){
+
+    }
+
+    this.isObstacle = function (x, y) {
+        if (getTile(x, y).type == "pillar"){
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isWall = function (x, y) {
+        if (getTile(x, y).type == "normal") {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isEmpty = function (x, y) {
+        if (getTile(x, y).type == "empty") {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isBomb = function (x, y) {
+        return getTile(x, y).hasBomb
+    }
+
+    this.isBomber = function(x, y){
+        if (player.id != this.id) {
+            if (player.position.y == y && player.position.x == x) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } else {
+            if (player2.position.y == y && player2.position.x == x) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 
@@ -646,11 +690,11 @@ function Bomb(x, y, strength) {
         blown.forEach(function (spot) {
             if (this.canExplode(spot.x, spot.y)) {
                 this.blown.push(
-                {
-                    x: spot.x,
-                    y: spot.y
+                    {
+                        x: spot.x,
+                        y: spot.y
 
-                });
+                    });
 
                 updateTile(spot.x, spot.y, 'canMove', false);
 

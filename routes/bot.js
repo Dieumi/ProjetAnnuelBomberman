@@ -7,7 +7,7 @@ module.exports = function(app, models,utils) {
 			var Bot = models.Bot;
 			Bot.create({
 				"nameBot" : req.body.nameBot,
-				"codeBot" : req.body.bomberEditor,
+				"codeBot": req.body.codeBot,
 				"winBot" : 0,
 				"loseBot" : 0,
 				"pointBot" : 0,
@@ -39,8 +39,8 @@ module.exports = function(app, models,utils) {
 		}
 	});
 
-   app.get("/bot", function (req, res, next) {
-        console.log(req.query.idBot)
+
+    app.get("/bot", function (req, res, next) {
         if(req.body.idBot || req.query.idBot){
             var Bot = models.Bot;
             var idBot;
@@ -158,11 +158,11 @@ module.exports = function(app, models,utils) {
         })
     });*/
 
-    app.get("/classementBot", function (req, res, next) {
+    /**app.get("/classementBot", function (req, res, next) {
         var Bot = models.Bot;
         Bot.findAll({
             order: '`pointBot` DESC',
-            limit: 10
+            limit: 2
         }).then(function (results) {
             res.send(results);
         }).catch(function (err) {
@@ -172,7 +172,36 @@ module.exports = function(app, models,utils) {
                 "error": err
             })
         })
-    });
+    });*/
+
+    app.get("/classementBot/:limit/:page", function (req, res, next) {
+            var Bot = models.Bot;
+            var User = models.User;
+            var limit = req.params.limit;
+            var offset = 0;
+            Bot.findAndCountAll()
+            .then(function(data) {
+                var page = req.params.page;
+                var pages = Math.ceil(data.count / limit);
+                offset = limit * (page - 1);
+                Bot.sequelize.query("SELECT b.*, u.loginUser FROM bot AS b, user AS u WHERE b.userIdBot = u.idUser ORDER BY pointBot DESC LIMIT " + limit + " OFFSET " + offset)
+                .then(function (results) {
+                    res.json({
+                        'code': 0,
+                        'result': results,
+                        'count': data.count,
+                        'limit': limit,
+                        'pages': pages
+                    });
+                })
+            }).catch(function (err) {
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                })
+            })
+        })
 
 	app.get("/updateBot/:id", function (req, res, next) {
 
