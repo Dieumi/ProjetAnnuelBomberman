@@ -64,5 +64,64 @@ BotUtils.prototype.findEnemy = function(idBot,iduser, callback) {
 		});
 	}
 }
+BotUtils.prototype.win = function(idBot,idBotLoose, callback) {
+	var Bot = models.Bot;
+	 console.log("id:" + idBot);
+	  console.log("idloose:" + idBotLoose);
+	if(idBot) {
+		Bot.find({
+			"where" : {
+				idBot : idBot
+			}
+		}).then(function(result) {
+
+			 console.log("result");
+			if(result) {
+				var nbPt= parseInt(result.pointBot)+3;
+				var nbWin = parseInt(result.winBot)+1;
+				result.updateAttributes({
+					pointBot : nbPt,
+					winBot:nbWin
+				}).then(function(result){
+					callback(result);
+				})
+			}else{
+				console.log("bot not found")
+			}
+			}).catch(function(err) {
+			callback(err);
+		});
+	}
+}
+BotUtils.prototype.loose = function(idBot,iduser, callback) {
+	var Bot = models.Bot;
+
+	if(idBot) {
+		Bot.find({
+			"where" : {
+				idBot : idBot
+			}
+		}).then(function(result) {
+			if(result.pointBot>=3){
+					var nbPt=parseInt(result.pointBot)-3;
+			}else{
+				var nbPt=0;
+			}
+			var nbLoose= parseInt(result.loseBot)+1;
+			if(result) {
+				result.updateAttributes({
+					pointBot : nbPt,
+					loseBot: nbLoose
+				}).then(function(result){
+						callback(result);
+				})
+			}else{
+				console.log("bot not found")
+			}
+			}).catch(function(err) {
+			callback(err);
+		});
+	}
+}
 
 module.exports=BotUtils;

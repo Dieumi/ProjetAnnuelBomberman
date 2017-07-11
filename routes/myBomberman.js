@@ -43,8 +43,8 @@ module.exports = function(app, models, urlApi){
 
             });
 
-
-
+            console.log("choix");
+            console.log(req.body.idbotAd);
             res.render('index.ejs', {
                 session: req.session,
                 idAd:req.body.idAd,

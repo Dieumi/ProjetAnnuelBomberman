@@ -1,7 +1,7 @@
 var Code = function (){ 
  this.exec = function() { 
  
- player.move('left');
+ player2.move('left');
 
  
 

@@ -1,7 +1,15 @@
 var Code = function (){ 
- this.exec = function() {
- 
- player.plantBomb()
+ this.exec = function() {   
+
+
+ player.move("left")
+player.plantBomb()
+
+
+
+
+
+ 
 
  
  } }

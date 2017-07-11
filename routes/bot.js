@@ -271,11 +271,25 @@ module.exports = function(app, models,utils) {
 					 console.log(Bot);
 					 var u1 = new Bot()
 					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
-		
+
 						 res.send(result)
 					 })
 
 
 	        }
 	  });
+		app.post('/win', function(req, res) {
+						 console.log("win");
+		         var Bot = utils.Bot;
+						 var u1 = new Bot();
+						 u1.win(req.body.idBot,req.body.idLoose,function(result){
+
+						 })
+						 u1.loose(req.body.idLoose,req.body.idBot,function(result){
+							console.log(result);
+							res.send(result);
+						})
+	  });
+
+
 }

@@ -97,6 +97,7 @@ socket.on('ready', function (player, isReady) {
 
 socket.on('start', function (matrix) {
     console.log("start")
+
     startCountdown();
 
     frozen = true;
@@ -134,7 +135,33 @@ socket.on('win', function (player) {
 
     log(player.name + ' has won!', true);
 
-    endGame(player.name);
+    endGame(idBot1);
+    if(document.getElementById('typeGame').value!="test"){
+      if(player.name==document.getElementById('nameBot').value){
+        $.ajax({
+            type: "POST",
+            url: urlApi + "/win",
+            data: { "idBot": idBot1,"idLoose":idBot2 },
+            dataType: 'json',
+            success: function (data) {
+              console.log("succes");
+               window.location = urlApi;
+            }
+        })
+      }else {
+        $.ajax({
+            type: "POST",
+            url: urlApi + "/win",
+            data: { "idBot": idBot2,"idLoose":idBot1 },
+            dataType: 'json',
+            success: function (data) {
+              console.log("succes");
+              window.location = urlApi;
+            }
+        })
+      }
+    }
+
 
 });
 
@@ -149,7 +176,6 @@ socket.on('move', function (id, position) {
 
 });
 socket.on('action', function () {
-
 
     codeBot1["exec"].exec();
 
@@ -191,6 +217,7 @@ socket.on('player-joined', function (player) {
         newPlayer = Player.create(map.context, player);
 
     newPlayer.render(map.x, map.y, true);
+
 
     addPlayer(newPlayer);
 
@@ -247,5 +274,16 @@ function endGame(winner) {
 
     loading.text(winner + ' has won!');
 
+    /*$.ajax({
+        type: "GET",
+        url: urlApi + "/bot",
+        data: { "idBot": idBot1 },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            bot1 = data
+            console.log(bot1);
+        }
+    })*/
     showLoading();
 }

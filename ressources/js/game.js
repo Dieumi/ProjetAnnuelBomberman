@@ -150,10 +150,9 @@ $(window).load(function () {
 function attachEventListeners() {
 
     idBot1 = document.getElementById('idBot1').value;
+
     idBot2 = document.getElementById('idBot2').value;
 
-    codeBot1 = document.getElementById('codeBot1').value;
-    codeBot2 = document.getElementById('codeBot2').value;
 
 
     var element = $(this);
@@ -577,9 +576,11 @@ function Tile(type) {
 
         //	notify the server
         if (socket && this == player) {
+					console.log("player 1 pose sa bomb");
             socket.emit('bomb', gameId, this.position);
         }
         if (socket2 && this == player2) {
+						console.log("player 2 pose sa bomb");
             socket2.emit('bomb', gameId, this.position);
         }
         this.bomb = bomb;
