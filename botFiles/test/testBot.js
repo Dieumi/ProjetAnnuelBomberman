@@ -1,11 +1,11 @@
 var Code = function (){ 
- this.exec = function() {       var tedst;
+ this.exec = function() {    var tedst;
   var nb=Math.floor((Math.random() * 100) + 1);
 		if(nb>0 && nb<20){
 			player.move("right")
-			   player.plantBomb()
-				player.move("left")
-
+			player.plantBomb()
+			player.move("left")
+			player.non();
 		  }else if(nb>20 && nb<40){
 			  player.move("right")
 		  }else if(nb>40 && nb<60){
@@ -15,13 +15,13 @@ var Code = function (){
 		  }else if(nb>80 && nb<100){
 			  player.move("left")
 		  }
-		var tile =player.canGo("up",player.position);
+		/*var tile =player.canGo("up",player.position);
 		  player.plantBomb();
 		  if(this.bomb){
 			if(this.bomb.isAlive==true){
 			  if(tile==true && this.bomb.position.x!=player.position.x-1 && this.bomb.position.y!=player.position.y-1){
 				console.log("up")
-					plmmayer.move("up")
+					player.move("up")
 
 			  }else{
 				  console.log("down")
@@ -40,11 +40,9 @@ var Code = function (){
 		 }else{
 		  console.log("down")
 			player.move("down")
-		}
+		}*/
 
-		console.log(tile)
-
- 
+		//console.log(tile)
 
  
 
@@ -59,4 +57,13 @@ var Code = function (){
  
 
  
- } }
+
+ 
+
+ 
+
+ 
+
+ 
+
+  } }

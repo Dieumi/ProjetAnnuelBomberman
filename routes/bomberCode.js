@@ -8,12 +8,14 @@ module.exports = function (app, models, urlApi) {
     var request = require('request');
     var myBot;
     var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
-    var playerEnd = "};var player = new Player(null, \"test\", null);";
-    var player = "function Player(t,i,n){";
-    var gameFunction;
+    var playerEnd;
+    var player;
+    var gameFunction ="";
 
     app.get('/bomberCode/:idBot?', function (req, res) {
         myBot = null;
+        player = "function Player(t,i,n){";
+        playerEnd = "};var player = new Player(null, \"test\", null);";
         /*if(req.session.type && req.session.type!=""){
             res.redirect("/");
         }else {*/
@@ -123,7 +125,7 @@ module.exports = function (app, models, urlApi) {
             });
         } else {
             var erreur = "";
-
+            console.log(player)
             var F = new Function(player + "\n\r" + req.body.bomberEditor);
             try {
                 F();
@@ -208,6 +210,7 @@ module.exports = function (app, models, urlApi) {
         } else {
             var erreur = "";
             try {
+                console.log(player);
                 var F = new Function(player + "\n\r" + req.body.bomberEditor);
                 F();
             } catch (e) {
@@ -239,7 +242,7 @@ module.exports = function (app, models, urlApi) {
 
                 //completePath = "./" + myBot.codeBot;
 
-                fs.writeFile(completePath, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + "\n\r } }", function (err) {
+                fs.writeFile(completePath, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                     if (err) return console.log(err);
                 });
 
@@ -300,7 +303,7 @@ module.exports = function (app, models, urlApi) {
                     });
                 } else {
                     myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js";
-                    fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + "\n\r } }", function (err) {
+                    fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                         if (err) return console.log(err);
                     });
                     rp({
