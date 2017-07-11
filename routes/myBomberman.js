@@ -1,9 +1,9 @@
 module.exports = function(app, models, urlApi){
 
-    var rp = require('request-promise')
+    var rp = require("request-promise");
     var api = models.myApi;
     var fs = require("fs");
-	app.get('/myBomberman', function(req, res) {
+    app.get("/myBomberman", function(req, res) {
         if(!req.session.type){
             res.redirect("/");
         }else {
@@ -12,22 +12,21 @@ module.exports = function(app, models, urlApi){
                 url: urlApi + "/botByUser",
                 method: "GET",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 json: {
                     "userIdBot": req.session.idUser
                 }
             }).then(function(body) {
-                res.render('myBomberman.ejs', {
+                res.render("myBomberman.ejs", {
                     session: req.session,
                     listBot: body
                 });
-            })
-
+            });
         }
-	});
+    });
 
-  app.post('/index', function(req, res) {
+    app.post("/index", function(req, res) {
         if(!req.session.type){
             res.redirect("/");
         }else {
@@ -46,6 +45,7 @@ module.exports = function(app, models, urlApi){
             console.log("choix");
             console.log(req.body.idbotAd);
             res.render('index.ejs', {
+
                 session: req.session,
                 idAd:req.body.idAd,
                 idBotAd: req.body.idbotAd,
@@ -58,11 +58,10 @@ module.exports = function(app, models, urlApi){
                 codeBotAd: fileP2,
                 type: "game"
             });
-
-
         }
-  });
-  app.get('/Choix', function(req, res) {
+    });
+
+    app.get("/Choix", function(req, res) {
         if(!req.session.type){
             res.redirect("/");
         }else {
@@ -71,23 +70,22 @@ module.exports = function(app, models, urlApi){
                 url: urlApi + "/botByUser",
                 method: "GET",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 json: {
                     "userIdBot": req.session.idUser
                 }
             }).then(function(body) {
+<<<<<<< HEAD
 
                 res.render('Choix.ejs', {
+=======
+                res.render("Choix.ejs", {
+>>>>>>> f2401deedfcb9de13051808879131987746f6fc4
                     session: req.session,
                     listBot: body
                 });
             })
-
-
         }
-  });
-
-
-
-}
+    });
+};

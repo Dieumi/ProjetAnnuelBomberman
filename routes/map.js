@@ -7,18 +7,19 @@ module.exports = function(app, models) {
 		if (req.body.nameMap) {
 			var Map = models.Map;
 			Map.create({
-				"nameMap" : req.body.nameMap,
+				"nameMap" : req.body.nameMap
 			}).then(function(result){
 				res.json({
 					"code" : 0,
 					"idMap" : result.idMap,
-					"nameMap" : result.nameMap,
+					"nameMap" : result.nameMap
 				});
 			}).catch(function(err){
 				res.json({
 					"code" : 2,
-					"message" : "Sequelize error"
-				})
+					"message" : "Sequelize error",
+					"error" : err
+				});
 			});
 		} else {
 			res.json({
@@ -40,4 +41,4 @@ module.exports = function(app, models) {
 			})
 		})
 	});
-}
+};
