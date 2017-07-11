@@ -5,6 +5,7 @@ var Bot = require("./Bot");
 var Match = require("./Match");
 var Succes = require("./Succes");
 var Tournament = require("./Tournament");
+var GameApiDesc = require("./GameApiDesc");
 
 sequelize.sync();
 var bomb=require("./Bomb");
@@ -18,5 +19,6 @@ module.exports = {
 	"Succes" : Succes,
 	"Tournament" : Tournament,
 	"Bomb":bomb,
-	"Player": player
+	"Player": player,
+	"GameApiDesc": GameApiDesc
 };

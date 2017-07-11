@@ -70,12 +70,11 @@
       iduser:  $("#idUser").val(),
       idbot:$('input[name=choix]:checked').val()
     }
-    console.log(user)
     var txt;
 	var codeBot="";
 	$.ajax({
         type: "GET",
-        url: "http://localhost:8888/bot",
+        url: "<%=urlApi%>/adversaire/bot",
         data: { "idBot": $('input[name=choix]:checked').val() },
         dataType: 'json',
         async: false,
@@ -86,7 +85,7 @@
     })
 
     $.ajax({
-           url : 'http://localhost:8888/adversaire',
+           url : "<%=urlApi%>/adversaire",
            type : 'POST',
            dataType: 'json',
            data: user,

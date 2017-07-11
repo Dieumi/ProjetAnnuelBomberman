@@ -8,63 +8,89 @@ module.exports = function (app, models, urlApi) {
     var request = require('request');
     var myBot;
     var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
+    var playerEnd = "};var player = new Player(null, \"test\", null);";
+    var player = "function Player(t,i,n){";
+    var gameFunction;
 
     app.get('/bomberCode/:idBot?', function (req, res) {
         myBot = null;
         /*if(req.session.type && req.session.type!=""){
             res.redirect("/");
         }else {*/
-        if (req.params.idBot) {
-            rp({
-                url: urlApi + "/bot",
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                json: {
-                    "idBot": req.params.idBot
+        rp({
+            url: urlApi + "/gameApiDesc",
+            method: "GET"
+        }).then(function (body) {
+            gameFunction = JSON.parse(body)
+            var tmpP = "";
+            var paramsFunc;
+            var parmsRdy ="";
+            for (var i = 0; i < gameFunction.length; i++) {
+                parmsRdy="";
+                paramsFunc = gameFunction[i].paramGameApiDesc.split(",");
+                for (var j = 0; j<paramsFunc.length; j++){
+                    parmsRdy = parmsRdy + paramsFunc[j].trimLeft().split(" ")[1] + ",";
                 }
-            }).then(function (body) {
-                if (body.code != 0) {
-                    res.redirect('/myBomberman');
-                } else {
-                    if (body.userIdBot != req.session.idUser) {
+                tmpP = tmpP + "this."+gameFunction[i].nameGameApiDesc+" = function ("+parmsRdy.substring(0, parmsRdy.length - 1)+") { },"
+            }
+            player = player + tmpP.substring(0, tmpP.length - 1) + playerEnd;
+
+            if (req.params.idBot) {
+                rp({
+                    url: urlApi + "/bot",
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    json: {
+                        "idBot": req.params.idBot
+                    }
+                }).then(function (body) {
+                    if (body.code != 0) {
                         res.redirect('/myBomberman');
                     } else {
-                        myBot = body;
-                        var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
-                        // on retire la def des fonctions
-                        var code = "";
-                        if (allCode != "") {
-                            code = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "");
-                            code = code.substring(0, code.length - 3);
-                        }
+                        if (body.userIdBot != req.session.idUser) {
+                            res.redirect('/myBomberman');
+                        } else {
+                            myBot = body;
+                            var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
+                            // on retire la def des fonctions
+                            var code = "";
+                            if (allCode != "") {
+                                code = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "");
+                                code = code.substring(0, code.length - 3);
+                            }
 
-                        res.render('bomberCode.ejs', {
-                            msgError: "",
-                            msgSuccess: "",
-                            code: code,
-                            name: body.nameBot,
-                            modeBot: body.modeBot,
-                            idBot: req.params.idBot,
-                            session: req.session
-                        });
+                            res.render('bomberCode.ejs', {
+                                msgError: "",
+                                msgSuccess: "",
+                                code: code,
+                                name: body.nameBot,
+                                modeBot: body.modeBot,
+                                idBot: req.params.idBot,
+                                session: req.session,
+                                gameFunc: gameFunction
+                            });
+                        }
                     }
-                }
-            }).catch(function (err) {
-                res.redirect('/myBomberman');
-            });
-        } else {
-            res.render('bomberCode.ejs', {
-                msgError: "",
-                msgSuccess: "",
-                code: "",
-                name: "Mon Bomber",
-                idBot: "",
-                modeBot: "",
-                session: req.session
-            });
-        }
+                }).catch(function (err) {
+                    res.redirect('/myBomberman');
+                });
+            } else {
+                res.render('bomberCode.ejs', {
+                    msgError: "",
+                    msgSuccess: "",
+                    code: "",
+                    name: "Mon Bomber",
+                    idBot: "",
+                    modeBot: "",
+                    session: req.session,
+                    gameFunc: gameFunction
+                });
+            }
+        }).catch(function (err) {
+            res.redirect('/myBomberman');
+        })
         //}
     });
 
@@ -81,7 +107,8 @@ module.exports = function (app, models, urlApi) {
                 name: "Mon Bomber",
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
-                session: req.session
+                session: req.session,
+                gameFunc: gameFunction
             });
         } else if (!req.body.bomberEditor) {
             res.render('bomberCode.ejs', {
@@ -91,12 +118,13 @@ module.exports = function (app, models, urlApi) {
                 name: req.body.name,
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
-                session: req.session
+                session: req.session,
+                gameFunc: gameFunction
             });
         } else {
             var erreur = "";
 
-            var F = new Function(players + "\n\r" + req.body.bomberEditor);
+            var F = new Function(player + "\n\r" + req.body.bomberEditor);
             try {
                 F();
             } catch (e) {
@@ -163,7 +191,8 @@ module.exports = function (app, models, urlApi) {
                 name: "Mon Bomber",
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
-                session: req.session
+                session: req.session,
+                gameFunc: gameFunction
             });
         } else if (!req.body.bomberEditor) {
             res.render('bomberCode.ejs', {
@@ -173,12 +202,13 @@ module.exports = function (app, models, urlApi) {
                 name: req.body.name,
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
-                session: req.session
+                session: req.session,
+                gameFunc: gameFunction
             });
         } else {
             var erreur = "";
             try {
-                var F = new Function(players + "\n\r" + req.body.bomberEditor);
+                var F = new Function(player + "\n\r" + req.body.bomberEditor);
                 F();
             } catch (e) {
                 erreur = e;
@@ -194,7 +224,8 @@ module.exports = function (app, models, urlApi) {
                     name: req.body.name,
                     idBot: req.body.idBot,
                     modeBot: req.body.modeBot,
-                    session: req.session
+                    session: req.session,
+                    gameFunc: gameFunction
                 });
             } else {
 
@@ -252,7 +283,8 @@ module.exports = function (app, models, urlApi) {
                             name: req.body.name,
                             idBot: body.idBot,
                             modeBot: req.body.modeBot,
-                            session: req.session
+                            session: req.session,
+                            gameFunc: gameFunction
                         });
                     }).catch(function (err) {
                         res.render('bomberCode.ejs', {
@@ -262,7 +294,8 @@ module.exports = function (app, models, urlApi) {
                             name: req.body.name,
                             modeBot: req.body.modeBot,
                             idBot: req.body.idBot,
-                            session: req.session
+                            session: req.session,
+                            gameFunc: gameFunction
                         });
                     });
                 } else {
@@ -290,7 +323,8 @@ module.exports = function (app, models, urlApi) {
                         name: req.body.name,
                         modeBot: req.body.modeBot,
                         idBot: req.body.idBot,
-                        session: req.session
+                        session: req.session,
+                        gameFunc: gameFunction
                     });
                 }
 

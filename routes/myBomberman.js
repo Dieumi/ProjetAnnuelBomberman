@@ -77,7 +77,8 @@ module.exports = function(app, models, urlApi){
               
                 res.render('Choix.ejs', {
                     session: req.session,
-                    listBot: body
+                    listBot: body,
+                    urlApi: urlApi
                 });
             })
 

@@ -84,6 +84,31 @@
 			}
 			
 		</script>
+		<br>
+		<div>
+			<table class="table table-hover" >
+				<thead>
+				<tr>
+					<th>Environement</th>
+				</tr>
+				</thead>
+				<tbody>
+				<% 
+				if(gameFunc!=null){
+					for(var i = 0; i<gameFunc.length; i++){
+				%>
+				<tr style="background-color:white">
+					<td><%=gameFunc[i].nameGameApiDesc%>() : <%=gameFunc[i].returnGameApiDesc%></td>
+					<td><%=gameFunc[i].descriptionGameApiDesc%></td>
+				</tr>
+
+				<% 
+					}
+				}
+				%>
+				</tbody>
+			</table>
+		</div>
     </div>
 </div>
 
