@@ -3,8 +3,8 @@
 
 //var socket = io.connect('https://bman.herokuapp.com:443/');
 
-//var socket = io.connect('https://bmanserver.herokuapp.com/');
-var socket = io.connect('http://localhost:3000/');
+var socket = io.connect('https://bmanserver.herokuapp.com/');
+//var socket = io.connect('http://localhost:3000/');
 console.log('check 1', socket);
 //	setup event listeners
 
