@@ -1,1 +1,4 @@
-var c=3
+var Code = function (){ 
+ this.exec = function() {
+ var t=3
+ } }

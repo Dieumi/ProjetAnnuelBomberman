@@ -1,2 +1,4 @@
- var zad=9;
- 
+var Code = function (){ 
+ this.exec = function() {
+  var zad=9;
+ } }

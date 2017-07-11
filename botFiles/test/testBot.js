@@ -1,4 +1,9 @@
 var Code = function (){ 
  this.exec = function() {
- player.move("left")
+ 
+  var t=2
+
+ 
+
+ 
  } }
