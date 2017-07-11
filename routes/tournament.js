@@ -11,7 +11,7 @@ module.exports = function(app, models) {
 				"nameTournament" : req.body.nameTournament,
 				"nbPlayerTournament" : req.body.nbPlayerTournament,
 				"pointMiniTournament" : req.body.pointMiniTournament,
-				"createdByTournament" : req.body.createdByTournament,
+				"createdByTournament" : req.body.createdByTournament
 			}).then(function(result){
 				res.json({
 					"code" : 0,
@@ -19,13 +19,14 @@ module.exports = function(app, models) {
 					"nameTournament" : result.nameTournament,
 					"nbPlayerTournament" : result.nbPlayerTournament,
 					"winBot" : result.pointMiniTournament,
-					"createdByTournament" : result.createdByTournament,
+					"createdByTournament" : result.createdByTournament
 				});
 			}).catch(function(err){
 				res.json({
 					"code" : 2,
-					"message" : "Sequelize error"
-				})
+					"message" : "Sequelize error",
+					"error" : err
+				});
 			});
 		} else {
 			res.json({
@@ -37,7 +38,7 @@ module.exports = function(app, models) {
 
 	app.get("/ListTournament", function (req, res, next) {
 		var tournament = models.Tournament;
-		match.findAll().then(function (results) {
+        tournament.findAll().then(function (results) {
 			res.send(results);
 		}).catch(function (err) {
 			res.json({
@@ -47,4 +48,4 @@ module.exports = function(app, models) {
 			})
 		})
 	});
-}
+};

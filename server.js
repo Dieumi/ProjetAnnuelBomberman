@@ -6,8 +6,8 @@ var utils = require("./utils");
 var cookieParser = require('cookie-parser');
 var session  = require('express-session');
 
-var urlApi = "http://bomberbot1dev.herokuapp.com"
-//var urlApi = "http://localhost:8888"
+//var urlApi = "http://bomberbot1dev.herokuapp.com"
+var urlApi = "http://localhost:8888"
 
 
 var socket = require("socket.io");

@@ -3,7 +3,6 @@ var bcrypt = require("bcrypt-nodejs");
 module.exports = function(app, models,utils) {
 
 	app.post("/match", function(req, res, next) {
-
 		if (req.body.resultMatch && req.body.idMapMatch) {
 			var date = new Date();
 			var Match = models.Match;
@@ -11,7 +10,7 @@ module.exports = function(app, models,utils) {
 				"resultMatch" : req.body.resultMatch,
 				"dateMatch" : date,
 				"idMapMatch" : req.body.idMapMatch,
-				"idTournamentMatch" : 0,
+				"idTournamentMatch" : 0
 			}).then(function(result){
 				res.json({
 					"code" : 0,
@@ -19,19 +18,20 @@ module.exports = function(app, models,utils) {
 					"resultMatch" : result.resultMatch,
 					"dateMatch" : result.dateMatch,
 					"idMapMatch" : result.idMapMatch,
-					"idTournamentMatch" : result.idTournamentMatch,
+					"idTournamentMatch" : result.idTournamentMatch
 				});
 			}).catch(function(err){
 				res.json({
 					"code" : 2,
-					"message" : "Sequelize error"
-				})
+					"message" : "Sequelize error",
+                    "error" : err
+				});
 			});
 		} else {
 			res.json({
 				"code" : 1,
 				"message" : "Missing required parameters"
-			})
+			});
 		}
 	});
 
@@ -44,32 +44,27 @@ module.exports = function(app, models,utils) {
 				"code": 2,
 				"message": "Sequelize error",
 				"error": err
-			})
+			});
 		})
 	});
 	app.get("/updatematch/:id", function (req, res, next) {
-
             var match = models.Match;
-
             var request = {
                 "where": {
                     idMatch: req.params.id
                 }
-            }
+            };
             match.find(request).then(function (results) {
-
                 res.send(results)
             }).catch(function (err) {
-
                 res.json({
                     "code": 2,
                     "message": "Sequelize error",
                     "error": err
-                })
-            })
-
-
+                });
+            });
     });
+
     app.post("/updatematch", function (req, res, next) {
         var match = utils.Match;
         var request = {
