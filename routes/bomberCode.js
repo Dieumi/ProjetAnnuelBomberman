@@ -21,21 +21,7 @@ module.exports = function (app, models, urlApi) {
         }else {*/
 
 
-        var workerProcess = child_process.exec('node botFiles/test/22.js', function (error, stdout, stderr) {
-
-            if (error) {
-                console.log(error.stack);
-                console.log('Error code: ' + error.code);
-                console.log('Signal received: ' + error.signal);
-            }
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
-            console.log('err : ' + error);
-        });
-
-        workerProcess.on('exit', function (code) {
-            console.log('Child process exited with exit code ' + code);
-        });
+      
 
         rp({
             url: urlApi + "/gameApiDesc",
@@ -143,11 +129,20 @@ module.exports = function (app, models, urlApi) {
             });
         } else {
             var erreur = "";
-            var F = new Function(player + "\n\r" + req.body.bomberEditor);
             try {
+                var F = new Function(player + "\n\r" + req.body.bomberEditor);
                 F();
             } catch (e) {
-                erreur = e;
+                if (e.name == "ReferenceError") {
+                    var stack = e.stack.split("\n");
+                    var lignes = stack[1].split(":");
+                    var ligne = lignes[4] - 3;
+                    erreur = e.name + ": " + e.message + " at ligne " + ligne;
+                } else if (e.name == "SyntaxError") {
+                    erreur = e.name + ": " + e.message;
+                } else {
+                    erreur = e.name + ": " + e.message;
+                }
             }
 
 
@@ -160,7 +155,8 @@ module.exports = function (app, models, urlApi) {
                     name: req.body.name,
                     idBot: req.body.idBot,
                     modeBot: req.body.modeBot,
-                    session: req.session
+                    session: req.session,
+                    gameFunc: gameFunction
                 });
 
             } else {
@@ -230,11 +226,36 @@ module.exports = function (app, models, urlApi) {
                 var F = new Function(player + "\n\r" + req.body.bomberEditor);
                 F();
             } catch (e) {
-                console.log(e)
-                console.log("e.lineNumber")
-                console.log(e.lineNumber)
-                /* filtre a faire sur .stack*/
-                erreur = e.name + ": " + e.message;
+                /*Filtrage des dangers (stope au require)*/
+               
+
+                if(e.name =="ReferenceError"){ 
+                    var stack = e.stack.split("\n");
+                    var lignes = stack[1].split(":");
+                    var ligne = lignes[4] - 3;
+                    erreur = e.name + ": " + e.message + " at ligne " + ligne;
+                } else if (e.name == "SyntaxError") {
+                    erreur = e.name + ": " + e.message;
+                } else {
+                    erreur = e.name + ": " + e.message;
+                }
+                
+                /*Récupération de la ligne si not defined*/
+               /* var workerProcess = child_process.exec('node botFiles/test/22.js', function (error, stdout, stderr) {
+
+                    if (error) {
+                        console.log(error.stack);
+                        console.log('Error code: ' + error.code);
+                        console.log('Signal received: ' + error.signal);
+                    }
+                    console.log('stdout: ' + stdout);
+                    console.log('stderr: ' + stderr);
+                    console.log('err : ' + error);
+                });
+
+                workerProcess.on('exit', function (code) {
+                    console.log('Child process exited with exit code ' + code);
+                });*/
             }
 
 
@@ -322,7 +343,6 @@ module.exports = function (app, models, urlApi) {
                         });
                     });
                 } else {
-                    console.log("test")
                     myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js";
                     fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                         if (err) return console.log(err);
