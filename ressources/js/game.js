@@ -150,7 +150,9 @@ $(window).load(function () {
 function attachEventListeners() {
 
     idBot1 = document.getElementById('idBot1').value;
+
     idBot2 = document.getElementById('idBot2').value;
+
 
 
     var element = $(this);
@@ -232,25 +234,25 @@ function bindControls() {
                     else if (e.which == 38)
                     {
                         player.move('up');
-        
+
                         frozen = true;
                     }
                     else if (e.which == 40)
                     {
                         player.move('down');
-        
+
                         frozen = true;
                     }
                     else if (e.which == 37)
                     {
                         player.move('left');
-        
+
                         frozen = true;
                     }
                     else if (e.which == 39)
                     {
                         player.move('right');
-        
+
                         frozen = true;
                     }*/
 
@@ -461,7 +463,7 @@ function Tile(type) {
     }
 
     this.moveTowardCell = function(x, y){
-        
+
     }
 
     this.isObstacle = function (x, y) {
@@ -503,7 +505,7 @@ function Tile(type) {
             else {
                 return false;
             }
-        } else { 
+        } else {
             if (player2.position.y == y && player2.position.x == x) {
                 return true;
             }
@@ -574,9 +576,11 @@ function Tile(type) {
 
         //	notify the server
         if (socket && this == player) {
+					console.log("player 1 pose sa bomb");
             socket.emit('bomb', gameId, this.position);
         }
         if (socket2 && this == player2) {
+						console.log("player 2 pose sa bomb");
             socket2.emit('bomb', gameId, this.position);
         }
         this.bomb = bomb;

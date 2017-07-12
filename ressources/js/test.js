@@ -1,4 +1,5 @@
-var Code = function (){ 
+
+var Code = function (){
 	this.exec = function() {
 		/*var nb=Math.floor((Math.random() * 100) + 1);
 		if(nb>0 && nb<20){
@@ -45,5 +46,5 @@ var Code = function (){
 		console.log(tile);*/
 		console.log("test !")
 	}
- 
+
  }

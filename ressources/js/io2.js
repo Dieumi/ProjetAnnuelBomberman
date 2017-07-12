@@ -1,4 +1,4 @@
-var socket2 = io.connect('http://bmanserver.herokuapp.com/', { 'force new connection': true });
+var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
 //var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
 console.log('check 1', socket2);
@@ -120,16 +120,7 @@ socket2.on('stop', function () {
 
 });
 
-socket2.on('win', function (player2) {
-    gameOn = false;
-    frozen = true;
 
-    //  log(player2.name + ' has won!', true);
-
-
-    endGame(player2.name);
-
-});
 
 socket2.on('move', function (id, position) {
     players.forEach(function (player2) {
@@ -143,16 +134,20 @@ socket2.on('move', function (id, position) {
 });
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
+    console.log(codeBot2);
+    player2.move("left");
 
+  /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
     codeBot2["exec"].exec();
+
     //player2.move("down");
 
     /*if(gameOn != false && frozen != true){
       setTimeout(function(){
         socket2.emit("action",player2.name);
       }, 1500);
-  
+
     }*/
 
 })

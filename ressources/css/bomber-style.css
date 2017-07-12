@@ -157,3 +157,17 @@ td {
     width: 320px;
     font-size: 12px;
 }
+
+.swiper-container {
+    height: 250px;
+}
+
+.bomber-slide {
+    padding: 15px 60px 15px 60px;
+}
+
+.verticalLine {
+    border-left: #012039 solid 1px;
+    height: 190px;
+    margin-top: 15px;
+}

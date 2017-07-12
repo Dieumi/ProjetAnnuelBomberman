@@ -1,14 +1,15 @@
-var user=require("./UserUtils");
-var Map = require("./MapUtils");
-var Bot = require("./BotUtils");
-var Match = require("./MatchUtils");
-var Succes = require("./SuccesUtils");
-var Tournament = require("./TournamentUtils");
+var userUtils =require("./UserUtils");
+var mapUtils = require("./MapUtils");
+var botUtils = require("./BotUtils");
+var matchUtils = require("./MatchUtils");
+var succesUtils = require("./SuccesUtils");
+var tournamentUtils = require("./TournamentUtils");
+
 module.exports={
-	"user" : user,
-	"Map" : Map,
-	"Bot" : Bot,
-	"Match" : Match,
-	"Succes" : Succes,
-	"Tournament" : Tournament
+	"user" : userUtils,
+	"Map" : mapUtils,
+	"Bot" : botUtils,
+	"Match" : matchUtils,
+	"Succes" : succesUtils,
+	"Tournament" : tournamentUtils
 };

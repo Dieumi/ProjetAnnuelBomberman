@@ -1,5 +1,5 @@
 var Code = function (){ 
- this.exec = function() { var nb=Math.floor((Math.random() * 100) + 1);
+ this.exec = function() {  var nb=Math.floor((Math.random() * 100) + 1);
 if(nb>0 && nb<20){
 	playejkr.move("right")
 	//player.plantBomb()
@@ -16,4 +16,4 @@ if(nb>0 && nb<20){
 }
 
 
-     } }
+      } }

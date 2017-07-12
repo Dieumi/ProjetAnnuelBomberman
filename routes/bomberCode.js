@@ -10,7 +10,7 @@ module.exports = function (app, models, urlApi) {
     var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
     var playerEnd;
     var player;
-    var gameFunction ="";
+    var gameFunction = "";
 
     app.get('/bomberCode/:idBot?', function (req, res) {
         myBot = null;
@@ -21,7 +21,7 @@ module.exports = function (app, models, urlApi) {
         }else {*/
 
 
-      
+
 
         rp({
             url: urlApi + "/gameApiDesc",
@@ -30,14 +30,14 @@ module.exports = function (app, models, urlApi) {
             gameFunction = JSON.parse(body)
             var tmpP = "";
             var paramsFunc;
-            var parmsRdy ="";
+            var parmsRdy = "";
             for (var i = 0; i < gameFunction.length; i++) {
-                parmsRdy="";
+                parmsRdy = "";
                 paramsFunc = gameFunction[i].paramGameApiDesc.split(",");
-                for (var j = 0; j<paramsFunc.length; j++){
+                for (var j = 0; j < paramsFunc.length; j++) {
                     parmsRdy = parmsRdy + paramsFunc[j].trimLeft().split(" ")[1] + ",";
                 }
-                tmpP = tmpP + "this."+gameFunction[i].nameGameApiDesc+" = function ("+parmsRdy.substring(0, parmsRdy.length - 1)+") { },"
+                tmpP = tmpP + "this." + gameFunction[i].nameGameApiDesc + " = function (" + parmsRdy.substring(0, parmsRdy.length - 1) + ") { },"
             }
             player = player + tmpP.substring(0, tmpP.length - 1) + playerEnd;
 
@@ -182,7 +182,7 @@ module.exports = function (app, models, urlApi) {
                     api: urlApi,
                     codeBot: file,
                     codeBotAd: fileP2,
-                    type:"test"
+                    type: "test"
                 });
             }
         }
@@ -227,9 +227,9 @@ module.exports = function (app, models, urlApi) {
                 F();
             } catch (e) {
                 /*Filtrage des dangers (stope au require)*/
-               
 
-                if(e.name =="ReferenceError"){ 
+
+                if (e.name == "ReferenceError") {
                     var stack = e.stack.split("\n");
                     var lignes = stack[1].split(":");
                     var ligne = lignes[4] - 3;
@@ -239,23 +239,23 @@ module.exports = function (app, models, urlApi) {
                 } else {
                     erreur = e.name + ": " + e.message;
                 }
-                
+
                 /*Récupération de la ligne si not defined*/
-               /* var workerProcess = child_process.exec('node botFiles/test/22.js', function (error, stdout, stderr) {
-
-                    if (error) {
-                        console.log(error.stack);
-                        console.log('Error code: ' + error.code);
-                        console.log('Signal received: ' + error.signal);
-                    }
-                    console.log('stdout: ' + stdout);
-                    console.log('stderr: ' + stderr);
-                    console.log('err : ' + error);
-                });
-
-                workerProcess.on('exit', function (code) {
-                    console.log('Child process exited with exit code ' + code);
-                });*/
+                /* var workerProcess = child_process.exec('node botFiles/test/22.js', function (error, stdout, stderr) {
+ 
+                     if (error) {
+                         console.log(error.stack);
+                         console.log('Error code: ' + error.code);
+                         console.log('Signal received: ' + error.signal);
+                     }
+                     console.log('stdout: ' + stdout);
+                     console.log('stderr: ' + stderr);
+                     console.log('err : ' + error);
+                 });
+ 
+                 workerProcess.on('exit', function (code) {
+                     console.log('Child process exited with exit code ' + code);
+                 });*/
             }
 
 
