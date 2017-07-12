@@ -31,19 +31,19 @@ module.exports = function(app, models,utils) {
     app.get("/posts/latest", function (req, res, next) {
         var Post = models.Post;
         Post.findAll({
-            order: '`createdAt` DESC',
+            order: "`createdAt` DESC",
             limit: 3
-        }).then(function (results) {
+        }).then(function (body) {
             res.json({
                 "code" : 0,
-                "results" : results
-            })
+                "results" : body
+            });
         }).catch(function (err) {
             res.json({
                 "code": 2,
                 "message": "Sequelize error",
                 "error": err
-            })
-        })
+            });
+        });
     });
 };
