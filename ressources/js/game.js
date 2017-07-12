@@ -487,18 +487,53 @@ function Tile(type) {
     this.isEmpty = function (x, y) {
         if (getTile(x, y).type == "empty") {
             return true;
-        }
-        else {
+        }else {
             return false
         }
     }
 
+    this.isBomber = function (x,y){
+      if(this==player){
+        if(x==player2.position.x && y==player2.position.y){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        if(x==player.position.x && y==player.position.y){
+          return true;
+        }else{
+          return false;
+        }
+      }
+    }
+    this.isOnSameLine= function (x){
+      if(this == player){
+        if(player2.position.y==x){
+          return true
+        }else{
+          return false
+        }
+      }else{
+        if(player.position.y==x){
+          return true
+        }else{
+          return false
+        }
+      }
+    }
     this.isBomb = function (x, y) {
         return getTile(x, y).hasBomb
     }
-
+    this.getNearestEnemy = function (){
+      if(this==player){
+        return player2.position;
+      }else{
+        return player.position;
+      }
+    }
     this.isBomber = function(x, y){
-        if (player.id != this.id) {
+        if (player != this) {
             if (player.position.y == y && player.position.x == x) {
                 return true;
             }

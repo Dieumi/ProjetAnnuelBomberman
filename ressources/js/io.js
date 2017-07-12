@@ -176,7 +176,11 @@ socket.on('move', function (id, position) {
 
 });
 socket.on('action', function () {
-
+    console.log("test fonction");
+    console.log(player);
+    console.log(player.getNearestEnemy());
+    console.log(player.isBomber(player.position.x,player.position.y))
+    console.log(player.isOnSameLine(0))
     codeBot1["exec"].exec();
 
 
