@@ -14,6 +14,7 @@
     <div class="col-sm-8 col-sm-offset-2 bomber-block ">
         <h2 class="bomber-text"><span class="fa fa-bomb"></span> BomberBot</h2>
         <hr class = "bomber-line" >
+
         <div class="row">
             <div class="col-sm-8">
                 <p class="bomber-text">Avec <b class="bomber-bold">BomberBot</b>, créez le bot le plus puissant et faites exploser tous vos ennemis !</p>
@@ -27,12 +28,17 @@
                 <img src="/images/bomberman.png" style ="width:100%;"/>
             </div>
         </div>
+
+        <% include ./partials/slider.ejs%>
+
+
     </div>
     <% } else {
     if(session.type == "admin"){
     %>
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
-        <h1><span class="fa fa-sign-in"></span> Hello Admin!</h1>
+        <h1><span class="fa fa-sign-in"></span> Hello Admin!</h1>fff
+
     </div>
     <%
     }
@@ -40,6 +46,7 @@
     %>
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1 class="bomber-text"><i class="fa f<a-globe" aria-hidden="true"></i> Hello <b class="bomber-bold"><%= session.login %></b> !</h1>
+
     </div>
     <%
     }
@@ -48,5 +55,21 @@
     <% include ./partials/podium.ejs %>
 </div>
 <% include ./partials/footer %>
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        // Optional parameters
+        loop: true,
+
+        // If we need pagination
+        pagination: '.swiper-pagination',
+
+        // Navigation arrows
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+
+        // And if we need scrollbar
+        scrollbar: '.swiper-scrollbar',
+    })
+</script>
 </body>
 </html>

@@ -5,6 +5,7 @@ var BotModel = require("./Bot");
 var MatchModel = require("./Match");
 var SuccesModel = require("./Succes");
 var TournamentModel = require("./Tournament");
+var PostModel = require("./Post");
 
 seq.sync();
 
@@ -19,6 +20,7 @@ module.exports = {
     "Match" : MatchModel,
     "Succes" : SuccesModel,
     "Tournament" : TournamentModel,
+    "Post" : PostModel,
     "Bomb" : bombModel,
     "Player" : playerModel
 };
