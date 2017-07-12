@@ -22,10 +22,21 @@ module.exports = function(app, urlApi){
                     "Content-Type": "application/json"
                 }
             }).then(function(body) {
-                res.render("home.ejs", {
-                    session : req.session,
-                    userCount : body,
-                    top : topBots
+                var count = body;
+
+                rp({
+                    url: urlApi + "/posts/latest",
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function(body) {
+                    res.render("home.ejs", {
+                        session : req.session,
+                        userCount : count,
+                        top : topBots,
+                        posts : body
+                    });
                 });
             })
         })

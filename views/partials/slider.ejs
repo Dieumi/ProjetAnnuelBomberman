@@ -1,19 +1,27 @@
+<%
+if (posts) {
+    posts = JSON.parse(posts);
+    console.log(posts.results[0]);
+%>
+
 <div class="swiper-container">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
-        <!-- Slides -->
+
+        <%for (var i = 0; i < 3 ; i++) {%>
+
         <div class="swiper-slide bomber-slide">
             <div class="row">
                 <div class="col-sm-10 verticalLineL">
-                    <h3>12/07/2017 : Title</h3>
-                    aaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaa
-                    aaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaaaaaa aaaa aaaa
+                    <h3><%=posts.results[i].createdAt.substring(8,10)%>/<%=posts.results[i].createdAt.substring(5,7)%>/<%=posts.results[i].createdAt.substring(0,4)%> : <%=posts.results[i].titlePost%></h3>
+                    <h5>by <%=posts.results[i].authorPost%></h5>
+                    <%=posts.results[i].textPost%>
                 </div>
             </div>
         </div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
-        ...
+
+        <%}%>
+
     </div>
     <!-- If we need pagination -->
     <div class="swiper-pagination"></div>
@@ -25,3 +33,22 @@
     <!-- If we need scrollbar -->
     <div class="swiper-scrollbar"></div>
 </div>
+
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        // Optional parameters
+        loop: true,
+
+        // If we need pagination
+        pagination: '.swiper-pagination',
+
+        // Navigation arrows
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+
+        // And if we need scrollbar
+        scrollbar: '.swiper-scrollbar',
+    })
+</script>
+
+<% } %>

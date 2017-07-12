@@ -28,22 +28,6 @@ module.exports = function(app, models,utils) {
         }
     });
 
-    app.get("/posts", function (req, res, next) {
-        var Post = models.Post;
-        Post.findAll().then(function (results) {
-            res.json({
-                "code" : 0,
-                results : results
-            })
-        }).catch(function (err) {
-            res.json({
-                "code": 2,
-                "message": "Sequelize error",
-                "error": err
-            });
-        })
-    });
-
     app.get("/posts/latest", function (req, res, next) {
         var Post = models.Post;
         Post.findAll({

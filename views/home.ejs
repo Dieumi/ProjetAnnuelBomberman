@@ -28,24 +28,25 @@
                 <img src="/images/bomberman.png" style ="width:100%;"/>
             </div>
         </div>
-
+        <hr class = "bomber-line" >
         <% include ./partials/slider.ejs%>
-
-
     </div>
     <% } else {
     if(session.type == "admin"){
     %>
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
-        <h1><span class="fa fa-sign-in"></span> Hello Admin!</h1>fff
+        <h1 class="bomber-text"><span class="fa fa-sign-in"></span> Hello Admin!</h1>
+        <% include ./partials/slider.ejs%>
 
     </div>
     <%
     }
-    if(session.type){
+    if(session.type == "user"){
     %>
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1 class="bomber-text"><i class="fa f<a-globe" aria-hidden="true"></i> Hello <b class="bomber-bold"><%= session.login %></b> !</h1>
+
+        <% include ./partials/slider.ejs%>
 
     </div>
     <%
@@ -54,22 +55,8 @@
     %>
     <% include ./partials/podium.ejs %>
 </div>
+
 <% include ./partials/footer %>
-<script>
-    var mySwiper = new Swiper ('.swiper-container', {
-        // Optional parameters
-        loop: true,
 
-        // If we need pagination
-        pagination: '.swiper-pagination',
-
-        // Navigation arrows
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-
-        // And if we need scrollbar
-        scrollbar: '.swiper-scrollbar',
-    })
-</script>
 </body>
 </html>
