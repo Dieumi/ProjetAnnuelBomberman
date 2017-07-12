@@ -28,15 +28,24 @@
                 <img src="/images/bomberman.png" style ="width:100%;"/>
             </div>
         </div>
-        <hr class = "bomber-line" >
+
+        <%if (posts) {
+            posts = JSON.parse(posts);
+        %>
         <% include ./partials/slider.ejs%>
+        <% } %>
+
     </div>
     <% } else {
     if(session.type == "admin"){
     %>
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1 class="bomber-text"><span class="fa fa-sign-in"></span> Hello Admin!</h1>
+
+
+        <%if (posts) {%>
         <% include ./partials/slider.ejs%>
+        <% } %>
 
     </div>
     <%
