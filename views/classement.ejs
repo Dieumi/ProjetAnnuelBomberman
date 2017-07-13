@@ -13,7 +13,7 @@
 if(session.type){
 %>
 <div class="container">
-    <div class="col-sm-6 col-sm-offset-3 bomber-block">
+    <div class="col-lg-6 col-sm-offset-3 bomber-block">
         <h1 class="bomber-text"><span class="fa fa-trophy"></span> Classement</h1>
         <% if (top) {
             top = JSON.parse(top)
@@ -26,36 +26,40 @@ if(session.type){
                     <th>#</th>
                     <th>Bomber</th>
                     <th>Points</th>
+                    <th>Victoires</th>
+                    <th>Défaites</th>
                     <th>Ratio</th>
                     <th>Joueur</th>
                 </tr>
                 </thead>
                 <tbody>
                 <%
-                    var color
-                    var position = 0
+                    var color;
+                    var position = 0;
                 for(var i = 0 ; i < top.result[0].length ; i++) {
                     position = i + 1 + index
                     if (position == 1) {
-                        color = "#ffd700"
+                        color = "#ffd700";
                     } else if (position == 2) {
-                        color = "silver"
+                        color = "silver";
                     } else if (position == 3) {
-                        color = "#8b4513"
+                        color = "#8b4513";
                     } else {
-                        color = ""
+                        color = "";
                     }
-                    var ratio = 0
-                    var win = top.result[0][i].winBot
-                    var lose = top.result[0][i].loseBot
-                    if (win > 0 && lose > 0) {
-                        ratio = (win / lose).toFixed(2)
+                    var ratio = 0;
+                    var win = top.result[0][i].winBot;
+                    var lose = top.result[0][i].loseBot;
+                    if (win > 0 && lose > 0) {;
+                        ratio = (win / lose).toFixed(2);
                     }
                 %>
                 <tr>
                     <td bgcolor=<%=color%>><%=position%></td>
                     <td><%=top.result[0][i].nameBot%></td>
                     <td><%=top.result[0][i].pointBot%></td>
+                    <td><%=top.result[0][i].winBot%></td>
+                    <td><%=top.result[0][i].loseBot%></td>
                     <td><%=ratio%></td>
                     <td><a href="/profile/<%=top.result[0][i].userIdBot%>"><%=top.result[0][i].loginUser%></a></td>
                 </tr>
