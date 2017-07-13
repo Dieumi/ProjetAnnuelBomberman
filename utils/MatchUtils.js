@@ -27,8 +27,6 @@ MatchUtils.prototype.delete = function(id, callback) {
         }).catch(function(err) {
             callback(err);
         });
-    } else {
-        callback(results);
     }
 };
 
@@ -37,18 +35,16 @@ MatchUtils.prototype.update=function(request,attributes,callback){
     Match.find(request).then(function(results){
         if(results){
             results.updateAttributes(attributes).then(function(results){
-                console.log("Match update");
-                callback(undefined,results);
-
-
+                Console.log("Match update");
+                callback(null,results);
             }).catch(function(err){
-                console.log("Match pas  update");
-            })
-        }else{
-            console.log("pas de result");
+                Console.log("Match pas  update");
+            });
+        } else {
+            Console.log("pas de result");
         }
     }).catch(function(err){
-        console.log(err);
+        Console.log(err);
     });
 };
 

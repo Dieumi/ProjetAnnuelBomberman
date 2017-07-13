@@ -32,8 +32,6 @@ BotUtils.prototype.delete = function(idB, callback) {
         }).catch(function(err) {
             callback(err);
         });
-    } else {
-        callback(results);
     }
 };
 
@@ -51,78 +49,78 @@ BotUtils.prototype.findEnemy = function(idB,iduser, callback) {
                 modeBot : "aggro"
             },
             "order":[
-                Sequelize.fn('RAND')
+                Sequelize.fn("RAND")
             ],
             limit:3
         }).then(function(result) {
+            if(result) {
+                callback(result);
+            }
+        }).catch(function(err) {
+            callback(err);
+        });
+    }
+};
 
+BotUtils.prototype.win = function(idB,idBotLoose, callback) {
+    var Bot = models.Bot;
+    //console.log("id: " + idBot);
+    //console.log("idloose :" + idBotLoose);
+    if(idB) {
+        Bot.find({
+            "where" : {
+                idBot : idB
+            }
+        }).then(function(result) {
+            Console.log("result");
+            if(result) {
+                var nbPt= parseInt(result.pointBot) + 3;
+                var nbWin = parseInt(result.winBot) + 1;
+                result.updateAttributes({
+                    pointBot : nbPt,
+                    winBot:nbWin
+                }).then(function(result){
+                    callback(result);
+                });
+            }else {
+                Console.log("bot not found");
+            }
+        }).catch(function(err) {
+            callback(err);
+        });
+    }
+};
 
-			if(result) {
-					callback(result);
-				}
-			}).catch(function(err) {
-			callback(err);
-		});
-	}
-}
-BotUtils.prototype.win = function(idBot,idBotLoose, callback) {
-	var Bot = models.Bot;
-	 console.log("id:" + idBot);
-	  console.log("idloose:" + idBotLoose);
-	if(idBot) {
-		Bot.find({
-			"where" : {
-				idBot : idBot
-			}
-		}).then(function(result) {
+BotUtils.prototype.loose = function(idB,iduser, callback) {
+    var Bot = models.Bot;
 
-			 console.log("result");
-			if(result) {
-				var nbPt= parseInt(result.pointBot)+3;
-				var nbWin = parseInt(result.winBot)+1;
-				result.updateAttributes({
-					pointBot : nbPt,
-					winBot:nbWin
-				}).then(function(result){
-					callback(result);
-				})
-			}else{
-				console.log("bot not found")
-			}
-			}).catch(function(err) {
-			callback(err);
-		});
-	}
-}
-BotUtils.prototype.loose = function(idBot,iduser, callback) {
-	var Bot = models.Bot;
-
-	if(idBot) {
-		Bot.find({
-			"where" : {
-				idBot : idBot
-			}
-		}).then(function(result) {
-			if(result.pointBot>=3){
-					var nbPt=parseInt(result.pointBot)-3;
-			}else{
-				var nbPt=0;
-			}
-			var nbLoose= parseInt(result.loseBot)+1;
-			if(result) {
-				result.updateAttributes({
-					pointBot : nbPt,
-					loseBot: nbLoose
-				}).then(function(result){
-						callback(result);
-				})
-			}else{
-				console.log("bot not found")
-			}
-			}).catch(function(err) {
-			callback(err);
-		});
-	}
-}
+    if(idB) {
+        Bot.find({
+            "where" : {
+                idBot : idB
+            }
+        }).then(function(result) {
+            var nbPt = parseInt(result.pointBot);
+            if(result.pointBot >= 3) {
+                nbPt = nbPt - 3;
+            } else {
+                nbPt = 0;
+            }
+            var nbLoose = parseInt(result.loseBot) + 1;
+            if(result) {
+                result.updateAttributes({
+                    pointBot : nbPt,
+                    loseBot: nbLoose
+                }).then(function(result){
+                    callback(result);
+                })
+            } else {
+                Console.log("bot not found");
+            }
+        }).catch(function(err) {
+            callback(err);
+        });
+    }
+};
 
 module.exports=BotUtils;

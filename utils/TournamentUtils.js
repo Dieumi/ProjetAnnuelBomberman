@@ -38,7 +38,7 @@ TournamentUtils.prototype.update=function(request,attributes,callback){
                 //callback(undefined,results);
             }).catch(function(err){
                 //console.log("Tournament pas  update");
-            })
+            });
         }else{
             //console.log("pas de result")
         }

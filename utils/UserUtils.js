@@ -4,7 +4,7 @@ var UserUtils=function(id,login,password,email,type){
     this.loginUser=login;
     this.passwordUser=password;
     this.emailUser=email;
-    this.typeUser=type
+    this.typeUser=type;
 };
 
 UserUtils.prototype.delete = function(idU, callback) {
@@ -29,8 +29,6 @@ UserUtils.prototype.delete = function(idU, callback) {
         }).catch(function(err) {
             callback(err);
         });
-    } else {
-        callback(results);
     }
 };
 

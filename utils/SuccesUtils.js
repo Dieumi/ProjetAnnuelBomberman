@@ -25,8 +25,6 @@ SuccesUtils.prototype.delete = function(id, callback) {
         }).catch(function(err) {
             callback(err);
         });
-    } else {
-        callback(results);
     }
 };
 

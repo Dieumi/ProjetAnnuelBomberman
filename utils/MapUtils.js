@@ -25,9 +25,7 @@ MapUtils.prototype.delete = function(id, callback) {
         }).catch(function(err) {
             callback(err);
         });
-    } else {
-        callback(results);
     }
 };
 
-module.exports=MapUtils;
+module.exports = MapUtils;
