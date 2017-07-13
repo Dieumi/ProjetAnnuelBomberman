@@ -694,7 +694,7 @@ Player.create = function (context, data) {
 
     player.id = data.id;
     player.index = data.index;
-    player.ready = true;
+    player.ready = false;
     player.idBot=data.idBot;
 
     return player;

@@ -117,12 +117,12 @@ socket.on('start', function (matrix) {
         gameOn = true;
 
         frozen = false;
-        player2.move("right");
-        player.move("left");
+
         socket.emit("action", player.name);
 
     }, startTimer);
-
+    player2.move("right");
+    player.move("left");
 
 });
 

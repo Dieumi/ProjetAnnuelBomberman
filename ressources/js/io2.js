@@ -135,7 +135,7 @@ socket2.on('move', function (id, position) {
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
     console.log(codeBot2);
-
+    player2.move("right");
 
   /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
