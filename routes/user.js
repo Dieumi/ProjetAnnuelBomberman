@@ -151,7 +151,7 @@ module.exports = function(app, models,utils) {
                 "code": 2,
                 "message": "Sequelize error",
                 "error": err
-            })
+            });
         })
     });
 
@@ -205,4 +205,4 @@ module.exports = function(app, models,utils) {
             });
         }
     });
-}
+};

@@ -41,6 +41,6 @@ module.exports = function(app, models) {
 				"message": "Sequelize error",
 				"error": err
 			});
-		})
+		});
 	});
 };

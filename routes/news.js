@@ -3,19 +3,18 @@ module.exports = function(app, urlApi){
     var msgError = "";
     var rp = require("request-promise");
 
-    app.get('/news', function(req, res) {
+    app.get("/news", function(req, res) {
         if(req.session.type === "admin") {
-            res.render('news.ejs', { session : req.session });
+            res.render("news.ejs", { session : req.session });
         }else{
             res.redirect("/");
         }
     });
 
-    app.post('/new', function (req, res, next) {
+    app.post("/new", function (req, res, next) {
         if (req.session.type !== "admin") {
             res.redirect("/");
         } else {
-            console.log(urlApi);
             rp({
                 url: urlApi + "/post",
                 method: "POST",
@@ -32,8 +31,8 @@ module.exports = function(app, urlApi){
                     res.redirect("/");
                 }
             }).catch(function(err){
-                res.render("news.ejs", { msgError: "Erreur inconnu. Merci de réesayer.", session : req.session })
-            })
+                res.render("news.ejs", { msgError: "Erreur inconnu. Merci de réesayer.", session : req.session });
+            });
         }
     });
 };

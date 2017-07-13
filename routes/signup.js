@@ -11,7 +11,7 @@ module.exports = function(app, models, urlApi){
     // show the signup form
     app.get("/signup", function(req, res, next) {
 
-        if(req.session.type && req.session.type != ""){
+        if(req.session.type && req.session.type !== ""){
             res.redirect("/");
         }else {
             res.render("signup.ejs", {msgError: "", msgSuccess: "", session: req.session});
@@ -20,7 +20,7 @@ module.exports = function(app, models, urlApi){
 
     // process the signup form
     app.post("/signup", function (req, res, next) {
-        if(req.session.type && req.session.type != ""){
+        if(req.session.type && req.session.type !== ""){
             res.redirect("/");
         } else {
             if (!req.body.username){
@@ -46,7 +46,7 @@ module.exports = function(app, models, urlApi){
                     msgSuccess: "",
                     session : req.session
                 });
-            } else if(req.body.password != req.body.passwordConfirm){
+            } else if(req.body.password !== req.body.passwordConfirm){
                 res.render("signup.ejs", {
                     msgError:"Les mots de passe saisient ne sont pas identiques !",
                     msgSuccess: "",

@@ -32,19 +32,20 @@ module.exports = function(app, models, urlApi){
         }else {
 
 
-            /*On cr�e un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
+            /*On cree un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
             var file = req.body.codeBot.substring(8, req.body.codeBot.length);
             var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
             var contentP2 = fs.readFileSync("./" + req.body.codeBotAd, "UTF-8");
             contentP2 = contentP2.replace(/player/g, "player2");
             fs.writeFile("botFiles/"+fileP2, contentP2, function (err) {
-                if (err) return console.log(err);
-
+                if (err)  {
+                    return console.log(err);
+                }
             });
 
-            console.log("choix");
-            console.log(req.body.idbotAd);
-            res.render('index.ejs', {
+            Console.log("choix");
+            Console.log(req.body.idbotAd);
+            res.render("index.ejs", {
 
                 session: req.session,
                 idAd:req.body.idAd,
@@ -64,7 +65,7 @@ module.exports = function(app, models, urlApi){
     app.get("/Choix", function(req, res) {
         if(!req.session.type){
             res.redirect("/");
-        }else {
+        } else {
             //On recup la liste de bot :
             rp({
                 url: urlApi + "/botByUser",
@@ -81,7 +82,7 @@ module.exports = function(app, models, urlApi){
                     session: req.session,
                     listBot: body
                 });
-            })
+            });
         }
     });
 };

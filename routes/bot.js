@@ -84,7 +84,7 @@ module.exports = function(app, models,utils) {
             res.json({
                 "code" : 1,
                 "message" : "Missing required parameters"
-            })
+            });
         }
     });
 
@@ -254,35 +254,29 @@ module.exports = function(app, models,utils) {
         });
     });
 
+    app.post("/adversaire", function(req, res) {
+        if(!req.session.type) {
+            res.redirect("/");
+        } else {
+            var Bot = utils.Bot;
+            Console.log(Bot);
+            var u1 = new Bot();
+            u1.findEnemy(req.body.idbot,req.body.iduser,function(result) {
+                res.send(result);
+            });
+        }
+    });
 
-	  app.post('/adversaire', function(req, res) {
-	        if(!req.session.type){
-	            res.redirect("/");
-	        }else {
+    app.post("/win", function(req, res) {
+        Console.log("win");
+        var Bot = utils.Bot;
+        var u1 = new Bot();
+        u1.win(req.body.idBot,req.body.idLoose,function(result){
 
-	         var Bot = utils.Bot;
-					 console.log(Bot);
-					 var u1 = new Bot()
-					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
-
-						 res.send(result)
-					 })
-
-
-	        }
-	  });
-		app.post('/win', function(req, res) {
-						 console.log("win");
-		         var Bot = utils.Bot;
-						 var u1 = new Bot();
-						 u1.win(req.body.idBot,req.body.idLoose,function(result){
-
-						 })
-						 u1.loose(req.body.idLoose,req.body.idBot,function(result){
-							console.log(result);
-							res.send(result);
-						})
-	  });
-
-
-}
+        });
+        u1.loose(req.body.idLoose,req.body.idBot,function(result){
+            Console.log(result);
+            res.send(result);
+        })
+    });
+};

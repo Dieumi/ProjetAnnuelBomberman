@@ -76,7 +76,6 @@ module.exports = function(app, models,utils) {
         if (req.body.resultMatch) {
             attributes.resultMatch = req.body.resultMatch;
         }
-
         if (req.body.director) {
             attributes.director = req.body.director;
         }

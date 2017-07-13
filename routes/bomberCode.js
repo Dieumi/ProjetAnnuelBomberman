@@ -98,7 +98,7 @@ module.exports = function(app, models, urlApi){
             try {
                 F();
             } catch (e) {
-                console.log(e);
+                Console.log(e);
             }
 
             if (error != "") {
@@ -246,7 +246,9 @@ module.exports = function(app, models, urlApi){
                 } else {
                     myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js";
                     fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() {\n\r " + req.body.bomberEditor + "\n\r } }", function (err) {
-                        if (err) return console.log(err);
+                        if (err) {
+                            return console.log(err);
+                        }
                     });
                     rp({
                         url: urlApi + "/updateBot",

@@ -1,15 +1,11 @@
 module.exports = function(app){
 
- 
 	// =====================================
-	// SIGNUP ==============================
+	// Logout ==============================
 	// =====================================
-	// show the signup form
-	
-	app.get('/logout', function(req, res, next) {
+
+	app.get("/logout", function(req, res, next) {
 		req.session.destroy();
 		res.redirect("/");
 	});
-
-
 };

@@ -23,7 +23,7 @@
                     listBot: body,
                     api : currentApi
                 });
-            })
+            });
         }
     });
 };

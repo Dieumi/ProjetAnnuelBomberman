@@ -27,6 +27,6 @@ module.exports = function(app, urlApi){
                     listBot : body
                 });
             });
-        })
+        });
     });
 };
