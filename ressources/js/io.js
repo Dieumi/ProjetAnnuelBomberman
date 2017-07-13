@@ -168,7 +168,7 @@ socket.on('action', function () {
 
     console.log("test fonction");
     console.log(player);
-
+    //player.move("left");
     var tile=getTile(player.position.x,player.position.y);
     console.log(tile);
     if(tile.hasBonus!=null){
