@@ -37,7 +37,7 @@
 
 		function changeAvatar(nb, id){
 			var myImg = document.getElementById("avatar"+id);
-			document.getElementById("buttonValide").style.visibility="visible";
+			document.getElementById("buttonValide"+id).style.visibility="visible";
 			var name = myImg.getAttribute("name");
 			var i = listAvatar.indexOf(name);
 			var newAvatar = "";
@@ -55,7 +55,7 @@
 		}
 
 		function valideChange(id){
-			document.getElementById("buttonValide").style.visibility="hidden"
+			document.getElementById("buttonValide"+id).style.visibility="hidden"
 			var myImg = document.getElementById("avatar"+id);
 			var name = myImg.getAttribute("name");
 			$.ajax({
@@ -78,7 +78,7 @@
 
             <h3 class="bomber-text"><i class="fa fa-user" aria-hidden="true"></i> <%=listBot[i].nameBot%></h3>
 			<img name = "<%=listBot[i].avatarBot%>" id ="avatar<%=listBot[i].idBot%>" src = "/images/avatarGame/<%=listBot[i].avatarBot%>.png" style= "display: block;margin-left:auto;margin-right:auto">
-			<p align="center"><button onClick="changeAvatar(-1, <%=listBot[i].idBot%>)"><</button><button id="buttonValide" onClick="valideChange(<%=listBot[i].idBot%>)" style = "visibility:hidden;">valider</button><button onClick="changeAvatar(1, <%=listBot[i].idBot%>)">></button>
+			<p align="center"><button onClick="changeAvatar(-1, <%=listBot[i].idBot%>)"><</button><button id="buttonValide<%=listBot[i].idBot%>" onClick="valideChange(<%=listBot[i].idBot%>)" style = "visibility:hidden;">valider</button><button onClick="changeAvatar(1, <%=listBot[i].idBot%>)">></button>
 
             <%
                 var total = listBot[i].winBot + listBot[i].loseBot
