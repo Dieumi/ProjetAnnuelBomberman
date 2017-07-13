@@ -144,8 +144,8 @@ socket.on('win', function (player) {
             data: { "idBot": idBot1,"idLoose":idBot2 },
             dataType: 'json',
             success: function (data) {
-              console.log("succes");
-            //   window.location = urlApi;
+            
+              window.location = urlApi;
             }
         })
       }else {
@@ -155,8 +155,8 @@ socket.on('win', function (player) {
             data: { "idBot": idBot2,"idLoose":idBot1 },
             dataType: 'json',
             success: function (data) {
-              console.log("succes");
-              //window.location = urlApi;
+
+              window.location = urlApi;
             }
         })
       }
