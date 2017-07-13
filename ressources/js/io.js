@@ -134,31 +134,18 @@ socket.on('win', function (player) {
     frozen = true;
 
     log(player.name + ' has won!', true);
-
+    console.log(player)
+    console.log(idBot1)
     endGame(idBot1);
     if(document.getElementById('typeGame').value!="test"){
-      if(player.name==document.getElementById('nameBot').value){
-        $.ajax({
-            type: "POST",
-            url: urlApi + "/win",
-            data: { "idBot": idBot1,"idLoose":idBot2 },
-            dataType: 'json',
-            success: function (data) {
-            
-              window.location = urlApi;
-            }
-        })
-      }else {
-        $.ajax({
-            type: "POST",
-            url: urlApi + "/win",
-            data: { "idBot": idBot2,"idLoose":idBot1 },
-            dataType: 'json',
-            success: function (data) {
-
-              window.location = urlApi;
-            }
-        })
+      if(player.idBot==document.getElementById('idBot1').value){
+        $("#winner").val(idBot1);
+        $("#looser").val(idBot2);
+        $("#win").submit();
+        }else {
+        $("#winner").val(idBot2);
+        $("#looser").val(idBot1);
+        $("#win").submit();
       }
     }
 
@@ -281,7 +268,7 @@ function newGame(name) {
 
     log('Connecting to server..');
 
-    socket.emit('create', createGameId(), name, avatar.alt, matrix);
+    socket.emit('create', createGameId(), name, avatar.alt, matrix,idBot1);
 }
 
 function joinGame(name, id) {
@@ -297,7 +284,7 @@ function joinGame(name, id) {
 
     log('Connecting to server..');
     console.log("join")
-    socket2.emit('join', id, name);
+    socket2.emit('join', id, name,idBot2);
 
 }
 

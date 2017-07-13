@@ -72,6 +72,11 @@
 
 		<div id="fb-root">
 		</div>
+		<form id="win" action="/win" method="post">
+			<input type="hidden" id="winner" name="idBot">
+			<input type="hidden" id="looser" name="idLoose">
+
+		</form>
 	</body>
 
 	<script src="/lib/jquery.min.js"></script>
@@ -79,7 +84,7 @@
 	<script src="/js/scripts.js"></script>
 	<script src="<%=codeBot%>"></script>
 	<script>
-	
+
 		var codeBot1 = {"exec" : new Code()};
 	</script>
 	<script src="<%=codeBotAd%>"></script>

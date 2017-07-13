@@ -280,7 +280,7 @@ module.exports = function(app, models,utils) {
 						 })
 						 u1.loose(req.body.idLoose,req.body.idBot,function(result){
 							console.log(result);
-							res.send(result);
+						 res.redirect("/");
 						})
 	  });
 

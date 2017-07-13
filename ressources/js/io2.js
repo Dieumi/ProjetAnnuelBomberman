@@ -1,5 +1,4 @@
 var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
-
 //var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
 console.log('check 1', socket2);
@@ -136,7 +135,7 @@ socket2.on('move', function (id, position) {
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
     console.log(codeBot2);
-    player2.move("left");
+
 
   /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
