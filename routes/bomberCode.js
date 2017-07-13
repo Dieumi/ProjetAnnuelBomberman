@@ -11,17 +11,15 @@ module.exports = function (app, models, urlApi) {
     var playerEnd;
     var player;
     var gameFunction = "";
-
+    var avatar = "";
     app.get('/bomberCode/:idBot?', function (req, res) {
         myBot = null;
+        avatar = "";
         player = "function Player(t,i,n){";
         playerEnd = "};var player = new Player(null, \"test\", null);";
         /*if(req.session.type && req.session.type!=""){
             res.redirect("/");
         }else {*/
-
-
-
 
         rp({
             url: urlApi + "/gameApiDesc",
@@ -58,6 +56,7 @@ module.exports = function (app, models, urlApi) {
                         if (body.userIdBot != req.session.idUser) {
                             res.redirect('/myBomberman');
                         } else {
+                            avatar = req.body.avatarBot;
                             myBot = body;
                             var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
                             // on retire la def des fonctions
@@ -182,6 +181,8 @@ module.exports = function (app, models, urlApi) {
                     api: urlApi,
                     codeBot: file,
                     codeBotAd: fileP2,
+                    avatarBotAd: "bomberman",
+                    avatarBot: avatar,
                     type: "test"
                 });
             }

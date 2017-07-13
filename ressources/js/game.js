@@ -48,8 +48,11 @@ var iconBomb = new Image(),
     playerRam = new Image(),
     playerOx = new Image(),
     playerPiggle = new Image(),
+    playerBomberman = new Image(),
+    playerAvatar = new Image(),
+    playerRonflex = new Image(),
     playerWhale = new Image();
-
+    
 var BOMB_TIMER = 5000,
     BOMB_CLEAR_TIMER = 400;
 
@@ -72,6 +75,9 @@ var gameId,
         ox: playerOx,
         piggle: playerPiggle,
         whale: playerWhale,
+        bomberman: playerBomberman,
+        avatar: playerAvatar,
+        ronflex: playerRonflex,
     },
     playerMap = [
         {
@@ -101,7 +107,7 @@ $(document).ready(function () {
 
     iconBomb.src = '/images/bomb.png';
 
-    patternBrick.src = '/images//brick.png';
+    patternBrick.src = '/images/brick.png';
     patternPillar.src = '/images/pillar.png';
     patternFloor.src = '/images/floor.png';
     patternFire.src = '/images/fire.png';
@@ -126,6 +132,15 @@ $(document).ready(function () {
 
     playerPiggle.src = '/images/piggle.png';
     playerPiggle.alt = 'piggle';
+
+    playerBomberman.src = '/images/avatarGame/bomberman.png';
+    playerBomberman.alt = 'bomberman';
+
+    playerAvatar.src = '/images/avatarGame/avatar.png';
+    playerAvatar.alt = 'avatar';
+
+    playerRonflex.src = '/images/avatarGame/ronflex.png';
+    playerRonflex.alt = 'ronflex';
 
     playerWhale.src = '/images/whale.png';
     playerWhale.alt = 'whale';
@@ -615,6 +630,7 @@ function Tile(type) {
 }
 
 Player.create = function (context, data) {
+   
     var player = new Player(context, data.name, avatars[data.avatar]);
 
     player.id = data.id;

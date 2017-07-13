@@ -8,6 +8,7 @@ module.exports = function(app, models,utils) {
             Bot.create({
                 "nameBot" : req.body.nameBot,
                 "codeBot": req.body.codeBot,
+                "avatarBot": "bomberman",
                 "winBot" : 0,
                 "loseBot" : 0,
                 "pointBot" : 0,
@@ -17,7 +18,8 @@ module.exports = function(app, models,utils) {
                 res.json({
                     "code" : 0,
                     "idBot" : result.idBot,
-                    "nameBot" : result.nameBot,
+                    "nameBot": result.nameBot,
+                    "avatarBot": result.avatarBot,
                     "codeBot" : result.codeBot,
                     "winBot" : result.winBot,
                     "loseBot" : result.loseBot,
@@ -61,6 +63,7 @@ module.exports = function(app, models,utils) {
                         "code"      : 0,
                         "idBot"     : result.idBot,
                         "nameBot"   : result.nameBot,
+                        "avatarBot" : result.avatarBot,
                         "codeBot"   : result.codeBot,
                         "winBot"    : result.winBot,
                         "loseBot"   : result.winBot,
@@ -247,10 +250,13 @@ module.exports = function(app, models,utils) {
         if (req.body.modeBot) {
             attributes.modeBot = req.body.modeBot;
         }
+        if (req.body.avatarBot) {
+            attributes.avatarBot = req.body.avatarBot;
+        }
 
         var u1 = models.Bot;
         u1.update(attributes, request, function (err, data) {
-            res.send("/ListeBot");
+            //res.send("/ListeBot");
         });
     });
 
