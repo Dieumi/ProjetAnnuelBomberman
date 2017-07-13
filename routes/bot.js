@@ -104,7 +104,7 @@ module.exports = function(app, models,utils) {
                     "message": "Sequelize error",
                     "error": err
                 });
-            })
+            });
         }else{
             res.json({
                 "code" : 1,

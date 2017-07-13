@@ -100,7 +100,9 @@ playersummary.prototype.Player = function(context, name, avatar) {
         this.context.clearRect(this.position.x * brickSize, this.position.y * brickSize, brickSize, brickSize);
 
         //	don't render if player is dead
-        if (!this.isAlive) return;
+        if (!this.isAlive) {
+            return;
+        }
 
         //	draw player
         this.context.drawImage(this.avatar, x * brickSize, y * brickSize, brickSize, brickSize);
@@ -111,7 +113,7 @@ playersummary.prototype.Player = function(context, name, avatar) {
 
         //	let the server know player has moved
         if (socket && player && !dontNotify) {
-            socket.emit('move', gameId, player.id, this.position);
+            socket.emit("move", gameId, player.id, this.position);
         }
     };
 

@@ -113,7 +113,7 @@ BotUtils.prototype.loose = function(idB,iduser, callback) {
                     loseBot: nbLoose
                 }).then(function(result){
                     callback(result);
-                })
+                });
             } else {
                 //console.log("bot not found");
             }

@@ -38,7 +38,6 @@ MatchUtils.prototype.update=function(request,attributes,callback){
                 callback(null,results);
             }).catch(function(err){
             });
-        } else {
         }
     }).catch(function(err){
     });

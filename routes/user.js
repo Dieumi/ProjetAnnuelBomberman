@@ -152,7 +152,7 @@ module.exports = function(app, models,utils) {
                 "message": "Sequelize error",
                 "error": err
             });
-        })
+        });
     });
 
     app.get("/user/count", function (req, res, next) {

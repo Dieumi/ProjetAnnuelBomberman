@@ -37,13 +37,13 @@ module.exports = function(app, models,utils) {
             res.json({
                 "code" : 0,
                 "results" : body
-            })
+            });
         }).catch(function (err) {
             res.json({
                 "code": 2,
                 "message": "Sequelize error",
                 "error": err
-            })
-        })
+            });
+        });
     });
 };
