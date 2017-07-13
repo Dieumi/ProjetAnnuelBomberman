@@ -23,9 +23,21 @@
         </div>
     </div>
 	<script>
-		var listAvatar = ["bomberman", "avatar", "ronflex"];
+		var listAvatar = [];
+		$.ajax({
+				type: "GET",
+				url: "/avatarBot",
+				async: false,
+				success: function (data) {
+					for(var i = 0; i<data.length; i++){
+						listAvatar[i] = data[i].nameAvatarBot;
+					}
+				}
+			})
+
 		function changeAvatar(nb, id){
 			var myImg = document.getElementById("avatar"+id);
+			document.getElementById("buttonValide").style.visibility="visible";
 			var name = myImg.getAttribute("name");
 			var i = listAvatar.indexOf(name);
 			var newAvatar = "";
@@ -39,16 +51,20 @@
 			myImg.setAttribute("src", "/images/avatarGame/"+newAvatar+".png")
 			myImg.setAttribute("name", newAvatar)
 			
+								
+		}
+
+		function valideChange(id){
+			document.getElementById("buttonValide").style.visibility="hidden"
+			var myImg = document.getElementById("avatar"+id);
+			var name = myImg.getAttribute("name");
 			$.ajax({
 				type: "POST",
 				url: "/updateBot",
-				data: { "idBot": id, "avatarBot" : newAvatar },
-				dataType: 'json',
-				async: true,
-				success: function (data) {
-				}
+				data: { "idBot": id, "avatarBot" : name },
+				dataType: 'json'
 			})
-								
+			
 		}
 	</script>
     <div class="row">
@@ -62,7 +78,7 @@
 
             <h3 class="bomber-text"><i class="fa fa-user" aria-hidden="true"></i> <%=listBot[i].nameBot%></h3>
 			<img name = "<%=listBot[i].avatarBot%>" id ="avatar<%=listBot[i].idBot%>" src = "/images/avatarGame/<%=listBot[i].avatarBot%>.png" style= "display: block;margin-left:auto;margin-right:auto">
-			<p align="center"><button onClick="changeAvatar(-1, <%=listBot[i].idBot%>)"><</button><button onClick="changeAvatar(1, <%=listBot[i].idBot%>)">></button>
+			<p align="center"><button onClick="changeAvatar(-1, <%=listBot[i].idBot%>)"><</button><button id="buttonValide" onClick="valideChange(<%=listBot[i].idBot%>)" style = "visibility:hidden;">valider</button><button onClick="changeAvatar(1, <%=listBot[i].idBot%>)">></button>
 
             <%
                 var total = listBot[i].winBot + listBot[i].loseBot

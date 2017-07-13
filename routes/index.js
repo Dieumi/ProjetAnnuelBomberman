@@ -9,6 +9,7 @@ module.exports = function(app, models, utils, urlApi) {
 	require("./tournament")(app, models);
 	require("./gameApiDesc")(app, models, utils);
 	require("./post")(app, models);
+	require("./avatarBot")(app, models);
 
 	//FRONT
 	require("./home")(app, urlApi);

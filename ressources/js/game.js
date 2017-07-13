@@ -112,25 +112,25 @@ $(document).ready(function () {
     patternFloor.src = '/images/floor.png';
     patternFire.src = '/images/fire.png';
 
-    playerBirdie.src = '/images/birdie.png';
+    playerBirdie.src = '/images/avatarGame/birdie.png';
     playerBirdie.alt = 'birdie';
 
-    playerElephant.src = '/images/elephant.png';
+    playerElephant.src = '/images/avatarGame/elephant.png';
     playerElephant.alt = 'elephant';
 
-    playerFishy.src = '/images/fishy.png';
+    playerFishy.src = '/images/avatarGame/fishy.png';
     playerFishy.alt = 'fishy';
 
-    playerMonkey.src = '/images/monkey.png';
+    playerMonkey.src = '/images/avatarGame/monkey.png';
     playerMonkey.alt = 'monkey';
 
-    playerRam.src = '/images/ram.png';
+    playerRam.src = '/images/avatarGame/ram.png';
     playerRam.alt = 'ram';
 
-    playerOx.src = '/images/ox.png';
+    playerOx.src = '/images/avatarGame/ox.png';
     playerOx.alt = 'ox';
 
-    playerPiggle.src = '/images/piggle.png';
+    playerPiggle.src = '/images/avatarGame/piggle.png';
     playerPiggle.alt = 'piggle';
 
     playerBomberman.src = '/images/avatarGame/bomberman.png';

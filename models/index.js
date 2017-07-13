@@ -7,6 +7,7 @@ var SuccesModel = require("./Succes");
 var TournamentModel = require("./Tournament");
 var PostModel = require("./Post");
 var GameApiDesc = require("./GameApiDesc");
+var AvatarBot = require("./AvatarBot");
 
 seq.sync();
 
@@ -25,5 +26,6 @@ module.exports = {
     "Post" : PostModel,
     "Bomb" : bombModel,
     "Player" : playerModel,
-    "GameApiDesc": GameApiDesc
+    "GameApiDesc": GameApiDesc,
+    "AvatarBot": AvatarBot
 };

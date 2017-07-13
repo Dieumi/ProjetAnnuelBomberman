@@ -255,9 +255,7 @@ module.exports = function(app, models,utils) {
         }
 
         var u1 = models.Bot;
-        u1.update(attributes, request, function (err, data) {
-            //res.send("/ListeBot");
-        });
+        u1.update(attributes, request);
     });
 
 
