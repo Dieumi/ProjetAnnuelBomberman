@@ -72,7 +72,7 @@ BotUtils.prototype.win = function(idB,idBotLoose, callback) {
                 idBot : idB
             }
         }).then(function(result) {
-            Console.log("result");
+            //console.log("result");
             if(result) {
                 var nbPt= parseInt(result.pointBot) + 3;
                 var nbWin = parseInt(result.winBot) + 1;
@@ -83,7 +83,7 @@ BotUtils.prototype.win = function(idB,idBotLoose, callback) {
                     callback(result);
                 });
             }else {
-                Console.log("bot not found");
+                //console.log("bot not found");
             }
         }).catch(function(err) {
             callback(err);
@@ -115,7 +115,7 @@ BotUtils.prototype.loose = function(idB,iduser, callback) {
                     callback(result);
                 })
             } else {
-                Console.log("bot not found");
+                //console.log("bot not found");
             }
         }).catch(function(err) {
             callback(err);

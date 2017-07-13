@@ -29,9 +29,7 @@ module.exports = function(app, models, urlApi){
     app.post("/index", function(req, res) {
         if(!req.session.type){
             res.redirect("/");
-        }else {
-
-
+        } else {
             /*On cree un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
             var file = req.body.codeBot.substring(8, req.body.codeBot.length);
             var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
@@ -42,11 +40,7 @@ module.exports = function(app, models, urlApi){
                     return console.log(err);
                 }
             });
-
-            Console.log("choix");
-            Console.log(req.body.idbotAd);
             res.render("index.ejs", {
-
                 session: req.session,
                 idAd:req.body.idAd,
                 idBotAd: req.body.idbotAd,

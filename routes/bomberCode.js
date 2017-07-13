@@ -98,7 +98,7 @@ module.exports = function(app, models, urlApi){
             try {
                 F();
             } catch (e) {
-                Console.log(e);
+                console.log(e);
             }
 
             if (error != "") {

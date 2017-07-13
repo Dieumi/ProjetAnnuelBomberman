@@ -35,16 +35,12 @@ MatchUtils.prototype.update=function(request,attributes,callback){
     Match.find(request).then(function(results){
         if(results){
             results.updateAttributes(attributes).then(function(results){
-                Console.log("Match update");
                 callback(null,results);
             }).catch(function(err){
-                Console.log("Match pas  update");
             });
         } else {
-            Console.log("pas de result");
         }
     }).catch(function(err){
-        Console.log(err);
     });
 };
 
