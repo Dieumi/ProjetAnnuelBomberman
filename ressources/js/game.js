@@ -152,13 +152,9 @@ function attachEventListeners() {
 
     idBot1 = document.getElementById('idBot1').value;
     idBot2 = document.getElementById('idBot2').value;
-<<<<<<< HEAD
-
-=======
     codeBot1 = document.getElementById('codeBot1').value;
     codeBot2 = document.getElementById('codeBot2').value;
-    
->>>>>>> 6c5b951ff2fb18cd007e500c54191f19bd2dee7f
+
     var element = $(this);
 
     var fieldUserName = $('input[name=user-name]'),
