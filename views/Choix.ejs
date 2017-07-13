@@ -4,44 +4,54 @@
   <title>Bomberman Accueil</title>
   <% include ./partials/header %>
 </head>
-<body>
+<body class="bomber-background">
 
 <% include ./partials/navbar %>
 
-<div>
-    <input type="hidden" value='<%=session.idUser%>' id="idUser">
-    <% for(var i =0; i<3;i++){ %>
-    <div class="col-md-offset-1 col-md-2">
+<div class="container">
+    <div class="row">
+        <div class="bomber-block col-sm-6 col-sm-push-3">
+
+            <h1 class="bomber-text"><i class="fa fa-play-circle-o" aria-hidden="true"></i> Jouer</h1>
+            <hr class = "bomber-line" >
+
+            <p>Avant de jouer, ....</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <input type="hidden" value='<%=session.idUser%>' id="idUser">
+        <% for(var i =0; i < 3;i++){ %>
         <% if(listBot[i]){ %>
-            <h3><%=listBot[i].nameBot%></h3>
+        <div class="bomber-block col-sm-4 col-sm-push-1" style="margin-left: 20px; margin-right: 20px; width: 25%">
+            <h3 class="bomber-text"><i class="fa fa-user" aria-hidden="true"></i> <%=listBot[i].nameBot%></h3>
 
             <input type="radio" id="<%=listBot[i].nameBot%>" name="choix" value='<%=listBot[i].idBot%>'  />Choisir<br>
+            <% } %>
+
+        </div>
         <% } %>
-
     </div>
-    <% } %>
 
+    <button id="jouer" type="button" class="btn btn-primary">Jouer</button>
+    <div id="dialog" class="dialogcss">
+        <form id="combat" action="/index" method="post" >
+            <div id="player0">
+            </div>
+        </form>
+        <form id="combat" action="/index" method="post" >
+
+            <div id="player1">
+            </div>
+        </form>
+        <form id="combat" action="/index" method="post" >
+
+            <div id="player2">
+            </div>
+        </form>
+    </div>
 </div>
-<button id="jouer" type="button" class="btn btn-primary">Jouer</button>
-<div id="dialog" class="dialogcss">
-  <form id="combat" action="/index" method="post" >
 
-
-    <div id="player0">
-    </div>
-  </form>
-  <form id="combat" action="/index" method="post" >
-
-    <div id="player1">
-    </div>
-  </form>
-  <form id="combat" action="/index" method="post" >
-
-    <div id="player2">
-    </div>
-  </form>
-
-</div>
 <% include ./partials/footer %>
 
 </body>
@@ -57,8 +67,6 @@
            maxHeight: 500,
            width: 780,
            height: 500
-
-
        });
    for(var i=0;i<3;i++){
 
