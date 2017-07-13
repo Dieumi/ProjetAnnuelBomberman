@@ -40,7 +40,8 @@ var iconBomb = new Image(),
     patternPillar = new Image(),
     patternFloor = new Image(),
     patternFire = new Image(),
-
+    iconBonus=new Image(),
+    iconBonus2=new Image(),
     playerBirdie = new Image(),
     playerElephant = new Image(),
     playerFishy = new Image(),
@@ -105,7 +106,8 @@ $(document).ready(function () {
     patternPillar.src = '/images/pillar.png';
     patternFloor.src = '/images/floor.png';
     patternFire.src = '/images/fire.png';
-
+    iconBonus.src='/images/bonus1.png';
+    iconBonus2.src='/images/bonus2.png';
     playerBirdie.src = '/images/birdie.png';
     playerBirdie.alt = 'birdie';
 
@@ -153,8 +155,8 @@ function attachEventListeners() {
 
     idBot2 = document.getElementById('idBot2').value;
 
-    codeBot1 = document.getElementById('codeBot1').value;
-    codeBot2 = document.getElementById('codeBot2').value;
+    /*codeBot1 = document.getElementById('codeBot1').value;
+    codeBot2 = document.getElementById('codeBot2').value;*/
 
 
     var element = $(this);
@@ -358,9 +360,18 @@ function updateTile(x, y, key, value) {
         matrix[x][y][key] = value;
     }
 }
-
+function addBonus(x,y,name){
+  console.log("bonus : "+x+y);
+  var tile=getTile(x,y);
+  if(tile.type=='empty'){
+    tile.hasBonus=new Bonus(name);
+    tile.render(x,y);
+  }
+}
 //	classes
-
+function Bonus(name){
+  this.name=name;
+}
 function Tile(type) {
     this.position = {};
 
@@ -373,7 +384,7 @@ function Tile(type) {
     this.canMove = this.type == 'empty' ? true : false;
 
     this.hasBomb = false;
-
+    this.hasBonus = null;
     this.setType = function (type) {
         this.type = type || 'empty';
 
@@ -407,8 +418,17 @@ function Tile(type) {
 
             case 'empty':
             default:
+                if(this.hasBonus!=null){
+                  if(this.hasBonus.name=="powerUp"){
+                      contextTiles.drawImage(iconBonus2, x * brickSize, y * brickSize, brickSize, brickSize);
+                  }else if(this.hasBonus.name=="moreBomb"){
+                      contextTiles.drawImage(iconBonus, x * brickSize, y * brickSize, brickSize, brickSize);
+                  }
 
-                contextTiles.drawImage(patternFloor, x * brickSize, y * brickSize, brickSize, brickSize);
+                }else{
+                    contextTiles.drawImage(patternFloor, x * brickSize, y * brickSize, brickSize, brickSize);
+                }
+
 
                 break;
         }
@@ -426,7 +446,8 @@ function Tile(type) {
     this.isAlive = true;
 
     this.position = {};
-
+    this.hasBonus=null;
+    this.tourBonus=0;
     this.maxBombs = 1;
     this.bombs = 0;
 
@@ -592,6 +613,7 @@ function Tile(type) {
     }
 
     this.plantBomb = function () {
+        Bomb.strength=1;
         // dead people don't plant bombs
         if (!this.isAlive) return;
 
@@ -602,6 +624,7 @@ function Tile(type) {
         if (getTile(this.position.x, this.position.y).hasBomb) return;
 
         //	else plant bomb
+
         var bomb = new Bomb(this.position.x, this.position.y);
 
         this.bombs++;
@@ -613,12 +636,27 @@ function Tile(type) {
 
         //	notify the server
         if (socket && this == player) {
-					console.log("player 1 pose sa bomb");
-            socket.emit('bomb', gameId, this.position);
+          console.log("player 1 pose sa bomb");
+
+          if(this.hasbonus!=null && this.hasBonus.name=="powerUp"){
+            bomb.powerUp();
+            socket.emit('bomb', gameId, this.position,2);
+          }else{
+            bomb.strength=1;
+              socket.emit('bomb', gameId, this.position,1);
+          }
+
         }
         if (socket2 && this == player2) {
-						console.log("player 2 pose sa bomb");
-            socket2.emit('bomb', gameId, this.position);
+            console.log("player 2 pose sa bomb");
+            if(this.hasbonus!=null &&  this.hasBonus.name=="powerUp"){
+            bomb.powerUp();
+            socket2.emit('bomb', gameId, this.position,2);
+            }else{
+              bomb.strength=1;
+              socket2.emit('bomb', gameId, this.position,1);
+            }
+
         }
         this.bomb = bomb;
     }

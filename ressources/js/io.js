@@ -3,8 +3,8 @@
 
 //var socket = io.connect('https://bman.herokuapp.com:443/');
 
-var socket = io.connect('https://bmanserver.herokuapp.com/');
-//var socket = io.connect('http://localhost:3000/');
+//var socket = io.connect('https://bmanserver.herokuapp.com/');
+var socket = io.connect('http://localhost:3000/');
 console.log('check 1', socket);
 //	setup event listeners
 
@@ -145,7 +145,7 @@ socket.on('win', function (player) {
             dataType: 'json',
             success: function (data) {
               console.log("succes");
-               window.location = urlApi;
+            //   window.location = urlApi;
             }
         })
       }else {
@@ -156,7 +156,7 @@ socket.on('win', function (player) {
             dataType: 'json',
             success: function (data) {
               console.log("succes");
-              window.location = urlApi;
+              //window.location = urlApi;
             }
         })
       }
@@ -176,31 +176,53 @@ socket.on('move', function (id, position) {
 
 });
 socket.on('action', function () {
-<<<<<<< HEAD
 
-    //eval(codeBot1);
-exec();
-=======
     console.log("test fonction");
     console.log(player);
-    console.log(player.getNearestEnemy());
-    console.log(player.isBomber(player.position.x,player.position.y))
-    console.log(player.isOnSameLine(0))
+
+    var tile=getTile(player.position.x,player.position.y);
+    console.log(tile);
+    if(tile.hasBonus!=null){
+        player.hasBonus=tile.hasBonus;
+        player.tourBonus=3;
+      if(tile.hasBonus.name=="moreBomb"){
+        player.maxBombs=2;
+        tile.hasBonus=null;
+        tile.render(player.position.x,player.position.y);
+      }else if(tile.hasBonus.name=="powerUp"){
+          player.maxBombs=1;
+          tile.hasBonus=null;
+          tile.render(player.position.x,player.position.y);
+      }
+      player.tourBonus--;
+      if(player.tourBonus==0){
+        player.hasBonus=null;
+      }
+    }
+
+
     codeBot1["exec"].exec();
 
->>>>>>> dcbcfe88c52a4beb2f61b34bdb4e8a9bd51835a9
 
     console.log("io:" + player.name)
     if (gameOn != false && frozen != true) {
         setTimeout(function () {
             socket.emit("action", player.name);
+          var rand=getRandomIntInclusive(1,5);
+          if(rand>4){
+                   addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"powerUp");
+                //  addBonus(1,0,"powerUp");
+          }else if (rand <2){
+                  addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"moreBomb");
+          }
+
         }, 1500);
 
     }
 
 })
-socket.on('bomb', function (position) {
-    var bomb = new Bomb(position.x, position.y);
+socket.on('bomb', function (position,strength) {
+    var bomb = new Bomb(position.x, position.y,strength);
 
     bomb.render();
 

@@ -1,5 +1,6 @@
-var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
-//var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
+//var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
+
+var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
 console.log('check 1', socket2);
 //	setup event listeners
@@ -138,7 +139,19 @@ socket2.on('action', function () {
     player2.move("left");
 
   /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
-    var codeExec = codeBot2.replace(/player/g, "player2");
+    //var codeExec = codeBot2.replace(/player/g, "player2");
+    var tile=getTile(player2.position.x,player2.position.y);
+    if(tile.hasBonus==true){
+      player2.maxBombs=2;
+      player2.tourBonus=3;
+      tile.hasBonus=null;
+      tile.render();
+    }else if(player2.hasBonus==true){
+      player2.tourBonus--;
+      if(player2.tourBonus==0){
+        player2.hasBonus=false;
+      }
+    }
     codeBot2["exec"].exec();
 
 

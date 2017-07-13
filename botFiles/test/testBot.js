@@ -1,13 +1,31 @@
 var Code = function (){ 
-<<<<<<< HEAD
  this.exec = function() {
  
-  var t=2
+ 
+ 
+
+     player.plantBomb()   
+   
+if(player.canGo("right",player.position)){
+    
+player.move("right")
+}else{
+    
+player.move("left")
+
+ 
+}
+ 
+
+ 
 
  
 
  
-=======
- this.exec = function() { var a;
->>>>>>> d80c6a03e1aa35cca5a152529832f05e8a495d84
+
+ 
+
+ 
+
+ 
  } }

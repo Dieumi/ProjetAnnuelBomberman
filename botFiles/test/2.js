@@ -1,4 +1,31 @@
 var Code = function (){ 
  this.exec = function() {
- var t=3
+ 
+ 
+ 
+
+     player.plantBomb()   
+   
+if(player.canGo("right",player.position)){
+    
+player.move("right")
+}else{
+    
+player.move("left")
+
+ 
+}
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
  } }

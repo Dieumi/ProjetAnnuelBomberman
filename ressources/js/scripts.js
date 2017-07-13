@@ -107,7 +107,7 @@
 
 		players.push(player_);
 		player2=player_;
-	
+
 		if (!player || player_.id !== player.id) log(player_.name + ' has joined the game', true);
 	}
 
@@ -204,7 +204,11 @@
 	{
 		return Math.round(Math.random());
 	}
-
+	function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min +1)) + min;
+}
 	function growl(message, isSad)
 	{
 		var growl = $('<p>').text(message).hide();
