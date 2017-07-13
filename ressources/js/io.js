@@ -177,7 +177,12 @@ socket.on('move', function (id, position) {
 });
 socket.on('action', function () {
 
-    codeBot1["exec"].exec();
+    try{
+        codeBot1["exec"].exec();
+    } catch (err) {
+        console.log(err);
+    }
+    
 
 
     console.log("io:" + player.name)

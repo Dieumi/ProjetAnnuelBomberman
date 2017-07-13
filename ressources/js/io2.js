@@ -137,7 +137,12 @@ socket2.on('action', function () {
 
   /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
-    codeBot2["exec"].exec();
+    try {
+        codeBot2["exec"].exec();
+    } catch (err) {
+        console.log(err);
+    }
+   
 
     //player2.move("down");
 
