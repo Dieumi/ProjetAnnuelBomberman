@@ -9,7 +9,7 @@
 <% include ./partials/navbar %>
 
 <div class="container">
-    <div class="col-sm-6 col-sm-offset-3 bomber-block bomber-text">
+    <div class="col-sm-8 col-sm-offset-2 bomber-block bomber-text">
         <%profile = JSON.parse(profile)%>
 
         <h2 class="bomber-text"><span class="fa fa-user-circle"></span> Profil de <b class="bomber-bold"><%=profile.loginUser%></b></h2>
@@ -56,6 +56,17 @@
         }
         }
         %>
+        <div class="row" style="margin: 5px">
+            <p class="bomber-text"><span class="fa fa-trophy"></span> Trophées</p>
+            <% for (var i = 0 ; i < 10 ; i++) {%>
+
+            <div class="col-xs-2 bomber-trophy">
+                <img src="/images/trophy.jpg" alt="Image 1" />
+            </div>
+
+            <% } %>
+
+        </div>
     </div>
 </div>
 <% include ./partials/footer %>
