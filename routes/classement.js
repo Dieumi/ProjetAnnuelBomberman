@@ -2,20 +2,21 @@ module.exports = function(app, urlApi){
 	// ===========================================
 	// CLASSEMENT PAGE (with login links) ========
 	// ===========================================
-	var rp = require('request-promise')
+	var rp = require("request-promise");
 
-	app.get('/classement', function(req, res) {
+	app.get("/classement/:limit/:page", function(req, res) {
 		rp({
-			url: urlApi + "/classementBot",
+			url: urlApi + "/classementBot/" + req.params.limit + "/" + req.params.page,
 			method: "GET",
 			headers: {
-				'Content-Type': 'application/json'
+				"Content-Type": "application/json"
 			}
 		}).then(function(body) {
-			res.render('classement.ejs', {
+			res.render("classement.ejs", {
 				session : req.session,
-				top : body
+				top : body,
+				currentPage : req.params.page
 			});
 		})
 	});
-}
+};

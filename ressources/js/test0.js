@@ -1,4 +1,5 @@
-function execAd(){
+var Code = function (){ 
+	this.exec = function() {
   var nb=Math.floor((Math.random() * 100) + 1);
   /*if(nb>0 && nb<20){
       player2.move("right")
@@ -13,14 +14,16 @@ function execAd(){
   }else if(nb>80 && nb<100){
       player2.move("left")
   }*/
-  var tile =player2.canGo("down",player2.position);
+ /* var tile =player2.canGo("down",player2.position);
   console.log(tile);
     if(tile==true){
           player2.move("down")
     }else{
           player2.move("up")
     }
+*/
 
-
-
+	console.log("test0")
+	}
 }
+

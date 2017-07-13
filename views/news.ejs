@@ -1,0 +1,36 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>News</title>
+    <% include ./partials/header %>
+</head>
+<body class="bomber-background">
+<% include ./partials/navbar %>
+
+<div class="container">
+
+    <div class="col-sm-6 col-sm-offset-3 bomber-block bomber-text">
+
+        <h1><span class="fa fa-pencil-square-o"></span> Ajouter une new</h1>
+
+        <hr class = "bomber-line" >
+
+        <!-- News FORM -->
+        <form action="/new" method="post">
+            <div class="form-group">
+                <label>Titre</label>
+                <input type="text" class="form-control" name="titlePost" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" class="form-control" name="textPost" required>
+            </div>
+            <button type="submit" class="btn btn-lg bomber-btn">Ajouter</button>
+        </form>
+    </div>
+
+</div>
+<% include ./partials/footer %>
+</body>
+</html>

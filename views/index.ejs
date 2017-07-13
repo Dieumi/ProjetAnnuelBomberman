@@ -20,6 +20,9 @@
 	</head>
 
 	<body>
+		<% if (type =="test"){ %>
+			<a href="/bomberCode/<%=idBot%>">Retour</a>
+		<% } %>
 		<div class="growl">
 		</div>
 		<div class="wrapper">
@@ -46,8 +49,10 @@
 							<input type="hidden" id="idBot2" value="<%=idBotAd%>">
 							<input type="hidden" id="codeBot1" value="<%=codeBot%>">
 							<input type="hidden" id="codeBot2" value="<%=codeBotAd%>">
-							<input type="text" name="user-name" placeholder="Your name" value="<%=namebot%>" tabindex="1" maxlength="10">
+							<input type="text" name="user-name" placeholder="Your name" id="nameBot" value="<%=namebot%>" tabindex="1" maxlength="10">
 							<input type="hidden" name="user-nameAD" placeholder="Your name" value="<%=namebotAd%>" tabindex="1" maxlength="10">
+							<input type="hidden" id="typeGame"  value="<%=type%>" tabindex="1" maxlength="10">
+
 							<button type="submit">New Game</button>
 						</li>
 						<li>
@@ -72,8 +77,14 @@
 	<script src="/lib/jquery.min.js"></script>
 	<script src="/lib/hashids.min.js"></script>
 	<script src="/js/scripts.js"></script>
-	<script src="/js/test.js"></script>
-		<script src="/js/test0.js"></script>
+	<script src="<%=codeBot%>"></script>
+	<script>
+		var codeBot1 = {"exec" : new Code()};
+	</script>
+	<script src="<%=codeBotAd%>"></script>
+	<script>
+		var codeBot2 = {"exec" : new Code()};
+	</script>
 	<script src="/js/game.js"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>

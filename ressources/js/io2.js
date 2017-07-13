@@ -1,5 +1,5 @@
-//var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
-var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
+var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
+//var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
 console.log('check 1', socket2);
 //	setup event listeners
@@ -35,7 +35,7 @@ socket2.on('joined', function (playerInfo, game) {
 
     game.players.forEach(function (player_) {
         var otherPlayer,
-          map = playerMap[player_.index];
+            map = playerMap[player_.index];
 
         if (socket2.io.engine.id == player_.id) {
             otherPlayer = player = Player.create(map.context, player_);
@@ -120,16 +120,7 @@ socket2.on('stop', function () {
 
 });
 
-socket2.on('win', function (player2) {
-    gameOn = false;
-    frozen = true;
 
-//  log(player2.name + ' has won!', true);
-
-
-    endGame(player2.name);
-
-});
 
 socket2.on('move', function (id, position) {
     players.forEach(function (player2) {
@@ -143,10 +134,18 @@ socket2.on('move', function (id, position) {
 });
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
+    console.log(codeBot2);
+    player2.move("left");
+
+  /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
+    var codeExec = codeBot2.replace(/player/g, "player2");
+    codeBot2["exec"].exec();
+
 
     //var codeExec = codeBot2.replace(/player/g , "player2");
     //eval(codeExec);
-    execAd();
+
+
     //player2.move("down");
 
     /*if(gameOn != false && frozen != true){
@@ -170,8 +169,8 @@ socket2.on('death', function (id) {
             player2.isAlive = false;
 
             player2.render();
-  //    log(player2.name + ' is dead!', true, true);
-    }
+            //    log(player2.name + ' is dead!', true, true);
+        }
 
 
     });
@@ -182,7 +181,7 @@ socket2.on('player-joined', function (player2) {
     console.log("player2-joined")
     console.log(player2)
     var map = playerMap[player2.index],
-      newPlayer = Player.create(map.context, player2);
+        newPlayer = Player.create(map.context, player2);
 
     newPlayer.render(map.x, map.y, true);
 

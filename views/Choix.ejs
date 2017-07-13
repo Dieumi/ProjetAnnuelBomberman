@@ -25,18 +25,18 @@
 <button id="jouer" type="button" class="btn btn-primary">Jouer</button>
 <div id="dialog" class="dialogcss">
   <form id="combat" action="/index" method="post" >
+
+
     <div id="player0">
     </div>
   </form>
   <form id="combat" action="/index" method="post" >
-        <input type="hidden" id="iduser1" name="idAd" value="" >
-          <input type="hidden" id="idbot1" name="idbotAd" value="" >
+
     <div id="player1">
     </div>
   </form>
   <form id="combat" action="/index" method="post" >
-    <input type="hidden" id="iduser2" name="idAd" value="" >
-      <input type="hidden" id="idbot2" name="idbotAd" value="" >
+
     <div id="player2">
     </div>
   </form>
@@ -60,31 +60,31 @@
 
 
        });
-       for(var i=0;i<3;i++){
+   for(var i=0;i<3;i++){
 
-           $("#player"+i).empty();
-       }
+       $("#player"+i).empty();
+   }
     var user={
       iduser:  $("#idUser").val(),
       idbot:$('input[name=choix]:checked').val()
     }
     console.log(user)
-    var txt;
+  var txt;
 	var codeBot="";
 	$.ajax({
         type: "GET",
-        url: "http://localhost:8888/bot",
+        url: "/bot",
         data: { "idBot": $('input[name=choix]:checked').val() },
         dataType: 'json',
         async: false,
         success: function (data) {
             codeBot = data.codeBot
-            
+
         }
     })
 
     $.ajax({
-           url : 'http://localhost:8888/adversaire',
+           url : '/adversaire',
            type : 'POST',
            dataType: 'json',
            data: user,
@@ -98,9 +98,9 @@
                   txt+="<input type='hidden' name='iduser' value='"+$("#idUser").val()+"'/>"
                   txt+="<input type='hidden' name='idbot' value='"+$('input[name=choix]:checked').val()+"'/>"
                   txt+="<input type='hidden' name='namebotAD' value='"+code_html[i].nameBot+"'/>"
-				  txt+="<input type='hidden' name='idbotAd' value='"+code_html[i].idBot+"'/>"
-				  txt+="<input type='hidden' name='codeBotAd' value='"+code_html[i].codeBot+"'/>"
-				  txt+="<input type='hidden' name='codeBot' value='"+codeBot+"'/>"
+        				  txt+="<input type='hidden' name='idbotAd' value='"+code_html[i].idBot+"'/>"
+        				  txt+="<input type='hidden' name='codeBotAd' value='"+code_html[i].codeBot+"'/>"
+        				  txt+="<input type='hidden' name='codeBot' value='"+codeBot+"'/>"
                   txt+="<input type='hidden' name='namebot' value='"+$('input[name=choix]:checked').attr("id")+"'/>"
                   $("#iduser"+i).val(code_html[i].userIdBot)
                   $("#idbot"+i).val(code_html[i].idBot)

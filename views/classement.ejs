@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Classement</title>
+    <title> Classement</title>
     <% include ./partials/header %>
 </head>
 <body class="bomber-background">
@@ -14,51 +14,70 @@ if(session.type){
 %>
 <div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
-        <h1><i class="fa fa-globe" aria-hidden="true"></i>Classement</h1>
+        <h1 class="bomber-text"><span class="fa fa-trophy"></span> Classement</h1>
         <% if (top) {
-            top = JSON.parse(top)%>
-        <div class="row">
+            top = JSON.parse(top)
+            currentPage = JSON.parse(currentPage)
+            var index = (currentPage-1) * top.limit%>
+        <div class="row" style="padding: 20px;">
             <table class="table table-hover table-responsive bomber-tabler">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>Bomber</th>
                     <th>Points</th>
+                    <th>Ratio</th>
                     <th>Joueur</th>
                 </tr>
                 </thead>
                 <tbody>
-
-                <%var color
-                console.log()
-                for(var i = 0 ; i < top.length ; i++) {
-                    if (i == 0) {
+                <%
+                    var color
+                    var position = 0
+                for(var i = 0 ; i < top.result[0].length ; i++) {
+                    position = i + 1 + index
+                    if (position == 1) {
                         color = "#ffd700"
-                    } else if (i == 1) {
+                    } else if (position == 2) {
                         color = "silver"
-                    } else if (i == 2) {
+                    } else if (position == 3) {
                         color = "#8b4513"
                     } else {
                         color = ""
                     }
+                    var ratio = 0
+                    var win = top.result[0][i].winBot
+                    var lose = top.result[0][i].loseBot
+                    if (win > 0 && lose > 0) {
+                        ratio = (win / lose).toFixed(2)
+                    }
                 %>
                 <tr>
-                    <td bgcolor=<%=color%>><%=i+1%></td>
-                    <td><%=top[i].nameBot%></td>
-                    <td><%=top[i].pointBot%></td>
-                    <td><a href="/profile/<%=top[i].userIdBot%>"><%=top[i].userIdBot%></a></td>
+                    <td bgcolor=<%=color%>><%=position%></td>
+                    <td><%=top.result[0][i].nameBot%></td>
+                    <td><%=top.result[0][i].pointBot%></td>
+                    <td><%=ratio%></td>
+                    <td><a href="/profile/<%=top.result[0][i].userIdBot%>"><%=top.result[0][i].loginUser%></a></td>
                 </tr>
                 <% } %>
                 </tbody>
             </table>
+            <div align="center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <% for (var i = 1; i <= top.pages; i++) {%>
+                        <li><a href="/classement/10/<%=i%>"><%=i%></a></li>
+                        <%}%>
+                    </ul>
+                </nav>
+            </div>
         </div>
-
         <% } %>
     </div>
 </div>
-<%
-}
-%>
+<% } else { %>
+<h1>Maintenance...</h1>
+<% } %>
 
 <% include ./partials/footer %>
 

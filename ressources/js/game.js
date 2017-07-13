@@ -8,8 +8,7 @@ var bomb=new bombsummary();*/
 
 var idBot1 = "";
 var idBot2 = "";
-var codeBot1;
-var codeBot2;
+
 var urlApi = document.getElementById('urlApi').value;
 
 var canvasTiles = document.getElementById('tiles'),
@@ -100,35 +99,35 @@ var gameId,
 $(document).ready(function () {
     showLoading();
 
-    iconBomb.src = 'images//bomb.png';
+    iconBomb.src = '/images/bomb.png';
 
-    patternBrick.src = 'images//brick.png';
-    patternPillar.src = 'images//pillar.png';
-    patternFloor.src = 'images//floor.png';
-    patternFire.src = 'images//fire.png';
+    patternBrick.src = '/images//brick.png';
+    patternPillar.src = '/images/pillar.png';
+    patternFloor.src = '/images/floor.png';
+    patternFire.src = '/images/fire.png';
 
-    playerBirdie.src = 'images//birdie.png';
+    playerBirdie.src = '/images/birdie.png';
     playerBirdie.alt = 'birdie';
 
-    playerElephant.src = 'images//elephant.png';
+    playerElephant.src = '/images/elephant.png';
     playerElephant.alt = 'elephant';
 
-    playerFishy.src = 'images//fishy.png';
+    playerFishy.src = '/images/fishy.png';
     playerFishy.alt = 'fishy';
 
-    playerMonkey.src = 'images//monkey.png';
+    playerMonkey.src = '/images/monkey.png';
     playerMonkey.alt = 'monkey';
 
-    playerRam.src = 'images//ram.png';
+    playerRam.src = '/images/ram.png';
     playerRam.alt = 'ram';
 
-    playerOx.src = 'images//ox.png';
+    playerOx.src = '/images/ox.png';
     playerOx.alt = 'ox';
 
-    playerPiggle.src = 'images//piggle.png';
+    playerPiggle.src = '/images/piggle.png';
     playerPiggle.alt = 'piggle';
 
-    playerWhale.src = 'images//whale.png';
+    playerWhale.src = '/images/whale.png';
     playerWhale.alt = 'whale';
 
 
@@ -151,9 +150,12 @@ $(window).load(function () {
 function attachEventListeners() {
 
     idBot1 = document.getElementById('idBot1').value;
+
     idBot2 = document.getElementById('idBot2').value;
+
     codeBot1 = document.getElementById('codeBot1').value;
     codeBot2 = document.getElementById('codeBot2').value;
+
 
     var element = $(this);
 
@@ -319,21 +321,18 @@ function drawTile(x, y) {
 
     return tile;
 }
-function drawTile(x, y)
-{
-    if (x % 2 == 1 && y % 2 == 1)
-    {
+/*
+function drawTile(x, y) {
+    if (x % 2 == 1 && y % 2 == 1) {
         type = 'pillar';
 
     }
-    else
-    {
+    else {
         type = Math.floor(Math.random() * 10) > 1 ? 'normal' : 'empty';
 
     }
 
-    if (empty.indexOf(x + ' ' + y) > -1)
-    {
+    if (empty.indexOf(x + ' ' + y) > -1) {
         type = 'empty';
     }
 
@@ -342,17 +341,14 @@ function drawTile(x, y)
     tile.render(x, y);
 
     return tile;
-}
+}*/
 
-function getTile(x, y)
-{
+function getTile(x, y) {
     return matrix[x] && matrix[x][y];
 }
 
-function setTile(tile, x, y)
-{
-    if (matrix[x])
-    {
+function setTile(tile, x, y) {
+    if (matrix[x]) {
         matrix[x][y] = tile;
     }
 }
@@ -468,6 +464,94 @@ function Tile(type) {
         }
     }
 
+    this.moveTowardCell = function(x, y){
+
+    }
+
+    this.isObstacle = function (x, y) {
+        if (getTile(x, y).type == "pillar"){
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isWall = function (x, y) {
+        if (getTile(x, y).type == "normal") {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    this.isEmpty = function (x, y) {
+        if (getTile(x, y).type == "empty") {
+            return true;
+        }else {
+            return false
+        }
+    }
+
+    this.isBomber = function (x,y){
+      if(this==player){
+        if(x==player2.position.x && y==player2.position.y){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        if(x==player.position.x && y==player.position.y){
+          return true;
+        }else{
+          return false;
+        }
+      }
+    }
+    this.isOnSameLine= function (x){
+      if(this == player){
+        if(player2.position.y==x){
+          return true
+        }else{
+          return false
+        }
+      }else{
+        if(player.position.y==x){
+          return true
+        }else{
+          return false
+        }
+      }
+    }
+    this.isBomb = function (x, y) {
+        return getTile(x, y).hasBomb
+    }
+    this.getNearestEnemy = function (){
+      if(this==player){
+        return player2.position;
+      }else{
+        return player.position;
+      }
+    }
+    this.isBomber = function(x, y){
+        if (player != this) {
+            if (player.position.y == y && player.position.x == x) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } else {
+            if (player2.position.y == y && player2.position.x == x) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
     this.canGo = function (direction, position) {
         var x = position.x,
             y = position.y;
@@ -529,9 +613,11 @@ function Tile(type) {
 
         //	notify the server
         if (socket && this == player) {
+					console.log("player 1 pose sa bomb");
             socket.emit('bomb', gameId, this.position);
         }
         if (socket2 && this == player2) {
+						console.log("player 2 pose sa bomb");
             socket2.emit('bomb', gameId, this.position);
         }
         this.bomb = bomb;
@@ -642,11 +728,11 @@ function Bomb(x, y, strength) {
         blown.forEach(function (spot) {
             if (this.canExplode(spot.x, spot.y)) {
                 this.blown.push(
-                {
-                    x: spot.x,
-                    y: spot.y
+                    {
+                        x: spot.x,
+                        y: spot.y
 
-                });
+                    });
 
                 updateTile(spot.x, spot.y, 'canMove', false);
 

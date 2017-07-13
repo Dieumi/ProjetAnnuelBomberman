@@ -1,8 +1,8 @@
-<!-- views/signup.ejs -->
+<!-- views/profile.ejs -->
 <!doctype html>
 <html>
 <head>
-    <title>Inscription</title>
+    <title>Profil</title>
     <% include ./partials/header %>
 </head>
 <body class="bomber-background">
@@ -11,17 +11,51 @@
 <div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block bomber-text">
         <%profile = JSON.parse(profile)%>
-        <h2 class="bomber-text">Profil de <b class="bomber-bold"><%=profile.loginUser%></b></h2>
+
+        <h2 class="bomber-text"><span class="fa fa-user-circle"></span> Profil de <b class="bomber-bold"><%=profile.loginUser%></b></h2>
         <hr class = "bomber-line" >
         <div class="row">
-          <div class="col-sm-8">
-            <p class="bomber-text">Email : <a href="mailto:<%=profile.emailUser%>"><%=profile.emailUser%></a></p>
-            <p class="bomber-text">Inscrit le <%=profile.createdAt.substring(8,10)%>/<%=profile.createdAt.substring(5,7)%>/<%=profile.createdAt.substring(0,4)%></p>
-          </div>
-          <div class="col-sm-4 hidden-xs">
-            <img src="/images/bomber-profile.png" style ="width:100%;"/>
-          </div>
+            <div class="col-sm-8">
+                <p class="bomber-text"><span class="fa fa-envelope-o"></span> Email : <a href="mailto:<%=profile.emailUser%>"><%=profile.emailUser%></a></p>
+                <p class="bomber-text"><span class="fa fa-pencil-square-o"></span> Inscrit le <%=profile.createdAt.substring(8,10)%>/<%=profile.createdAt.substring(5,7)%>/<%=profile.createdAt.substring(0,4)%></p>
+            </div>
+            <div class="col-sm-4 hidden-xs">
+                <img src="/images/bomber-profile.png" style ="width:100%;"/>
+            </div>
         </div>
+
+        <%if (listBot.length == 3) {
+        if ( session.idUser == listBot[0].userIdBot) {
+            var win = 0;
+            var lose = 0;
+            for (var i = 0 ; i < 3 ; i++) {
+                win += listBot[i].winBot;
+                lose += listBot[i].loseBot;
+            }
+            var total = win + lose;
+            var victory = (win / total) * 100
+            var defeat = (lose / total) * 100
+            var ratio = (win / lose).toFixed(2)
+        %>
+        <div class="row" style="margin: 5px">
+            <p class="bomber-text"><span class="fa fa-bar-chart"></span> Statistique</p>
+            <div style="text-align: center">
+                <p><b class="bomber-bold">Nombre de partie : <%=total%> joué</b></p>
+            </div>
+            <div class="progress" style="margin: 15px">
+                <div class="progress-bar progress-bar-success"  style="width: <%=victory%>%"> V <%=win%>
+                </div>
+                <div class="progress-bar progress-bar-danger" style="width: <%=defeat%>%"> D <%=lose%>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <p><b class="bomber-bold">Ratio : <%=ratio%></b></p>
+            </div>
+        </div>
+        <%
+        }
+        }
+        %>
     </div>
 </div>
 <% include ./partials/footer %>
