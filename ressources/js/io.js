@@ -117,6 +117,8 @@ socket.on('start', function (matrix) {
         gameOn = true;
 
         frozen = false;
+        player2.move("right");
+        player.move("left");
         socket.emit("action", player.name);
 
     }, startTimer);
@@ -234,8 +236,8 @@ socket.on('player-joined', function (player) {
     console.log(player)
     var map = playerMap[player.index],
         newPlayer = Player.create(map.context, player);
-
-    newPlayer.render(map.x, map.y, true);
+        console.log(map.context);
+    newPlayer.render(map.x,map.y, true);
 
 
     addPlayer(newPlayer);

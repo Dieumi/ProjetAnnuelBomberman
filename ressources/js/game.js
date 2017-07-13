@@ -83,7 +83,7 @@ var gameId,
         {
             context: contextPlayerTwo,
             x: upperLimit,
-            y: 0,
+            y: upperLimit,
         },
         {
             context: contextPlayerThree,
@@ -93,7 +93,7 @@ var gameId,
         {
             context: contextPlayerFour,
             x: upperLimit,
-            y: upperLimit,
+            y: 0,
         }
     ];
 
