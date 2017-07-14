@@ -156,8 +156,6 @@ module.exports = function (app, models, urlApi) {
         /*if(req.session.type && req.session.type!=""){
          res.redirect("/");
          }else {*/
-        console.log("dans lePost")
-        console.log(myBot)
         if (!req.body.name) {
             res.render('bomberCode.ejs', {
                 msgError: "Veuillez saisir un nom pour votre Bomber !",
@@ -214,7 +212,7 @@ module.exports = function (app, models, urlApi) {
                         "userIdBot": req.session.idUser,
                     }
                 }).then(function (body) {
-                    rp({
+                    /*rp({
                         url: urlApi + "/updateBot",
                         method: "POST",
                         headers: {
@@ -228,10 +226,9 @@ module.exports = function (app, models, urlApi) {
                         return null;
                     }).catch(function (err) { 
                         console.log(err);
-                    });
+                    });*/
                     myBot = body;
-                    console.log(" a la création")
-                    console.log(myBot)
+
                     myBot.codeBot = "botFiles/" + req.session.login + "/" + body.idBot + ".js";
                     fs.rename(completePath, myBot.codeBot);
                     res.render('bomberCode.ejs', {
@@ -258,8 +255,6 @@ module.exports = function (app, models, urlApi) {
                     });
                 });
             } else {
-                console.log("pour update")
-                console.log(myBot)
                 myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js";
                 fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                     if (err) return console.log(err);
