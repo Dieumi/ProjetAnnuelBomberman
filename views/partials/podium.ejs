@@ -1,5 +1,9 @@
-<% if (top) {
+ <%
+
+if (top) {
     top = JSON.parse(top)
+if(top.result){
+
 if (top.result[0].length == 3) {%>
 <div class="col-sm-6 col-sm-offset-3 bomber-block" style="margin-top: 0px;">
     <h2 class="bomber-text"><span class="fa fa-globe"></span> Podium</h2>
@@ -43,5 +47,5 @@ if (top.result[0].length == 3) {%>
         </div>
     </div>
 </div>
-<% }
+<% }}
 } %>
