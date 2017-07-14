@@ -42,6 +42,8 @@ module.exports = function (app, models, urlApi) {
                         } else {
                             avatar = req.body.avatarBot;
                             myBot = body;
+                            console.log("dans le get")
+                            console.log(myBot)
                             var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
                             // on retire la def des fonctions
                             var code = "";
@@ -60,6 +62,7 @@ module.exports = function (app, models, urlApi) {
                                 session: req.session,
                                 gameFunc: gameFunction
                             });
+                            return null;
                         }
                     }
                 }).catch(function (err) {
@@ -77,6 +80,7 @@ module.exports = function (app, models, urlApi) {
                     gameFunc: gameFunction
                 });
             }
+            return null;
         }).catch(function (err) {
             res.redirect('/myBomberman');
         })
@@ -87,7 +91,7 @@ module.exports = function (app, models, urlApi) {
         /*if(req.session.type && req.session.type!=""){
          res.redirect("/");
          }else {*/
-
+        
         if (!req.body.name) {
             res.render('bomberCode.ejs', {
                 msgError: "Veuillez saisir un nom pour votre Bomber !",
@@ -151,7 +155,8 @@ module.exports = function (app, models, urlApi) {
         /*if(req.session.type && req.session.type!=""){
          res.redirect("/");
          }else {*/
-
+        console.log("dans lePost")
+        console.log(myBot)
         if (!req.body.name) {
             res.render('bomberCode.ejs', {
                 msgError: "Veuillez saisir un nom pour votre Bomber !",
@@ -218,8 +223,14 @@ module.exports = function (app, models, urlApi) {
                             "codeBot": "botFiles/" + req.session.login + "/" + body.idBot + ".js",
                             "idBot": body.idBot
                         }
-                    }).then(function (body) { }).catch(function (err) { });
+                    }).then(function (body) {
+                        return null;
+                    }).catch(function (err) { 
+                        console.log(err);
+                    });
                     myBot = body;
+                    console.log(" a la création")
+                    console.log(myBot)
                     myBot.codeBot = "botFiles/" + req.session.login + "/" + body.idBot + ".js";
                     fs.rename(completePath, myBot.codeBot);
                     res.render('bomberCode.ejs', {
@@ -232,6 +243,7 @@ module.exports = function (app, models, urlApi) {
                         session: req.session,
                         gameFunc: gameFunction
                     });
+                    return null;
                 }).catch(function (err) {
                     res.render('bomberCode.ejs', {
                         msgError: "Erreur lors de la création du Bomber. Merci de réessayer.",
@@ -245,6 +257,8 @@ module.exports = function (app, models, urlApi) {
                     });
                 });
             } else {
+                console.log("pour update")
+                console.log(myBot)
                 myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js";
                 fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                     if (err) return console.log(err);
