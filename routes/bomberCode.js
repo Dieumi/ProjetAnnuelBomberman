@@ -10,7 +10,7 @@ module.exports = function (app, models, urlApi) {
     var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
     var gameFunction = "";
     var avatar = "";
-    app.get('/bomberCode/:idBot?', function (req, res) {
+    app.get('/bomberCode/:idBot?', function (req, res, next) {
         myBot = null;
         avatar = "";
         
@@ -88,7 +88,7 @@ module.exports = function (app, models, urlApi) {
         //}
     });
 
-    app.post('/bomberCode/testInGame', function (req, res) {
+    app.post('/bomberCode/testInGame', function (req, res, next) {
         /*if(req.session.type && req.session.type!=""){
          res.redirect("/");
          }else {*/
@@ -152,7 +152,7 @@ module.exports = function (app, models, urlApi) {
 
 
 
-    app.post('/bomberCode', function (req, res) {
+    app.post('/bomberCode', function (req, res, next) {
         /*if(req.session.type && req.session.type!=""){
          res.redirect("/");
          }else {*/
@@ -212,7 +212,7 @@ module.exports = function (app, models, urlApi) {
                         "userIdBot": req.session.idUser,
                     }
                 }).then(function (body) {
-                    /*rp({
+                    rp({
                         url: urlApi + "/updateBot",
                         method: "POST",
                         headers: {
@@ -226,7 +226,7 @@ module.exports = function (app, models, urlApi) {
                         return null;
                     }).catch(function (err) { 
                         console.log(err);
-                    });*/
+                    });
                     myBot = body;
 
                     myBot.codeBot = "botFiles/" + req.session.login + "/" + body.idBot + ".js";
