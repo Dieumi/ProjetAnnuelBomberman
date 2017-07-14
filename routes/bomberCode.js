@@ -6,12 +6,12 @@ module.exports = function (app, models, urlApi) {
     var rp = require('request-promise');
     var api = models.myApi;
     var request = require('request');
-    var myBot;
+
     var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
     var gameFunction = "";
     var avatar = "";
     app.get('/bomberCode/:idBot?', function (req, res, next) {
-        myBot = null;
+        
         avatar = "";
         
         /*if(req.session.type && req.session.type!=""){
@@ -41,9 +41,6 @@ module.exports = function (app, models, urlApi) {
                             res.redirect('/myBomberman');
                         } else {
                             avatar = req.body.avatarBot;
-                            myBot = body;
-                            console.log("dans le get")
-                            console.log(myBot)
                             var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
                             // on retire la def des fonctions
                             var code = "";
@@ -187,7 +184,6 @@ module.exports = function (app, models, urlApi) {
             });
             completePath = dir + "testBot.js";
 
-            //completePath = "./" + myBot.codeBot;
 
             fs.writeFile(completePath, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                 if (err) return console.log(err);
@@ -195,7 +191,7 @@ module.exports = function (app, models, urlApi) {
 
             /*Si nouveau bot create sinon update*/
 
-            if (!myBot) {
+            if (!req.body.idBot) {
                 rp({
                     url: urlApi + "/bot",
                     method: "POST",
@@ -209,7 +205,7 @@ module.exports = function (app, models, urlApi) {
                         "loseBot": 0,
                         "pointBot": 0,
                         "modeBot": req.body.modeBot,
-                        "userIdBot": req.session.idUser,
+                        "userIdBot": req.body.idUser,
                     }
                 }).then(function (body) {
                     rp({
@@ -227,10 +223,10 @@ module.exports = function (app, models, urlApi) {
                     }).catch(function (err) { 
                         console.log(err);
                     });
-                    myBot = body;
+                   
 
-                    myBot.codeBot = "botFiles/" + req.session.login + "/" + body.idBot + ".js";
-                    fs.rename(completePath, myBot.codeBot);
+                    var codeBot = "botFiles/" + req.session.login + "/" + body.idBot + ".js";
+                    fs.rename(completePath, codeBot);
                     res.render('bomberCode.ejs', {
                         msgError: "",
                         msgSuccess: "Bomber prêt au combat !",
@@ -255,8 +251,8 @@ module.exports = function (app, models, urlApi) {
                     });
                 });
             } else {
-                myBot.codeBot = "botFiles/" + req.session.login + "/" + myBot.idBot + ".js";
-                fs.writeFile(myBot.codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
+                var codeBot = "botFiles/" + req.session.login + "/" + req.body.idBot + ".js";
+                fs.writeFile(codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
                     if (err) return console.log(err);
                 });
                 rp({
@@ -267,7 +263,7 @@ module.exports = function (app, models, urlApi) {
                     },
                     json: {
                         "nameBot": req.body.name,
-                        "idBot": myBot.idBot,
+                        "idBot": req.body.idBot,
                         "modeBot": req.body.modeBot
                     }
                 }).then(function (body) { }).catch(function (err) { });

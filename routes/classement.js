@@ -4,7 +4,7 @@ module.exports = function(app, urlApi){
 	// ===========================================
 	var rp = require("request-promise");
 
-	app.get("/classement/:limit/:page", function(req, res) {
+	app.get("/classement/:limit/:page", function(req, res, next) {
 		rp({
 			url: urlApi + "/classementBot/" + req.params.limit + "/" + req.params.page,
 			method: "GET",

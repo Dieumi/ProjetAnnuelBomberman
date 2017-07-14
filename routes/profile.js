@@ -1,7 +1,7 @@
 module.exports = function(app, urlApi){
     var rp = require("request-promise");
 
-    app.get("/profile/:id", function(req, res) {
+    app.get("/profile/:id", function(req, res, next) {
         rp({
             url: urlApi + "/user/profile/" + req.params.id,
             method: "GET",

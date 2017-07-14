@@ -34,7 +34,7 @@
         <form method="POST" id="formBomberCode" action="/bomberCode">
 			<input type="button" onClick="validate('save')" value="Sauvegarder"><% if(idBot) { %><input type="button" onClick="validate('test')" value="Tester en partie" > <% } %>
 			
-
+			<input type = "hidden" value="<%=session.idUser%>" name = "idUser">
             <div class="alert alert-danger" id="msgError" style = "visibility:hidden"> <%= msgError %> </div>
 
             <% if (msgSuccess.length > 0) { %>
