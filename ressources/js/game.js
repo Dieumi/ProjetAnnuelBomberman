@@ -24,8 +24,8 @@ var canvasTiles = document.getElementById('tiles'),
     canvasPlayerFour = document.getElementById('player-four'),
     contextPlayerFour = canvasPlayerTwo.getContext('2d');
 
-
-
+var hasPlayed=null,
+    hasPlayed2=null;
 var matrix = {},
     matrixSize = 9,
     brickSize = 64;
@@ -53,7 +53,7 @@ var iconBomb = new Image(),
     playerAvatar = new Image(),
     playerRonflex = new Image(),
     playerWhale = new Image();
-    
+
 var BOMB_TIMER = 5000,
     BOMB_CLEAR_TIMER = 400;
 
@@ -471,35 +471,70 @@ function Tile(type) {
     this.move = function (direction) {
         // can't move if dead, son
         if (!this.isAlive) return;
+        if(this==player && hasPlayed==false ){
+          hasPlayed=true;
+          if (!this.canGo(direction, this.position)) return;
+
+          switch (direction) {
+              case 'up':
+
+                  this.render(this.position.x, this.position.y - 1);
+
+                  break;
+
+              case 'down':
+
+                  this.render(this.position.x, this.position.y + 1);
+
+                  break;
+
+              case 'left':
+
+                  this.render(this.position.x - 1, this.position.y);
+
+                  break;
+
+              case 'right':
+
+                  this.render(this.position.x + 1, this.position.y);
+
+                  break;
+          }
+        }else if(this==player2 && hasPlayed2==false){
+          hasPlayed2=true;
+          if (!this.canGo(direction, this.position)) return;
+
+          switch (direction) {
+              case 'up':
+
+                  this.render(this.position.x, this.position.y - 1);
+
+                  break;
+
+              case 'down':
+
+                  this.render(this.position.x, this.position.y + 1);
+
+                  break;
+
+              case 'left':
+
+                  this.render(this.position.x - 1, this.position.y);
+
+                  break;
+
+              case 'right':
+
+                  this.render(this.position.x + 1, this.position.y);
+
+                  break;
+          }
+        }
+
 
         //	check if we can move in that direction
-        if (!this.canGo(direction, this.position)) return;
 
-        switch (direction) {
-            case 'up':
 
-                this.render(this.position.x, this.position.y - 1);
-
-                break;
-
-            case 'down':
-
-                this.render(this.position.x, this.position.y + 1);
-
-                break;
-
-            case 'left':
-
-                this.render(this.position.x - 1, this.position.y);
-
-                break;
-
-            case 'right':
-
-                this.render(this.position.x + 1, this.position.y);
-
-                break;
-        }
     }
 
     this.moveTowardCell = function(x, y){
@@ -630,6 +665,8 @@ function Tile(type) {
     }
 
     this.plantBomb = function () {
+
+
         Bomb.strength=1;
         // dead people don't plant bombs
         if (!this.isAlive) return;
@@ -641,7 +678,8 @@ function Tile(type) {
         if (getTile(this.position.x, this.position.y).hasBomb) return;
 
         //	else plant bomb
-
+        if (socket && this == player && hasPlayed==false)  {
+        hasPlayed=true;
         var bomb = new Bomb(this.position.x, this.position.y);
 
         this.bombs++;
@@ -652,7 +690,7 @@ function Tile(type) {
         Bomb.plant(this.position.x, this.position.y);
 
         //	notify the server
-        if (socket && this == player) {
+
           console.log("player 1 pose sa bomb");
 
           if(this.hasbonus!=null && this.hasBonus.name=="powerUp"){
@@ -664,7 +702,16 @@ function Tile(type) {
           }
 
         }
-        if (socket2 && this == player2) {
+        if (socket2 && this == player2 && hasPlayed2==false) {
+            hasPlayed2=true;
+            var bomb = new Bomb(this.position.x, this.position.y);
+
+            this.bombs++;
+
+            setTimeout(this.clearBomb.bind(this), BOMB_TIMER);
+
+            //	fake bomb planting while the server responds
+            Bomb.plant(this.position.x, this.position.y);
             console.log("player 2 pose sa bomb");
             if(this.hasbonus!=null &&  this.hasBonus.name=="powerUp"){
             bomb.powerUp();
@@ -692,10 +739,11 @@ function Tile(type) {
         this.position.y = y;
 
         //	let the server know player has moved
-        if (socket && this == player && !dontNotify) {
+        if (socket && this == player && !dontNotify  ) {
             socket.emit('move', gameId, player.id, this.position);
 
-        } else if (socket2 && this == player2 && !dontNotify) {
+
+        } else if (socket2 && this == player2 && !dontNotify ) {
             socket2.emit('move', gameId, player2.id, this.position);
 
         }
@@ -707,7 +755,7 @@ function Tile(type) {
 }
 
 Player.create = function (context, data) {
-   
+
     var player = new Player(context, data.name, avatars[data.avatar]);
 
     player.id = data.id;

@@ -277,7 +277,8 @@ module.exports = function(app, models,utils) {
 					 console.log(Bot);
 					 var u1 = new Bot()
 					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
-
+             console.log("result");
+             console.log(result);
 						 res.send(result)
 					 })
 

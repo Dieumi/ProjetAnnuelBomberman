@@ -121,8 +121,6 @@ socket.on('start', function (matrix) {
         socket.emit("action", player.name);
 
     }, startTimer);
-    player2.move("right");
-    player.move("left");
 
 });
 
@@ -158,6 +156,7 @@ socket.on('move', function (id, position) {
     players.forEach(function (player) {
         if (player.id == id) {
             player.render(position.x, position.y, true);
+
         }
 
     });
@@ -165,7 +164,7 @@ socket.on('move', function (id, position) {
 
 });
 socket.on('action', function () {
-
+    hasPlayed=false;
     console.log("test fonction");
     console.log(player);
     //player.move("left");
@@ -199,8 +198,8 @@ socket.on('action', function () {
     console.log("io:" + player.name)
     if (gameOn != false && frozen != true) {
         setTimeout(function () {
-            socket.emit("action", player.name);
           var rand=getRandomIntInclusive(1,5);
+          socket.emit("action", player.name);
           if(rand>4){
                    addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"powerUp");
                 //  addBonus(1,0,"powerUp");

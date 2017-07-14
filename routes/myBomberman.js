@@ -30,7 +30,7 @@ module.exports = function(app, models, urlApi){
         if(!req.session.type){
             res.redirect("/");
         }else {
-            /*On créee un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
+            /*On crï¿½ee un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
             var file = req.body.codeBot.substring(8, req.body.codeBot.length);
             var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
             var contentP2 = fs.readFileSync("./" + req.body.codeBotAd, "UTF-8");
@@ -73,7 +73,8 @@ module.exports = function(app, models, urlApi){
                     "userIdBot": req.session.idUser
                 }
             }).then(function(body) {
-
+              console.log("result");
+              console.log(body);
                 res.render("Choix.ejs", {
                     session: req.session,
                     listBot: body,
