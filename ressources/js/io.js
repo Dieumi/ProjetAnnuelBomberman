@@ -121,9 +121,7 @@ socket.on('start', function (matrix) {
         socket.emit("action", player.name);
 
     }, startTimer);
-    player2.move("right");
-    player.move("left");
-
+    
 });
 
 socket.on('stop', function () {
