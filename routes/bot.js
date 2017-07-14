@@ -255,7 +255,7 @@ module.exports = function(app, models,utils) {
         }
 
         var u1 = models.Bot;
-        u1.update(attributes, request).then(function (results) {  
+       /* u1.update(attributes, request).then(function (results) {  
             res.send(results);
         }).catch(function (err) {
             res.json({
@@ -263,7 +263,7 @@ module.exports = function(app, models,utils) {
                 "message": "Sequelize error",
                 "error": err
             });
-        });
+        });*/
      
     });
 
