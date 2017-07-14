@@ -133,16 +133,32 @@ socket2.on('move', function (id, position) {
 socket2.on('action', function () {
     console.log("io2:" + player2.name);
     console.log(codeBot2);
-    player2.move("left");
+    player2.move("right");
 
   /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
-    try {
+    var tile=getTile(player2.position.x,player2.position.y);
+    if(tile.hasBonus==true){
+      player2.maxBombs=2;
+      player2.tourBonus=3;
+      tile.hasBonus=null;
+      tile.render();
+    }else if(player2.hasBonus==true){
+      player2.tourBonus--;
+      if(player2.tourBonus==0){
+        player2.hasBonus=false;
+      }
+    }
+     try {
         codeBot2["exec"].exec();
     } catch (err) {
         console.log(err);
     }
-   
+
+
+    //var codeExec = codeBot2.replace(/player/g , "player2");
+    //eval(codeExec);
+
 
     //player2.move("down");
 

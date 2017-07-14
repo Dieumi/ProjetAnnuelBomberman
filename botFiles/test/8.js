@@ -1,5 +1,5 @@
 var Code = function (){ 
- this.exec = function() { var b ="test";
+ this.exec = function() {  var b ="test";
 var nb=Math.floor((Math.random() * 100) + 1);
 
 if(nb>0 && nb<20){
@@ -15,4 +15,4 @@ if(nb>0 && nb<20){
 	player.move("down");
 }else if(nb>80 && nb<100){
 	player.move("left");
-}  } }
+}   } }

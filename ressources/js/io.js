@@ -117,10 +117,12 @@ socket.on('start', function (matrix) {
         gameOn = true;
 
         frozen = false;
+
         socket.emit("action", player.name);
 
     }, startTimer);
-
+    player2.move("right");
+    player.move("left");
 
 });
 
@@ -134,31 +136,18 @@ socket.on('win', function (player) {
     frozen = true;
 
     log(player.name + ' has won!', true);
-
+    console.log(player)
+    console.log(idBot1)
     endGame(idBot1);
     if(document.getElementById('typeGame').value!="test"){
-      if(player.name==document.getElementById('nameBot').value){
-        $.ajax({
-            type: "POST",
-            url: urlApi + "/win",
-            data: { "idBot": idBot1,"idLoose":idBot2 },
-            dataType: 'json',
-            success: function (data) {
-              console.log("succes");
-               window.location = urlApi;
-            }
-        })
-      }else {
-        $.ajax({
-            type: "POST",
-            url: urlApi + "/win",
-            data: { "idBot": idBot2,"idLoose":idBot1 },
-            dataType: 'json',
-            success: function (data) {
-              console.log("succes");
-              window.location = urlApi;
-            }
-        })
+      if(player.idBot==document.getElementById('idBot1').value){
+        $("#winner").val(idBot1);
+        $("#looser").val(idBot2);
+        $("#win").submit();
+        }else {
+        $("#winner").val(idBot2);
+        $("#looser").val(idBot1);
+        $("#win").submit();
       }
     }
 
@@ -177,25 +166,55 @@ socket.on('move', function (id, position) {
 });
 socket.on('action', function () {
 
-    try{
+    console.log("test fonction");
+    console.log(player);
+    //player.move("left");
+    var tile=getTile(player.position.x,player.position.y);
+    console.log(tile);
+    if(tile.hasBonus!=null){
+        player.hasBonus=tile.hasBonus;
+        player.tourBonus=3;
+      if(tile.hasBonus.name=="moreBomb"){
+        player.maxBombs=2;
+        tile.hasBonus=null;
+        tile.render(player.position.x,player.position.y);
+      }else if(tile.hasBonus.name=="powerUp"){
+          player.maxBombs=1;
+          tile.hasBonus=null;
+          tile.render(player.position.x,player.position.y);
+      }
+      player.tourBonus--;
+      if(player.tourBonus==0){
+        player.hasBonus=null;
+      }
+    }
+     try{
         codeBot1["exec"].exec();
     } catch (err) {
         console.log(err);
     }
-    
+
 
 
     console.log("io:" + player.name)
     if (gameOn != false && frozen != true) {
         setTimeout(function () {
             socket.emit("action", player.name);
+          var rand=getRandomIntInclusive(1,5);
+          if(rand>4){
+                   addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"powerUp");
+                //  addBonus(1,0,"powerUp");
+          }else if (rand <2){
+                  addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"moreBomb");
+          }
+
         }, 1500);
 
     }
 
 })
-socket.on('bomb', function (position) {
-    var bomb = new Bomb(position.x, position.y);
+socket.on('bomb', function (position,strength) {
+    var bomb = new Bomb(position.x, position.y,strength);
 
     bomb.render();
 
@@ -221,8 +240,8 @@ socket.on('player-joined', function (player) {
     console.log(player)
     var map = playerMap[player.index],
         newPlayer = Player.create(map.context, player);
-
-    newPlayer.render(map.x, map.y, true);
+        console.log(map.context);
+    newPlayer.render(map.x,map.y, true);
 
 
     addPlayer(newPlayer);
@@ -255,7 +274,7 @@ function newGame(name) {
 
     log('Connecting to server..');
 
-    socket.emit('create', createGameId(), name, avatar.alt, matrix);
+    socket.emit('create', createGameId(), name, avatar.alt, matrix,idBot1);
 }
 
 function joinGame(name, id) {
@@ -271,7 +290,7 @@ function joinGame(name, id) {
 
     log('Connecting to server..');
     console.log("join")
-    socket2.emit('join', id, name);
+    socket2.emit('join', id, name,idBot2);
 
 }
 

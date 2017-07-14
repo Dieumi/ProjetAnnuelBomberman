@@ -12,7 +12,7 @@ module.exports = function(app, models,utils) {
                 "winBot" : 0,
                 "loseBot" : 0,
                 "pointBot" : 0,
-                "modeBot" : "peaceful",
+                "modeBot": req.body.modeBot,
                 "userIdBot" : req.body.userIdBot
             }).then(function(result){
                 res.json({
@@ -284,7 +284,7 @@ module.exports = function(app, models,utils) {
 						 })
 						 u1.loose(req.body.idLoose,req.body.idBot,function(result){
 							console.log(result);
-							res.send(result);
+						 res.redirect("/");
 						})
 	  });
 
