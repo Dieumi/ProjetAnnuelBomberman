@@ -9,11 +9,9 @@ console.log('check 1', socket2);
 socket2.on('welcome', function (id, playerInfo) {
     console.log("testwelcome")
     gameId = window.location.hash = id;
-    console.log(gameId)
 
+    
     player2 = Player.create(contextPlayerOne, playerInfo);
-    console.log(player2)
-    console.log(player)
     player2.render(0, 0);
 
     addPlayer(player2);
@@ -151,7 +149,11 @@ socket2.on('action', function () {
         player2.hasBonus=false;
       }
     }
-    codeBot2["exec"].exec();
+     try {
+        codeBot2["exec"].exec();
+    } catch (err) {
+        console.log(err);
+    }
 
 
     //var codeExec = codeBot2.replace(/player/g , "player2");

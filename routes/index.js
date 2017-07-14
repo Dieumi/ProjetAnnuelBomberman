@@ -7,7 +7,9 @@ module.exports = function(app, models, utils, urlApi) {
 	require("./match")(app, models);
 	require("./bot")(app, models,utils);
 	require("./tournament")(app, models);
+	require("./gameApiDesc")(app, models, utils);
 	require("./post")(app, models);
+	require("./avatarBot")(app, models);
 
 	//FRONT
 	require("./home")(app, urlApi);

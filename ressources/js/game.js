@@ -49,8 +49,11 @@ var iconBomb = new Image(),
     playerRam = new Image(),
     playerOx = new Image(),
     playerPiggle = new Image(),
+    playerBomberman = new Image(),
+    playerAvatar = new Image(),
+    playerRonflex = new Image(),
     playerWhale = new Image();
-
+    
 var BOMB_TIMER = 5000,
     BOMB_CLEAR_TIMER = 400;
 
@@ -73,6 +76,9 @@ var gameId,
         ox: playerOx,
         piggle: playerPiggle,
         whale: playerWhale,
+        bomberman: playerBomberman,
+        avatar: playerAvatar,
+        ronflex: playerRonflex,
     },
     playerMap = [
         {
@@ -102,32 +108,43 @@ $(document).ready(function () {
 
     iconBomb.src = '/images/bomb.png';
 
-    patternBrick.src = '/images//brick.png';
+    patternBrick.src = '/images/brick.png';
     patternPillar.src = '/images/pillar.png';
     patternFloor.src = '/images/floor.png';
     patternFire.src = '/images/fire.png';
+
     iconBonus.src='/images/bonus1.png';
     iconBonus2.src='/images/bonus2.png';
     playerBirdie.src = '/images/birdie.png';
+
     playerBirdie.alt = 'birdie';
 
-    playerElephant.src = '/images/elephant.png';
+    playerElephant.src = '/images/avatarGame/elephant.png';
     playerElephant.alt = 'elephant';
 
-    playerFishy.src = '/images/fishy.png';
+    playerFishy.src = '/images/avatarGame/fishy.png';
     playerFishy.alt = 'fishy';
 
-    playerMonkey.src = '/images/monkey.png';
+    playerMonkey.src = '/images/avatarGame/monkey.png';
     playerMonkey.alt = 'monkey';
 
-    playerRam.src = '/images/ram.png';
+    playerRam.src = '/images/avatarGame/ram.png';
     playerRam.alt = 'ram';
 
-    playerOx.src = '/images/ox.png';
+    playerOx.src = '/images/avatarGame/ox.png';
     playerOx.alt = 'ox';
 
-    playerPiggle.src = '/images/piggle.png';
+    playerPiggle.src = '/images/avatarGame/piggle.png';
     playerPiggle.alt = 'piggle';
+
+    playerBomberman.src = '/images/avatarGame/bomberman.png';
+    playerBomberman.alt = 'bomberman';
+
+    playerAvatar.src = '/images/avatarGame/avatar.png';
+    playerAvatar.alt = 'avatar';
+
+    playerRonflex.src = '/images/avatarGame/ronflex.png';
+    playerRonflex.alt = 'ronflex';
 
     playerWhale.src = '/images/whale.png';
     playerWhale.alt = 'whale';
@@ -690,6 +707,7 @@ function Tile(type) {
 }
 
 Player.create = function (context, data) {
+   
     var player = new Player(context, data.name, avatars[data.avatar]);
 
     player.id = data.id;

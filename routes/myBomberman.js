@@ -30,9 +30,7 @@ module.exports = function(app, models, urlApi){
         if(!req.session.type){
             res.redirect("/");
         }else {
-
-
-            /*On crï¿½e un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
+            /*On créee un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
             var file = req.body.codeBot.substring(8, req.body.codeBot.length);
             var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
             var contentP2 = fs.readFileSync("./" + req.body.codeBotAd, "UTF-8");
@@ -41,9 +39,6 @@ module.exports = function(app, models, urlApi){
                 if (err) return console.log(err);
 
             });
-
-            console.log("choix");
-            console.log(req.body.idbotAd);
             res.render('index.ejs', {
 
                 session: req.session,
@@ -56,6 +51,8 @@ module.exports = function(app, models, urlApi){
                 api: urlApi,
                 codeBot: file,
                 codeBotAd: fileP2,
+                avatarBotAd : req.body.avatarBotAd,
+                avatarBot : req.body.avatarBot,
                 type: "game"
             });
         }
@@ -79,7 +76,8 @@ module.exports = function(app, models, urlApi){
 
                 res.render("Choix.ejs", {
                     session: req.session,
-                    listBot: body
+                    listBot: body,
+                    urlApi: urlApi
                 });
             })
         }

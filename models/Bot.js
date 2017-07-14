@@ -10,6 +10,9 @@ module.exports = sequelize.import("bot", function(sequelize, Datatypes) {
 		nameBot : {
 			type : Datatypes.STRING
 		},
+		avatarBot: {
+		    type: Datatypes.STRING
+		},
 		codeBot : {
 			type : Datatypes.STRING
 		},

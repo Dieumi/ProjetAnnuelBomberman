@@ -13,11 +13,11 @@ socket.on('welcome', function (id, playerInfo) {
     console.log("welcome")
     gameId = window.location.hash = id;
 
-    player = Player.create(contextPlayerOne, playerInfo);
-    console.log(player2)
+    playerInfo.avatar = document.getElementById("avatarBot1").value;
 
+    player = Player.create(contextPlayerOne, playerInfo);
     player.render(0, 0);
-    console.log(player)
+
     addPlayer(player);
 
     hideLoading();
@@ -186,9 +186,12 @@ socket.on('action', function () {
         player.hasBonus=null;
       }
     }
+     try{
+        codeBot1["exec"].exec();
+    } catch (err) {
+        console.log(err);
+    }
 
-
-    codeBot1["exec"].exec();
 
 
     console.log("io:" + player.name)
@@ -230,6 +233,7 @@ socket.on('death', function (id) {
 });
 
 socket.on('player-joined', function (player) {
+    player.avatar = document.getElementById("avatarBot2").value;
     console.log("player-joined")
     console.log(player)
     var map = playerMap[player.index],

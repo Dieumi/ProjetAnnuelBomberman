@@ -6,11 +6,14 @@ var MatchModel = require("./Match");
 var SuccesModel = require("./Succes");
 var TournamentModel = require("./Tournament");
 var PostModel = require("./Post");
+var GameApiDesc = require("./GameApiDesc");
+var AvatarBot = require("./AvatarBot");
 
 seq.sync();
 
 var bombModel = require("./Bomb");
 var playerModel = require("./Player");
+
 
 module.exports = {
     "sequelize" : seq,
@@ -22,5 +25,7 @@ module.exports = {
     "Tournament" : TournamentModel,
     "Post" : PostModel,
     "Bomb" : bombModel,
-    "Player" : playerModel
+    "Player" : playerModel,
+    "GameApiDesc": GameApiDesc,
+    "AvatarBot": AvatarBot
 };
