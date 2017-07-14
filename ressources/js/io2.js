@@ -10,7 +10,7 @@ socket2.on('welcome', function (id, playerInfo) {
     console.log("testwelcome")
     gameId = window.location.hash = id;
 
-    
+
     player2 = Player.create(contextPlayerOne, playerInfo);
     player2.render(0, 0);
 
@@ -124,6 +124,7 @@ socket2.on('move', function (id, position) {
     players.forEach(function (player2) {
         if (player2.id == id) {
             player2.render(position.x, position.y, true);
+
         }
 
     });
@@ -131,9 +132,10 @@ socket2.on('move', function (id, position) {
 
 });
 socket2.on('action', function () {
+    hasPlayed2=false;
     console.log("io2:" + player2.name);
     console.log(codeBot2);
-  
+
 
   /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
