@@ -66,7 +66,8 @@ module.exports = function (app, models, urlApi) {
                         }
                     }
                 }).catch(function (err) {
-                    res.redirect('/myBomberman');
+                     console.log(err);
+                     res.redirect('/myBomberman');
                 });
             } else {
                 res.render('bomberCode.ejs', {

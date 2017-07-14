@@ -255,18 +255,14 @@ module.exports = function(app, models,utils) {
         }
 
         var u1 = models.Bot;
-        u1.update(attributes, request).then(function (results) {
-            console.log(results)
+        u1.update(attributes, request).then(function (results) {  
             res.send(results);
         }).catch(function (err) {
-            console.log(err);
             res.json({
                 "code": 2,
                 "message": "Sequelize error",
                 "error": err
             });
-
-
         });
      
     });
