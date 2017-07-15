@@ -1,3 +1,3 @@
 var Code = function (){ 
- this.exec = function() { player2.move("left");
-player2.move("right"); } }
+ this.exec = function() { player2.plantBomb(); 
+player2.move("right");   } }
