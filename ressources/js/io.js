@@ -220,6 +220,7 @@ socket.on('bomb', function (position,strength) {
 });
 
 socket.on('death', function (id) {
+
     players.forEach(function (player) {
         if (player.id == id) {
             player.isAlive = false;
