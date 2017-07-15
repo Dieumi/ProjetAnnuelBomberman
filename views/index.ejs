@@ -17,9 +17,12 @@
 
 		<link rel="stylesheet" href="/css/font/font.css">
 		<link rel="stylesheet" href="/css/master.css">
+		<% include ./partials/header %>
 	</head>
 
 	<body>
+		<% include ./partials/navbar %>
+
 		<% if (type =="test"){ %>
 			<a href="/bomberCode/<%=idBot%>">Retour</a>
 		<% } %>

@@ -141,11 +141,11 @@ socket.on('win', function (player) {
       if(player.idBot==document.getElementById('idBot1').value){
         $("#winner").val(idBot1);
         $("#looser").val(idBot2);
-        $("#win").submit();
+      //  $("#win").submit();
         }else {
         $("#winner").val(idBot2);
         $("#looser").val(idBot1);
-        $("#win").submit();
+      //  $("#win").submit();
       }
     }
 
@@ -220,6 +220,7 @@ socket.on('bomb', function (position,strength) {
 });
 
 socket.on('death', function (id) {
+
     players.forEach(function (player) {
         if (player.id == id) {
             player.isAlive = false;
