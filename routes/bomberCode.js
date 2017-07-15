@@ -1,6 +1,5 @@
 module.exports = function (app, models, urlApi) {
 
-    var child_process = require('child_process');
     var fs = require("fs");
     var mkdirp = require("mkdirp");
     var rp = require('request-promise');
