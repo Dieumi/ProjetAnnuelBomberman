@@ -8,14 +8,13 @@ module.exports = function (app, models, urlApi) {
 
     var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
     var gameFunction = "";
-    var avatar = "";
+   
     app.get('/bomberCode/:idBot?', function (req, res, next) {
+       
         
-        avatar = "";
-        
-        /*if(req.session.type && req.session.type!=""){
+        if(!req.session.type){
             res.redirect("/");
-        }else {*/
+        }else {
 
         rp({
             url: urlApi + "/gameApiDesc",
@@ -39,7 +38,7 @@ module.exports = function (app, models, urlApi) {
                         if (body.userIdBot != req.session.idUser) {
                             res.redirect('/myBomberman');
                         } else {
-                            avatar = req.body.avatarBot;
+                             
                             var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
                             // on retire la def des fonctions
                             var code = "";
@@ -58,7 +57,8 @@ module.exports = function (app, models, urlApi) {
                                 modeBot: body.modeBot,
                                 idBot: req.params.idBot,
                                 session: req.session,
-                                gameFunc: gameFunction
+                                gameFunc: gameFunction,
+                                avatarBot: body.avatarBot
                             });
                             return null;
                         }
@@ -76,20 +76,21 @@ module.exports = function (app, models, urlApi) {
                     idBot: "",
                     modeBot: "",
                     session: req.session,
-                    gameFunc: gameFunction
+                    gameFunc: gameFunction,
+                    avatarBot: "bomberman"
                 });
             }
             return null;
         }).catch(function (err) {
             res.redirect('/myBomberman');
         })
-        //}
+        }
     });
 
     app.post('/bomberCode/testInGame', function (req, res, next) {
-        /*if(req.session.type && req.session.type!=""){
+        if(req.session.type){
          res.redirect("/");
-         }else {*/
+         }else {
         
         if (!req.body.name) {
             res.render('bomberCode.ejs', {
@@ -100,7 +101,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else if (!req.body.bomberEditor) {
             res.render('bomberCode.ejs', {
@@ -111,7 +113,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else {
 
@@ -138,12 +141,12 @@ module.exports = function (app, models, urlApi) {
                 codeBot: file,
                 codeBotAd: fileP2,
                 avatarBotAd: "bomberman",
-                avatarBot: avatar,
+                avatarBot: req.body.avatarBot,
                 type: "test"
             });
             
         }
-        //}
+        }
 
 
     });
@@ -151,9 +154,9 @@ module.exports = function (app, models, urlApi) {
 
 
     app.post('/bomberCode', function (req, res, next) {
-        /*if(req.session.type && req.session.type!=""){
+        if(req.session.type){
          res.redirect("/");
-         }else {*/
+         }else {
         if (!req.body.name) {
             res.render('bomberCode.ejs', {
                 msgError: "Veuillez saisir un nom pour votre Bomber !",
@@ -163,7 +166,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else if (!req.body.bomberEditor) {
             res.render('bomberCode.ejs', {
@@ -174,7 +178,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else {
 
@@ -329,7 +334,8 @@ module.exports = function (app, models, urlApi) {
                         idBot: body.idBot,
                         modeBot: req.body.modeBot,
                         session: req.session,
-                        gameFunc: gameFunction
+                        gameFunc: gameFunction,
+                        avatarBot: req.body.avatarBot
                     });
                     return null;
                 }).catch(function (err) {
@@ -341,7 +347,8 @@ module.exports = function (app, models, urlApi) {
                         modeBot: req.body.modeBot,
                         idBot: req.body.idBot,
                         session: req.session,
-                        gameFunc: gameFunction
+                        gameFunc: gameFunction,
+                        avatarBot: req.body.avatarBot
                     });
                 });
             } else {
@@ -370,7 +377,8 @@ module.exports = function (app, models, urlApi) {
                     modeBot: req.body.modeBot,
                     idBot: req.body.idBot,
                     session: req.session,
-                    gameFunc: gameFunction
+                    gameFunc: gameFunction,
+                    avatarBot: req.body.avatarBot
                 });
             }
 
@@ -379,7 +387,7 @@ module.exports = function (app, models, urlApi) {
 
         }
 
-        //}
+        }
     });
 
 
