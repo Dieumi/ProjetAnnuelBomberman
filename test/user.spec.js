@@ -40,10 +40,5 @@ describe("user",function(){
             return request(api).delete("/deleteuser/:1").expect(200).expect({"user":"deleted"});
         })
     });
-	/*	describe("POST /adduser",function(){
-	 it("should add user" , function(){
-
-	 return request(api).post('/adduser').type('form').send({token :"eyJhbGciOiJIUzI1NiJ9.Ng.hAGbSbFGDZMTqtfa7xzAVtf3ThZF_6KOJYjRVcFPaYI"}).expect(200).expect({"user":"created"});
-	 })*
-	 })*/
+	
 });

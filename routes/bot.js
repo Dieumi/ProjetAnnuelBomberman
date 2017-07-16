@@ -255,7 +255,7 @@ module.exports = function(app, models,utils) {
         }
 
         var u1 = models.Bot;
-        u1.update(attributes, request).then(function (results) {  
+        u1.update(attributes, request).then(function (results) {
             res.send(results);
         }).catch(function (err) {
             res.json({
@@ -264,7 +264,7 @@ module.exports = function(app, models,utils) {
                 "error": err
             });
         });
-     
+
     });
 
 
@@ -287,15 +287,23 @@ module.exports = function(app, models,utils) {
 	  });
 		app.post('/win', function(req, res) {
 						 console.log("win");
+
 		         var Bot = utils.Bot;
 						 var u1 = new Bot();
-						 u1.win(req.body.idBot,req.body.idLoose,function(result){
+             if(req.body.idBot=="" && req.body.idLoose==""){
+                console.log(" passer ")
+                res.redirect("/");
+             }else{
+               console.log("pas passer ")
+               u1.win(req.body.idBot,req.body.idLoose,function(result){
 
-						 })
-						 u1.loose(req.body.idLoose,req.body.idBot,function(result){
-							console.log(result);
-						 res.redirect("/");
-						})
+              })
+              u1.loose(req.body.idLoose,req.body.idBot,function(result){
+               console.log(result);
+              res.redirect("/");
+             })
+             }
+
 	  });
 
 

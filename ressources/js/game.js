@@ -55,7 +55,8 @@ var iconBomb = new Image(),
     playerWhale = new Image();
 
 var BOMB_TIMER = 5000,
-    BOMB_CLEAR_TIMER = 400;
+    BOMB_CLEAR_TIMER = 400,
+    GAME_TIMER = 60000;
 
 var gameId,
     gameOn = false,

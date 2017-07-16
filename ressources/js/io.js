@@ -120,8 +120,17 @@ socket.on('start', function (matrix) {
 
         socket.emit("action", player.name);
 
-    }, startTimer);
 
+    }, startTimer);
+    setTimeout(function () {
+    log("Match nul !",true);
+      setTimeout(function () {
+        $("#winner").val(null);
+        $("#looser").val(null);
+        $("#win").submit();
+
+      }, 5000);
+    }, GAME_TIMER);
 });
 
 socket.on('stop', function () {
