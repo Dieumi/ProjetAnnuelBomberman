@@ -189,25 +189,28 @@ module.exports = function (app, models, urlApi) {
             var tmpCode = "";
             var indiceSup = 0;
             var debutBoucle;
-            var indices = [];       
-
+            var indices = [];
+            var regexForWhile = new RegExp("[a-z0-9]")
             /*On met dans les boucles la sécu pour stopper boucle infini*/
             /*On cherche toutes les boucles for */
             indices = getIndicesOf("for", theCode);
-
+            var nbFor = 0;
             for (var i = 0; i < indices.length; i++) {
                 indiceSup = 0;
-                if (i > 0) {
-                    indiceSup = 71 * i;
+                if (nbFor > 0) {
+                    indiceSup = 71 * nbFor;
                 }
 
                 tmpCode = "";
                 tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
-
-                debutBoucle = tmpCode.indexOf("{");
-                tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
-                theCode = tmpCode
-
+                checkBefore = theCode.substring(indices[i] + indiceSup - 1, indices[i] + indiceSup);
+               
+                if (regexForWhile.test(checkBefore) === false) {
+                    nbFor++;
+                    debutBoucle = tmpCode.indexOf("{");
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode
+                }
             }
 
             /*Tous les while*/
@@ -225,12 +228,16 @@ module.exports = function (app, models, urlApi) {
                 tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
 
                 /*test Si ce n'est pas un do while*/
-                var nextCar = tmpCode.indexOf(")")+1
+                var nextChar = tmpCode.indexOf(")")+1
                 
-                while (tmpCode[nextCar] == " ") {
-                    nextCar++;
+                while (tmpCode[nextChar] == " ") {
+                    nextChar++;
                 }
-                if (tmpCode[nextCar] != ";"){
+                checkBefore = theCode.substring(indices[i] + indiceSup - 1, indices[i] + indiceSup);
+
+            
+
+                 if (tmpCode[nextChar] != ";" && regexForWhile.test(checkBefore) === false){
 
                 
                     nbWhile++;
@@ -244,19 +251,29 @@ module.exports = function (app, models, urlApi) {
 
             /*tous les do while*/
             indices = getIndicesOf("do", theCode);
-
+            var nbDoWhile = 0;
             for (var i = 0; i < indices.length; i++) {
                 indiceSup = 0;
-                if (i > 0) {
-                    indiceSup = 71 * i;
+                if (nbDoWhile > 0) {
+                    indiceSup = 71 * nbDoWhile;
                 }
 
                 tmpCode = "";
                 tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+                /*test si c'est réelement un doWhile et non un mot contenant do*/
+                var nextChar = 2
+                while (tmpCode[nextChar] == " ") {
+                    nextChar++;
+                }
+                if (tmpCode[nextChar] == "{") {
+                    nbDoWhile++;
+                    debutBoucle = tmpCode.indexOf("{");
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode
 
-                debutBoucle = tmpCode.indexOf("{");
-                tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
-                theCode = tmpCode
+                }
+
+                
 
             }
 
