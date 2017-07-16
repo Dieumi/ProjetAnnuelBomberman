@@ -1,6 +1,5 @@
 module.exports = function (app, models, urlApi) {
 
-    var child_process = require('child_process');
     var fs = require("fs");
     var mkdirp = require("mkdirp");
     var rp = require('request-promise');
@@ -9,14 +8,13 @@ module.exports = function (app, models, urlApi) {
 
     var players = "function Player(t,i,n){this.context=t,this.name=i||\"Whale\",this.avatar=n,this.isAlive=!0,this.position={},this.maxBombs=1,this.bombs=0,this.move=function(t){},this.canGo=function(t,i){},this.clearBomb=function(){},this.plantBomb=function(){},this.render=function(t,i,n){},this.remove=function(){},this.isObstacle = function (x, y){},this.isWall = function (x, y) { }, this.isEmpty = function (x, y) { }, this.isBomb = function (x, y) { }, this.isBomber = function(x, y){} };var player = new Player(null, \"test\", null);";
     var gameFunction = "";
-    var avatar = "";
+   
     app.get('/bomberCode/:idBot?', function (req, res, next) {
+       
         
-        avatar = "";
-        
-        /*if(req.session.type && req.session.type!=""){
+        if(!req.session.type){
             res.redirect("/");
-        }else {*/
+        }else {
 
         rp({
             url: urlApi + "/gameApiDesc",
@@ -40,12 +38,14 @@ module.exports = function (app, models, urlApi) {
                         if (body.userIdBot != req.session.idUser) {
                             res.redirect('/myBomberman');
                         } else {
-                            avatar = req.body.avatarBot;
+                             
                             var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
                             // on retire la def des fonctions
                             var code = "";
                             if (allCode != "") {
-                                code = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "");
+                                allCode = allCode.replace("var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {", "");
+                                allCode = allCode.replace(/stopInfiniteLoop=0;/g, "");
+                                code = allCode.replace(/if\(stopInfiniteLoop>1000\){break;}stopInfiniteLoop\+\+;/g, "");                               
                                 code = code.substring(0, code.length - 3);
                             }
 
@@ -57,7 +57,8 @@ module.exports = function (app, models, urlApi) {
                                 modeBot: body.modeBot,
                                 idBot: req.params.idBot,
                                 session: req.session,
-                                gameFunc: gameFunction
+                                gameFunc: gameFunction,
+                                avatarBot: body.avatarBot
                             });
                             return null;
                         }
@@ -75,20 +76,21 @@ module.exports = function (app, models, urlApi) {
                     idBot: "",
                     modeBot: "",
                     session: req.session,
-                    gameFunc: gameFunction
+                    gameFunc: gameFunction,
+                    avatarBot: "bomberman"
                 });
             }
             return null;
         }).catch(function (err) {
             res.redirect('/myBomberman');
         })
-        //}
+        }
     });
 
     app.post('/bomberCode/testInGame', function (req, res, next) {
-        /*if(req.session.type && req.session.type!=""){
+        if(req.session.type){
          res.redirect("/");
-         }else {*/
+         }else {
         
         if (!req.body.name) {
             res.render('bomberCode.ejs', {
@@ -99,7 +101,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else if (!req.body.bomberEditor) {
             res.render('bomberCode.ejs', {
@@ -110,7 +113,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else {
 
@@ -137,12 +141,12 @@ module.exports = function (app, models, urlApi) {
                 codeBot: file,
                 codeBotAd: fileP2,
                 avatarBotAd: "bomberman",
-                avatarBot: avatar,
+                avatarBot: req.body.avatarBot,
                 type: "test"
             });
             
         }
-        //}
+        }
 
 
     });
@@ -150,9 +154,9 @@ module.exports = function (app, models, urlApi) {
 
 
     app.post('/bomberCode', function (req, res, next) {
-        /*if(req.session.type && req.session.type!=""){
+        if(req.session.type){
          res.redirect("/");
-         }else {*/
+         }else {
         if (!req.body.name) {
             res.render('bomberCode.ejs', {
                 msgError: "Veuillez saisir un nom pour votre Bomber !",
@@ -162,7 +166,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else if (!req.body.bomberEditor) {
             res.render('bomberCode.ejs', {
@@ -173,7 +178,8 @@ module.exports = function (app, models, urlApi) {
                 idBot: req.body.idBot,
                 modeBot: req.body.modeBot,
                 session: req.session,
-                gameFunc: gameFunction
+                gameFunc: gameFunction,
+                avatarBot: req.body.avatarBot
             });
         } else {
 
@@ -184,8 +190,101 @@ module.exports = function (app, models, urlApi) {
             });
             completePath = dir + "testBot.js";
 
+            var theCode = req.body.bomberEditor
+            var tmpCode = "";
+            var indiceSup = 0;
+            var debutBoucle;
+            var indices = [];
+            var regexForWhile = new RegExp("[a-z0-9]")
+            /*On met dans les boucles la sécu pour stopper boucle infini*/
+            /*On cherche toutes les boucles for */
+            indices = getIndicesOf("for", theCode);
+            var nbFor = 0;
+            for (var i = 0; i < indices.length; i++) {
+                indiceSup = 0;
+                if (nbFor > 0) {
+                    indiceSup = 71 * nbFor;
+                }
 
-            fs.writeFile(completePath, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
+                tmpCode = "";
+                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+                checkBefore = theCode.substring(indices[i] + indiceSup - 1, indices[i] + indiceSup);
+               
+                if (regexForWhile.test(checkBefore) === false) {
+                    nbFor++;
+                    debutBoucle = tmpCode.indexOf("{");
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode
+                }
+            }
+
+            /*Tous les while*/
+            indices = getIndicesOf("while", theCode);
+            var nbWhile = 0;
+            for (var i = 0; i < indices.length; i++) {
+
+                
+                indiceSup = 0;
+                if (nbWhile > 0) {
+                    indiceSup = 71 * nbWhile;
+                }
+
+                tmpCode = "";
+                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+
+                /*test Si ce n'est pas un do while*/
+                var nextChar = tmpCode.indexOf(")")+1
+                
+                while (tmpCode[nextChar] == " ") {
+                    nextChar++;
+                }
+                checkBefore = theCode.substring(indices[i] + indiceSup - 1, indices[i] + indiceSup);
+
+            
+
+                 if (tmpCode[nextChar] != ";" && regexForWhile.test(checkBefore) === false){
+
+                
+                    nbWhile++;
+                    debutBoucle = tmpCode.indexOf("{");
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode
+                }
+               
+                
+            }
+
+            /*tous les do while*/
+            indices = getIndicesOf("do", theCode);
+            var nbDoWhile = 0;
+            for (var i = 0; i < indices.length; i++) {
+                indiceSup = 0;
+                if (nbDoWhile > 0) {
+                    indiceSup = 71 * nbDoWhile;
+                }
+
+                tmpCode = "";
+                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+                /*test si c'est réelement un doWhile et non un mot contenant do*/
+                var nextChar = 2
+                while (tmpCode[nextChar] == " ") {
+                    nextChar++;
+                }
+                if (tmpCode[nextChar] == "{") {
+                    nbDoWhile++;
+                    debutBoucle = tmpCode.indexOf("{");
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode
+
+                }
+
+                
+
+            }
+
+
+
+            fs.writeFile(completePath, "var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {" + theCode + " } }", function (err) {
                 if (err) return console.log(err);
             });
 
@@ -235,7 +334,8 @@ module.exports = function (app, models, urlApi) {
                         idBot: body.idBot,
                         modeBot: req.body.modeBot,
                         session: req.session,
-                        gameFunc: gameFunction
+                        gameFunc: gameFunction,
+                        avatarBot: req.body.avatarBot
                     });
                     return null;
                 }).catch(function (err) {
@@ -247,12 +347,13 @@ module.exports = function (app, models, urlApi) {
                         modeBot: req.body.modeBot,
                         idBot: req.body.idBot,
                         session: req.session,
-                        gameFunc: gameFunction
+                        gameFunc: gameFunction,
+                        avatarBot: req.body.avatarBot
                     });
                 });
             } else {
                 var codeBot = "botFiles/" + req.session.login + "/" + req.body.idBot + ".js";
-                fs.writeFile(codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
+                fs.writeFile(codeBot, "var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {" + theCode + " } }", function (err) {
                     if (err) return console.log(err);
                 });
                 rp({
@@ -276,7 +377,8 @@ module.exports = function (app, models, urlApi) {
                     modeBot: req.body.modeBot,
                     idBot: req.body.idBot,
                     session: req.session,
-                    gameFunc: gameFunction
+                    gameFunc: gameFunction,
+                    avatarBot: req.body.avatarBot
                 });
             }
 
@@ -285,9 +387,20 @@ module.exports = function (app, models, urlApi) {
 
         }
 
-        //}
+        }
     });
 
+
+    function getIndicesOf(searchStr, str) {
+        var searchStrLen = searchStr.length;
+        var startIndex = 0, index, indices = [];
+        while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+            indices.push(index);
+            startIndex = index + searchStrLen;
+        }
+
+        return indices;
+    }
     /**/
 
 

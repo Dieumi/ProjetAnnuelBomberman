@@ -32,7 +32,7 @@
     <div class="col-md-offset-1 col-md-9">
         <h2>Code ton Bomber !</h2>
         <form method="POST" id="formBomberCode" action="/bomberCode">
-			<input type="button" onClick="validate('save')" value="Sauvegarder"><% if(idBot) { %><input type="button" onClick="validate('test')" value="Tester en partie" > <% } %>
+			<input type="button" onClick="validate('save')" value="Sauvegarder"><% if(idBot) { %><input id="buttonTestGame" type="button" onClick="validate('test')" value="Tester en partie" > <% } %>
 			
 			<input type = "hidden" value="<%=session.idUser%>" name = "idUser">
             <div class="alert alert-danger" id="msgError" style = "visibility:hidden"> <%= msgError %> </div>
@@ -55,6 +55,7 @@
             <textarea id="bomberEditor" name="bomberEditor" ><%=code%></textarea>
 
             <input type="hidden" name="idBot" value = "<%= idBot %>">
+			 <input type="hidden" name="avatarBot" value = "<%= avatarBot %>">
 
         </form>
         <script>
@@ -67,6 +68,10 @@
 
             }).on('change', editor => {
 				txtATest=editor.getValue();
+				if(document.getElementById("buttonTestGame")){
+					document.getElementById("buttonTestGame").style.visibility = "hidden";
+				}
+				
 			});
 			
         </script>

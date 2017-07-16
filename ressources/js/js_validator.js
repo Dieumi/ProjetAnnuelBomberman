@@ -69,7 +69,6 @@ function validate(type) {
 
     if (txtATest != "") {
         code = player + "\n" + txtATest;
-        console.log(code)
         JSHINT(code, JSHINT_options);
         errors = JSHINT.errors;
         count = errors.length;

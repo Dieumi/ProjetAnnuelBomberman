@@ -196,8 +196,10 @@ socket.on('action', function () {
         player.hasBonus=null;
       }
     }
-     try{
-        codeBot1["exec"].exec();
+    try {
+        var f1 = setTimeout(codeBot1["exec"].exec(), 1000);
+        clearTimeout(f1);
+       
     } catch (err) {
         console.log(err);
     }
@@ -211,7 +213,7 @@ socket.on('action', function () {
           socket.emit("action", player.name);
           if(rand>4){
                    addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"powerUp");
-                //  addBonus(1,0,"powerUp");
+                    //addBonus(1,0,"powerUp");
           }else if (rand <2){
                   addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"moreBomb");
           }
