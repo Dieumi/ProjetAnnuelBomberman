@@ -44,7 +44,9 @@ module.exports = function (app, models, urlApi) {
                             // on retire la def des fonctions
                             var code = "";
                             if (allCode != "") {
-                                code = allCode.replace("var Code = function (){ \n\r this.exec = function() {", "");
+                                allCode = allCode.replace("var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {", "");
+                                allCode = allCode.replace(/stopInfiniteLoop=0;/g, "");
+                                code = allCode.replace(/if\(stopInfiniteLoop>1000\){break;}stopInfiniteLoop\+\+;/g, "");                               
                                 code = code.substring(0, code.length - 3);
                             }
 
@@ -183,8 +185,84 @@ module.exports = function (app, models, urlApi) {
             });
             completePath = dir + "testBot.js";
 
+            var theCode = req.body.bomberEditor
+            var tmpCode = "";
+            var indiceSup = 0;
+            var debutBoucle;
+            var indices = [];       
 
-            fs.writeFile(completePath, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
+            /*On met dans les boucles la sécu pour stopper boucle infini*/
+            /*On cherche toutes les boucles for */
+            indices = getIndicesOf("for", theCode);
+
+            for (var i = 0; i < indices.length; i++) {
+                indiceSup = 0;
+                if (i > 0) {
+                    indiceSup = 71 * i;
+                }
+
+                tmpCode = "";
+                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+
+                debutBoucle = tmpCode.indexOf("{");
+                tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                theCode = tmpCode
+
+            }
+
+            /*Tous les while*/
+            indices = getIndicesOf("while", theCode);
+            var nbWhile = 0;
+            for (var i = 0; i < indices.length; i++) {
+
+                
+                indiceSup = 0;
+                if (nbWhile > 0) {
+                    indiceSup = 71 * nbWhile;
+                }
+
+                tmpCode = "";
+                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+
+                /*test Si ce n'est pas un do while*/
+                var nextCar = tmpCode.indexOf(")")+1
+                
+                while (tmpCode[nextCar] == " ") {
+                    nextCar++;
+                }
+                if (tmpCode[nextCar] != ";"){
+
+                
+                    nbWhile++;
+                    debutBoucle = tmpCode.indexOf("{");
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode
+                }
+               
+                
+            }
+
+            /*tous les do while*/
+            indices = getIndicesOf("do", theCode);
+
+            for (var i = 0; i < indices.length; i++) {
+                indiceSup = 0;
+                if (i > 0) {
+                    indiceSup = 71 * i;
+                }
+
+                tmpCode = "";
+                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+
+                debutBoucle = tmpCode.indexOf("{");
+                tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                theCode = tmpCode
+
+            }
+
+
+
+            fs.writeFile(completePath, "var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {" + theCode + " } }", function (err) {
                 if (err) return console.log(err);
             });
 
@@ -251,7 +329,7 @@ module.exports = function (app, models, urlApi) {
                 });
             } else {
                 var codeBot = "botFiles/" + req.session.login + "/" + req.body.idBot + ".js";
-                fs.writeFile(codeBot, "var Code = function (){ \n\r this.exec = function() { " + req.body.bomberEditor + " } }", function (err) {
+                fs.writeFile(codeBot, "var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {" + theCode + " } }", function (err) {
                     if (err) return console.log(err);
                 });
                 rp({
@@ -287,6 +365,17 @@ module.exports = function (app, models, urlApi) {
         //}
     });
 
+
+    function getIndicesOf(searchStr, str) {
+        var searchStrLen = searchStr.length;
+        var startIndex = 0, index, indices = [];
+        while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+            indices.push(index);
+            startIndex = index + searchStrLen;
+        }
+
+        return indices;
+    }
     /**/
 
 
