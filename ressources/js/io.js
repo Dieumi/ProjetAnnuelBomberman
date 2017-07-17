@@ -10,7 +10,7 @@ console.log('check 1', socket);
 
 
 socket.on('welcome', function (id, playerInfo) {
-    console.log("welcome")
+    console.log("welcome");
     gameId = window.location.hash = id;
 
     playerInfo.avatar = document.getElementById("avatarBot1").value;
@@ -96,7 +96,7 @@ socket.on('ready', function (player, isReady) {
 });
 
 socket.on('start', function (matrix) {
-    console.log("start")
+    console.log("start");
 
     startCountdown();
 
@@ -144,8 +144,8 @@ socket.on('win', function (player) {
     frozen = true;
 
     log(player.name + ' has won!', true);
-    console.log(player)
-    console.log(idBot1)
+    console.log(player);
+    console.log(idBot1);
     endGame(idBot1);
     if(document.getElementById('typeGame').value!="test"){
       if(player.idBot==document.getElementById('idBot1').value){
@@ -176,32 +176,31 @@ socket.on('move', function (id, position) {
 
 });
 socket.on('action', function () {
-    hasPlayed=false;
+    hasPlayed = false;
     console.log("test fonction");
     console.log(player);
     //player.move("left");
-    var tile=getTile(player.position.x,player.position.y);
+    var tile = getTile(player.position.x, player.position.y);
     console.log(tile);
-    if(tile.hasBonus!=null){
-        player.hasBonus=tile.hasBonus;
-        player.tourBonus=3;
-      if(tile.hasBonus.name=="moreBomb"){
-        player.maxBombs=2;
-        tile.hasBonus=null;
-        tile.render(player.position.x,player.position.y);
-      }else if(tile.hasBonus.name=="powerUp"){
-          player.maxBombs=1;
-          tile.hasBonus=null;
-          tile.render(player.position.x,player.position.y);
-      }
-      player.tourBonus--;
-      if(player.tourBonus==0){
-        player.hasBonus=null;
-      }
+    if (tile.hasBonus != null) {
+        player.hasBonus = tile.hasBonus;
+        player.tourBonus = 3;
+        if (tile.hasBonus.name == "moreBomb") {
+            player.maxBombs = 2;
+            tile.hasBonus = null;
+            tile.render(player.position.x, player.position.y);
+        } else if (tile.hasBonus.name == "powerUp") {
+            player.maxBombs = 1;
+            tile.hasBonus = null;
+            tile.render(player.position.x, player.position.y);
+        }
+        player.tourBonus--;
+        if (player.tourBonus == 0) {
+            player.hasBonus = null;
+        }
     }
     try {
-        var f1 = setTimeout(codeBot1["exec"].exec(), 1000);
-        clearTimeout(f1);
+        codeBot1.exec.exec();
 
     } catch (err) {
         console.log(err);
@@ -209,23 +208,23 @@ socket.on('action', function () {
 
 
 
-    console.log("io:" + player.name)
+    console.log("io:" + player.name);
     if (gameOn != false && frozen != true) {
         setTimeout(function () {
-          var rand=getRandomIntInclusive(1,5);
-          socket.emit("action", player.name);
-          if(rand>4){
-                   addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"powerUp");
-                    //addBonus(1,0,"powerUp");
-          }else if (rand <2){
-                  addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"moreBomb");
-          }
+            var rand = getRandomIntInclusive(1, 5);
+            socket.emit("action", player.name);
+            if (rand > 4) {
+                addBonus(getRandomIntInclusive(0, 8), getRandomIntInclusive(0, 8), "powerUp");
+                //addBonus(1,0,"powerUp");
+            } else if (rand < 2) {
+                addBonus(getRandomIntInclusive(0, 8), getRandomIntInclusive(0, 8), "moreBomb");
+            }
 
         }, 1500);
 
     }
 
-})
+});
 socket.on('bomb', function (position,strength) {
     var bomb = new Bomb(position.x, position.y,strength);
 
@@ -250,8 +249,8 @@ socket.on('death', function (id) {
 
 socket.on('player-joined', function (player) {
     player.avatar = document.getElementById("avatarBot2").value;
-    console.log("player-joined")
-    console.log(player)
+    console.log("player-joined");
+    console.log(player);
     var map = playerMap[player.index],
         newPlayer = Player.create(map.context, player);
         console.log(map.context);
@@ -303,7 +302,7 @@ function joinGame(name, id) {
     log('Joining game..');
 
     log('Connecting to server..');
-    console.log("join")
+    console.log("join");
     socket2.emit('join', id, name,idBot2);
 
 }

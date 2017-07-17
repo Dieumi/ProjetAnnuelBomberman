@@ -8,7 +8,7 @@ module.exports = function(app, urlApi){
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(function(body) {
+        }).then(function (body) {
             var profileBody = body;
             var idProfile = JSON.parse(body).idUser;
             rp({
@@ -20,13 +20,13 @@ module.exports = function(app, urlApi){
                 json: {
                     "userIdBot": idProfile
                 }
-            }).then(function(body) {
+            }).then(function (body) {
                 res.render("profile.ejs", {
-                    session : req.session,
-                    profile : profileBody,
-                    listBot : body
+                    session: req.session,
+                    profile: profileBody,
+                    listBot: body
                 });
             });
-        })
+        });
     });
 };
