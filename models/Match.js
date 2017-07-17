@@ -7,8 +7,14 @@ module.exports = sequelize.import("match", function(sequelize, Datatypes) {
 			primaryKey : true,
 			autoIncrement : true
 		},
-		resultMatch : {
-			type : Datatypes.STRING
+		matchNull : {
+			type : Datatypes.BOOLEAN
+		},
+		idWinner : {
+			type : Datatypes.INTEGER
+		},
+		idLoose : {
+			type : Datatypes.INTEGER
 		},
 		dateMatch : {
 			type : Datatypes.DATE

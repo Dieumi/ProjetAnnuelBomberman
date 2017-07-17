@@ -1,7 +1,7 @@
 var bcrypt = require("bcrypt-nodejs");
 
-module.exports = function(app, models,utils) {
-
+module.exports = function(app, models,utils,urlApi) {
+  var rp = require('request-promise');
     app.post("/bot", function(req, res, next) {
         if (req.body.nameBot && req.body.userIdBot) {
             var Bot = models.Bot;
@@ -286,15 +286,49 @@ module.exports = function(app, models,utils) {
 	        }
 	  });
 		app.post('/win', function(req, res) {
-						 console.log("win");
 
 		         var Bot = utils.Bot;
 						 var u1 = new Bot();
-             if(req.body.idBot=="" && req.body.idLoose==""){
-                console.log(" passer ")
-                res.redirect("/");
+             var current = new Date();
+             if(req.body.null=="true" ){
+               rp({
+                   url: urlApi + "/match",
+                   method: "POST",
+                   headers: {
+                       'Content-Type': 'application/json'
+                   },
+                   json: {
+                       "matchNull": true,
+                       "idWinner": req.body.idBot,
+                       "idLoose": req.body.idLoose,
+                       "dateMatch" : current.getDate(),
+                       "idMapMatch": null,
+                       "idTournamentMatch":null
+                   }
+               }).then(function(body){
+                 console.log(body);
+                 res.redirect("/");
+               })
+
              }else{
-               console.log("pas passer ")
+
+               rp({
+                   url: urlApi + "/match",
+                   method: "POST",
+                   headers: {
+                       'Content-Type': 'application/json'
+                   },
+                   json: {
+                       "matchNull": false,
+                       "idWinner": req.body.idBot,
+                       "idLoose": req.body.idLoose,
+                       "dateMatch" : current.getDate(),
+                       "idMapMatch": null,
+                       "idTournamentMatch":null
+                   }
+               }).then(function(body){
+                 console.log(body);
+               })
                u1.win(req.body.idBot,req.body.idLoose,function(result){
 
               })

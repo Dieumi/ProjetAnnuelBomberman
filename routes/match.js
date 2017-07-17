@@ -3,11 +3,13 @@ var bcrypt = require("bcrypt-nodejs");
 module.exports = function(app, models,utils) {
 
     app.post("/match", function(req, res, next) {
-        if (req.body.resultMatch && req.body.idMapMatch) {
+        if (req.body.idWinner) {
             var date = new Date();
             var Match = models.Match;
             Match.create({
-                "resultMatch" : req.body.resultMatch,
+                "matchNull": req.body.matchNull,
+                "idWinner" : req.body.idWinner,
+                "idLoose" : req.body.idLoose,
                 "dateMatch" : date,
                 "idMapMatch" : req.body.idMapMatch,
                 "idTournamentMatch" : 0
@@ -15,7 +17,8 @@ module.exports = function(app, models,utils) {
                 res.json({
                     "code" : 0,
                     "idMatch" : result.idMatch,
-                    "resultMatch" : result.resultMatch,
+                    "idWinner" : result.idWinner,
+                    "idLoose" : result.idLoose,
                     "dateMatch" : result.dateMatch,
                     "idMapMatch" : result.idMapMatch,
                     "idTournamentMatch" : result.idTournamentMatch
@@ -73,12 +76,15 @@ module.exports = function(app, models,utils) {
             }
         };
         var attributes = {};
-        if (req.body.resultMatch) {
-            attributes.resultMatch = req.body.resultMatch;
+        if (req.body.idWinner) {
+            attributes.idWinner = req.body.idWinner;
+        }
+        if (req.body.matchNull) {
+            attributes.idWinner = req.body.matchNull;
         }
 
-        if (req.body.director) {
-            attributes.director = req.body.director;
+        if (req.body.idLoose) {
+            attributes.idLoose = req.body.idLoose;
         }
         if (req.body.dateMatch) {
             attributes.dateMatch = req.body.dateMatch;

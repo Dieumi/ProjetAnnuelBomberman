@@ -125,8 +125,9 @@ socket.on('start', function (matrix) {
     setTimeout(function () {
     log("Match nul !",true);
       setTimeout(function () {
-        $("#winner").val(null);
-        $("#looser").val(null);
+        $("#winner").val(idBot1);
+        $("#looser").val(idBot2);
+        $("#null").val(true);
         $("#win").submit();
 
       }, 5000);
@@ -150,10 +151,12 @@ socket.on('win', function (player) {
       if(player.idBot==document.getElementById('idBot1').value){
         $("#winner").val(idBot1);
         $("#looser").val(idBot2);
+        $("#null").val(false);
         $("#win").submit();
         }else {
         $("#winner").val(idBot2);
         $("#looser").val(idBot1);
+        $("#null").val(false);
         $("#win").submit();
       }
     }
@@ -199,7 +202,7 @@ socket.on('action', function () {
     try {
         var f1 = setTimeout(codeBot1["exec"].exec(), 1000);
         clearTimeout(f1);
-       
+
     } catch (err) {
         console.log(err);
     }
