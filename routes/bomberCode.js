@@ -88,8 +88,8 @@ module.exports = function (app, models, urlApi) {
     });
 
     app.post('/bomberCode/testInGame', function (req, res, next) {
-        if(req.session.type){
-         res.redirect("/");
+        if(!req.session.type){
+            res.redirect("/");
          }else {
         
         if (!req.body.name) {
@@ -154,7 +154,7 @@ module.exports = function (app, models, urlApi) {
 
 
     app.post('/bomberCode', function (req, res, next) {
-        if(req.session.type){
+        if(!req.session.type){
          res.redirect("/");
          }else {
         if (!req.body.name) {
