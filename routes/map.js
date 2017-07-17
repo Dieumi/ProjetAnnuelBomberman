@@ -22,23 +22,23 @@ module.exports = function(app, models) {
 				});
 			});
 		} else {
-			res.json({
-				"code" : 1,
-				"message" : "Missing required parameters"
-			})
+            res.json({
+                "code": 1,
+                "message": "Missing required parameters"
+            });
 		}
 	});
 
 	app.get("/ListMap", function (req, res, next) {
 		var map = models.Map;
-		map.findAll().then(function (results) {
-			res.send(results);
-		}).catch(function (err) {
-			res.json({
-				"code": 2,
-				"message": "Sequelize error",
-				"error": err
-			})
-		})
+        map.findAll().then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            });
+        });
 	});
 };

@@ -13,7 +13,7 @@ module.exports = function(app, urlApi){
                 "Content-Type": "application/json"
             }
 
-        }).then(function(body) {
+        }).then(function (body) {
             var topBots = body;
             rp({
                 url: urlApi + "/user/count",
@@ -21,7 +21,7 @@ module.exports = function(app, urlApi){
                 headers: {
                     "Content-Type": "application/json"
                 }
-            }).then(function(body) {
+            }).then(function (body) {
                 var count = body;
 
                 rp({
@@ -30,15 +30,15 @@ module.exports = function(app, urlApi){
                     headers: {
                         "Content-Type": "application/json"
                     }
-                }).then(function(body) {
+                }).then(function (body) {
                     res.render("home.ejs", {
-                        session : req.session,
-                        userCount : count,
-                        top : topBots,
-                        posts : body
+                        session: req.session,
+                        userCount: count,
+                        top: topBots,
+                        posts: body
                     });
                 });
-            })
-        })
+            });
+        });
     });
 };

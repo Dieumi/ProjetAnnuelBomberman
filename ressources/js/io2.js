@@ -7,7 +7,7 @@ console.log('check 1', socket2);
 
 
 socket2.on('welcome', function (id, playerInfo) {
-    console.log("testwelcome")
+    console.log("testwelcome");
     gameId = window.location.hash = id;
 
 
@@ -132,27 +132,27 @@ socket2.on('move', function (id, position) {
 
 });
 socket2.on('action', function () {
-    hasPlayed2=false;
+    hasPlayed2 = false;
     console.log("io2:" + player2.name);
     console.log(codeBot2);
 
 
-  /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
+    /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
-    var tile=getTile(player2.position.x,player2.position.y);
-    if(tile.hasBonus==true){
-      player2.maxBombs=2;
-      player2.tourBonus=3;
-      tile.hasBonus=null;
-      tile.render();
-    }else if(player2.hasBonus==true){
-      player2.tourBonus--;
-      if(player2.tourBonus==0){
-        player2.hasBonus=false;
-      }
+    var tile = getTile(player2.position.x, player2.position.y);
+    if (tile.hasBonus == true) {
+        player2.maxBombs = 2;
+        player2.tourBonus = 3;
+        tile.hasBonus = null;
+        tile.render();
+    } else if (player2.hasBonus == true) {
+        player2.tourBonus--;
+        if (player2.tourBonus == 0) {
+            player2.hasBonus = false;
+        }
     }
-     try {
-        codeBot2["exec"].exec();
+    try {
+        codeBot2.exec.exec();
     } catch (err) {
         console.log(err);
     }
@@ -171,7 +171,7 @@ socket2.on('action', function () {
 
     }*/
 
-})
+});
 socket2.on('bomb', function (position) {
     var bomb = new Bomb(position.x, position.y);
 
@@ -194,8 +194,8 @@ socket2.on('death', function (id) {
 });
 
 socket2.on('player-joined', function (player2) {
-    console.log("player2-joined")
-    console.log(player2)
+    console.log("player2-joined");
+    console.log(player2);
     var map = playerMap[player2.index],
         newPlayer = Player.create(map.context, player2);
 

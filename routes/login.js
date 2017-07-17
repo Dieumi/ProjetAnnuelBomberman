@@ -28,33 +28,33 @@ module.exports = function(app, models, urlApi){
 				msgError = "Veuillez saisir votre mot de passe ! ";
 				res.render('login.ejs', {msgError:msgError, session : req.session});
 			} else {
-				rp({
-					url: urlApi+"/user/auth" ,
-					method: "GET",
-					headers:{
-						"Content-Type": "application/json"
-					},
-					json:{
-					  "loginUser": req.body.login,
-					  "passwordUser":req.body.password
-					}
-				}).then(function(body){
-					if(body){
-						if(body.code == "0") {
-							req.session.cookie.maxAge = 1000 * 60 * 60;
+                rp({
+                    url: urlApi + "/user/auth",
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    json: {
+                        "loginUser": req.body.login,
+                        "passwordUser": req.body.password
+                    }
+                }).then(function (body) {
+                    if (body) {
+                        if (body.code == "0") {
+                            req.session.cookie.maxAge = 1000 * 60 * 60;
                             req.session.idUser = body.idUser;
-							req.session.login = body.loginUser;
-							req.session.type = body.typeUser;
-							res.redirect("/");
-						} else {
-							res.render("login.ejs", { msgError: "Erreur combinaison login/mot de passe", session : req.session })
-						}
-					}else{
-						res.render("login.ejs", { msgError: "Erreur combinaison login/mot de passe", session : req.session })
-					}
-				}).catch(function(err){
-					res.render("login.ejs", { msgError: "Erreur inconnu. Merci de réesayer.", session : req.session })
-				})
+                            req.session.login = body.loginUser;
+                            req.session.type = body.typeUser;
+                            res.redirect("/");
+                        } else {
+                            res.render("login.ejs", { msgError: "Erreur combinaison login/mot de passe", session: req.session });
+                        }
+                    } else {
+                        res.render("login.ejs", { msgError: "Erreur combinaison login/mot de passe", session: req.session });
+                    }
+                }).catch(function (err) {
+                    res.render("login.ejs", { msgError: "Erreur inconnu. Merci de réesayer.", session: req.session });
+                });
 			}
 		}
     });

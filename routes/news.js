@@ -31,7 +31,7 @@ module.exports = function(app, urlApi){
                     res.redirect("/");
                 }
             }).catch(function(err){
-                res.render("news.ejs", { msgError: "Erreur inconnu. Merci de réesayer.", session : req.session })
+                res.render("news.ejs", { msgError: "Erreur inconnu. Merci de réesayer.", session: req.session });
             });
         }
     });

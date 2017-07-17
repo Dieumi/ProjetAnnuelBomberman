@@ -10,7 +10,7 @@
                 "message": "Sequelize error",
                 "error": err
             });
-        })
+        });
     });
 
     app.post("/avatarBot", function (req, res, next) {
@@ -40,4 +40,4 @@
     });
 
 
-}
+};
