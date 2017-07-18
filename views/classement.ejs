@@ -16,9 +16,9 @@ if(session.type){
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1 class="bomber-text"><span class="fa fa-trophy"></span> Classement</h1>
         <% if (top) {
-            top = JSON.parse(top)
-            currentPage = JSON.parse(currentPage)
-            var index = (currentPage-1) * top.limit%>
+            top = JSON.parse(top);
+            currentPage = JSON.parse(currentPage);
+            var index = (currentPage-1) * top.limit; %>
         <div class="row" style="padding: 20px;">
             <table class="table table-hover table-responsive bomber-tabler">
                 <thead>
@@ -32,10 +32,12 @@ if(session.type){
                 </thead>
                 <tbody>
                 <%
-                    var color
-                    var position = 0
+                    if (top.result) {
+
+                    var color;
+                    var position = 0;
                 for(var i = 0 ; i < top.result[0].length ; i++) {
-                    position = i + 1 + index
+                    position = i + 1 + index;
                     if (position == 1) {
                         color = "#ffd700"
                     } else if (position == 2) {
@@ -59,7 +61,7 @@ if(session.type){
                     <td><%=ratio%></td>
                     <td><a href="/profile/<%=top.result[0][i].userIdBot%>"><%=top.result[0][i].loginUser%></a></td>
                 </tr>
-                <% } %>
+                <% }} %>
                 </tbody>
             </table>
             <div align="center">

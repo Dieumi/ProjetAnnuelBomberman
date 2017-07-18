@@ -50,8 +50,8 @@
 			}
 			myImg.setAttribute("src", "/images/avatarGame/"+newAvatar+".png")
 			myImg.setAttribute("name", newAvatar)
-			
-								
+
+
 		}
 
 		function valideChange(id){
@@ -64,14 +64,14 @@
 				data: { "idBot": id, "avatarBot" : name },
 				dataType: 'json'
 			})
-			
+
 		}
 	</script>
     <div class="row">
         <%
-        
+            console.log(listBot)
         for(var i =0; i < 3; i++) { %>
-		
+
         <div class="bomber-block col-sm-4 col-sm-push-1" style="margin-left: 20px; margin-right: 20px; width: 25%">
 
             <% if (listBot[i]) { %>

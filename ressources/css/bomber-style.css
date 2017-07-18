@@ -1,6 +1,6 @@
 .bomber-background {
     background-color: #6d819c;
-    background-image: url("/images/wall2.png");
+    background-image: url("/images/wallheaven.png");
 }
 
 .menu-top {
@@ -54,7 +54,7 @@
 }
 
 .bomber-grass {
-    background-image: url("/images/grass3.png");
+    background-image: url("/images/grass4.png");
     background-repeat: repeat-x;
     position: fixed;
     bottom: 0px;
