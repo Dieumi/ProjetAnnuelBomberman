@@ -1,0 +1,51 @@
+ <%
+
+if (top) {
+    top = JSON.parse(top)
+if(top.result){
+
+if (top.result[0].length == 3) {%>
+<div class="col-sm-6 col-sm-offset-3 bomber-block" style="margin-top: 0px;">
+    <h2 class="bomber-text"><span class="fa fa-globe"></span> Podium</h2>
+    <hr class = "bomber-line" >
+    <div class="row">
+        <div class="podium">
+            <table id="podium">
+                <tr>
+                    <td>
+                        <div class="text-center">2</div>
+                        <div id="second">
+                            <div class="text-inside">
+                                <span class="player"><%=top.result[0][1].nameBot%></span>
+                                <span class="points"><%=top.result[0][1].pointBot%> points</span>
+                                <a class="users" href="/profile/<%=top.result[0][1].userIdBot%>"><%=top.result[0][1].loginUser%></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">1</div>
+                        <div id="first">
+                            <div class="text-inside">
+                                <span class="player"><%=top.result[0][0].nameBot%></span>
+                                <span class="points"><%=top.result[0][0].pointBot%> points</span>
+                                <a class="users" href="/profile/<%=top.result[0][0].userIdBot%>"><%=top.result[0][0].loginUser%></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-center">3</div>
+                        <div id="third">
+                            <div class="text-inside">
+                                <span class="player"><%=top.result[0][2].nameBot%></span>
+                                <span class="points"><%=top.result[0][2].pointBot%> points</span>
+                                <a class="users" href="/profile/<%=top.result[0][2].userIdBot%>"><%=top.result[0][2].loginUser%></a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<% }}
+} %>

@@ -1,19 +1,31 @@
-var sequelize = require("./sequelize");
-var User = require("./User");
-var Map = require("./Map");
-var Bot = require("./Bot");
-var Match = require("./Match");
-var Succes = require("./Succes");
-var Tournament = require("./Tournament");
+var seq = require("./sequelize");
+var UserModel = require("./User");
+var MapModel = require("./Map");
+var BotModel = require("./Bot");
+var MatchModel = require("./Match");
+var SuccesModel = require("./Succes");
+var TournamentModel = require("./Tournament");
+var PostModel = require("./Post");
+var GameApiDesc = require("./GameApiDesc");
+var AvatarBot = require("./AvatarBot");
 
-sequelize.sync();
+seq.sync();
+
+var bombModel = require("./Bomb");
+var playerModel = require("./Player");
+
 
 module.exports = {
-	"sequelize" : sequelize,
-	"User" : User,
-	"Map" : Map,
-	"Bot" : Bot,
-	"Match" : Match,
-	"Succes" : Succes,
-	"Tournament" : Tournament
+    "sequelize" : seq,
+    "User" : UserModel,
+    "Map" : MapModel,
+    "Bot" : BotModel,
+    "Match" : MatchModel,
+    "Succes" : SuccesModel,
+    "Tournament" : TournamentModel,
+    "Post" : PostModel,
+    "Bomb" : bombModel,
+    "Player" : playerModel,
+    "GameApiDesc": GameApiDesc,
+    "AvatarBot": AvatarBot
 };

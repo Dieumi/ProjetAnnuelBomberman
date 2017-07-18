@@ -7,37 +7,38 @@ module.exports = function(app, models) {
 		if (req.body.nameMap) {
 			var Map = models.Map;
 			Map.create({
-				"nameMap" : req.body.nameMap,
+				"nameMap" : req.body.nameMap
 			}).then(function(result){
 				res.json({
 					"code" : 0,
 					"idMap" : result.idMap,
-					"nameMap" : result.nameMap,
+					"nameMap" : result.nameMap
 				});
 			}).catch(function(err){
 				res.json({
 					"code" : 2,
-					"message" : "Sequelize error"
-				})
+					"message" : "Sequelize error",
+					"error" : err
+				});
 			});
 		} else {
-			res.json({
-				"code" : 1,
-				"message" : "Missing required parameters"
-			})
+            res.json({
+                "code": 1,
+                "message": "Missing required parameters"
+            });
 		}
 	});
 
 	app.get("/ListMap", function (req, res, next) {
 		var map = models.Map;
-		map.findAll().then(function (results) {
-			res.send(results);
-		}).catch(function (err) {
-			res.json({
-				"code": 2,
-				"message": "Sequelize error",
-				"error": err
-			})
-		})
+        map.findAll().then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            });
+        });
 	});
-}
+};

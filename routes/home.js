@@ -1,8 +1,44 @@
-module.exports = function(app){
-	// =====================================
-	// HOME PAGE (with login links) ========
-	// =====================================
-	app.get('/', function(req, res) {
-		res.render('home.ejs', {session : req.session}); // load the home.ejs file
-	});
-}
+
+module.exports = function(app, urlApi){
+    // =====================================
+    // HOME PAGE (with login links) ========
+    // =====================================
+    var rp = require("request-promise");
+
+    app.get("/", function(req, res) {
+        rp({
+            url: urlApi + "/classementBot/3/1",
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+
+        }).then(function (body) {
+            var topBots = body;
+            rp({
+                url: urlApi + "/user/count",
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (body) {
+                var count = body;
+
+                rp({
+                    url: urlApi + "/posts/latest",
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function (body) {
+                    res.render("home.ejs", {
+                        session: req.session,
+                        userCount: count,
+                        top: topBots,
+                        posts: body
+                    });
+                });
+            });
+        });
+    });
+};

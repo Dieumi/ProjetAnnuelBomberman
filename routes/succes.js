@@ -8,38 +8,39 @@ module.exports = function(app, models) {
 			var Succes = models.Succes;
 			Succes.create({
 				"nameSucces" : req.body.nameSucces,
-				"imgSucces" : req.body.imgSucces,
+				"imgSucces" : req.body.imgSucces
 			}).then(function(result){
 				res.json({
 					"code" : 0,
 					"idSucces" : result.idSucces,
 					"nameSucces" : result.nameSucces,
-					"imgSucces" : result.imgSucces,
+					"imgSucces" : result.imgSucces
 				});
 			}).catch(function(err){
 				res.json({
 					"code" : 2,
-					"message" : "Sequelize error"
-				})
+					"message" : "Sequelize error",
+                    "error" : err
+				});
 			});
 		} else {
 			res.json({
 				"code" : 1,
 				"message" : "Missing required parameters"
-			})
+			});
 		}
 	});
 
 	app.get("/ListSucces", function (req, res, next) {
 		var succes = models.Succes;
-		succes.findAll().then(function (results) {
-			res.send(results);
-		}).catch(function (err) {
-			res.json({
-				"code": 2,
-				"message": "Sequelize error",
-				"error": err
-			})
-		})
+        succes.findAll().then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            });
+        });
 	});
-}
+};
