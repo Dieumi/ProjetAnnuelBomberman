@@ -79,14 +79,34 @@
 		<div>
 			<table class="table table-hover" >
 				<thead>
+				<tr >
+					<th colspan = "2" style ="background-color:grey" >INFORMATION</th>
+				</tr>
 				<tr>
-					<th>Environement</th>
+					<td colspan = "2"></td>
+				</tr>
+				<tr>
+					<th colspan = "2" style ="background-color:grey" >Environement</th>
 				</tr>
 				</thead>
 				<tbody>
 				<% 
 				if(gameFunc){
+
+					for(var i = 0; i<gameFunc.length; i++){		
+						if(gameFunc[i].typeGameApiDesc == "variable"){
+				%>
+				<tr style="background-color:white">
+					<td><%=gameFunc[i].nameGameApiDesc%></td>
+					<td><%=gameFunc[i].descriptionGameApiDesc%></td>
+				</tr>
+
+				<% 
+						}
+					}
+
 					for(var i = 0; i<gameFunc.length; i++){
+						if(gameFunc[i].typeGameApiDesc == "function"){
 				%>
 				<tr style="background-color:white">
 					<td><%=gameFunc[i].nameGameApiDesc%>() : <%=gameFunc[i].returnGameApiDesc%></td>
@@ -94,6 +114,7 @@
 				</tr>
 
 				<% 
+						}
 					}
 				}
 				%>

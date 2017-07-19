@@ -201,18 +201,15 @@ socket.on('action', function () {
     }
     try {
         codeBot1.exec.exec();
-
     } catch (err) {
         console.log(err);
     }
 
 
-
-    console.log("io:" + player.name);
     if (gameOn != false && frozen != true) {
+        socket.emit("action", player.name);
         setTimeout(function () {
             var rand = getRandomIntInclusive(1, 5);
-            socket.emit("action", player.name);
             if (rand > 4) {
                 addBonus(getRandomIntInclusive(0, 8), getRandomIntInclusive(0, 8), "powerUp");
                 //addBonus(1,0,"powerUp");
@@ -220,7 +217,7 @@ socket.on('action', function () {
                 addBonus(getRandomIntInclusive(0, 8), getRandomIntInclusive(0, 8), "moreBomb");
             }
 
-        }, 1500);
+        }, 2000);
 
     }
 

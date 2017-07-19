@@ -133,10 +133,6 @@ socket2.on('move', function (id, position) {
 });
 socket2.on('action', function () {
     hasPlayed2 = false;
-    console.log("io2:" + player2.name);
-    console.log(codeBot2);
-
-
     /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
     var tile = getTile(player2.position.x, player2.position.y);
@@ -156,20 +152,6 @@ socket2.on('action', function () {
     } catch (err) {
         console.log(err);
     }
-
-
-    //var codeExec = codeBot2.replace(/player/g , "player2");
-    //eval(codeExec);
-
-
-    //player2.move("down");
-
-    /*if(gameOn != false && frozen != true){
-      setTimeout(function(){
-        socket2.emit("action",player2.name);
-      }, 1500);
-
-    }*/
 
 });
 socket2.on('bomb', function (position) {

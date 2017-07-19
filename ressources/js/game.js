@@ -54,9 +54,9 @@ var iconBomb = new Image(),
     playerRonflex = new Image(),
     playerWhale = new Image();
 
-var BOMB_TIMER = 5000,
+var BOMB_TIMER = 3500,
     BOMB_CLEAR_TIMER = 400,
-    GAME_TIMER = 60000;
+    GAME_TIMER = 300000;
 
 var gameId,
     gameOn = false,
@@ -379,7 +379,7 @@ function updateTile(x, y, key, value) {
     }
 }
 function addBonus(x,y,name){
-  console.log("bonus : "+x+y);
+  //console.log("bonus : "+x+y);
   var tile=getTile(x,y);
   if(tile.type=='empty'){
     tile.hasBonus=new Bonus(name);
@@ -402,7 +402,9 @@ function Tile(type) {
     this.canMove = this.type == 'empty' ? true : false;
 
     this.hasBomb = false;
+
     this.hasBonus = null;
+
     this.setType = function (type) {
         this.type = type || 'empty';
 
@@ -458,16 +460,22 @@ function Tile(type) {
 } function Player(context, name, avatar) {
     this.context = context;
 
-    this.name = name || 'Whale';
-    this.avatar = avatar || playerWhale;
+    this.name = name || 'bomberman';
+    this.avatar = avatar || playerBomberman;
 
     this.isAlive = true;
 
     this.position = {};
-    this.hasBonus=null;
-    this.tourBonus=0;
+
+    this.hasBonus = null;
+
+    this.tourBonus = 0;
+
     this.maxBombs = 1;
+
     this.bombs = 0;
+
+    this.tabBomb = [];
 
     this.move = function (direction) {
         // can't move if dead, son
@@ -568,6 +576,41 @@ function Tile(type) {
         }
     }
 
+    this.isDangerous = function (x, y) {
+        var i = 0;
+        for (i = 0; i < this.tabBomb.length; i++) {
+           
+            if (x - this.tabBomb[i].position.x < 2 && x - this.tabBomb[i].position.x > -2 && this.tabBomb[i].position.y == y) {
+                return true;
+            }
+            if (y - this.tabBomb[i].position.y < 2 && y - this.tabBomb[i].position.y > -2 && this.tabBomb[i].position.x == x) {
+                return true;
+            }
+        }
+        if (this == player) {        
+            for (i = 0; i < player2.tabBomb.length; i++) {
+                if (x - player2.tabBomb[i].position.x < 2 && x - player2.tabBomb[i].position.x > -2 && player2.tabBomb[i].position.y == y) {
+                    return true;
+                }
+                if (y - player2.tabBomb[i].position.y < 2 && y - player2.tabBomb[i].position.y > -2 && player2.tabBomb[i].position.x == x) {
+                    return true;
+                }
+            }
+        } else {
+            for (i = 0; i < player.tabBomb.length; i++) {
+                console.log("taille : " + this.tabBomb.length);
+                if (x - player.tabBomb[i].position.x < 2 && x - player.tabBomb[i].position.x > -2 && player.tabBomb[i].position.y == y) {
+                    return true;
+                }
+                if (y - player.tabBomb[i].position.y < 2 && y - player.tabBomb[i].position.y > -2 && player.tabBomb[i].position.x == x) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     this.isBomber = function (x,y){
       if(this==player){
         if(x==player2.position.x && y==player2.position.y){
@@ -583,24 +626,35 @@ function Tile(type) {
         }
       }
     }
-    this.isOnSameLine= function (x){
-      if(this == player){
-        if(player2.position.y==x){
+
+    this.isOnSameLine= function (){
+        if (this == player) {
+            if (player2.position.y == this.position.y || player2.position.x == this.position.x) {
           return true
         }else{
           return false
         }
       }else{
-        if(player.position.y==x){
+         if (player.position.y == this.position.y || player.position.x == this.position.x){
           return true
         }else{
           return false
         }
       }
     }
+
     this.isBomb = function (x, y) {
         return getTile(x, y).hasBomb
     }
+
+    this.getBombsEnemy = function () {
+        if (this == player) {
+            return player2.tabBomb;
+        } else {
+            return player.tabBomb;
+        }
+    }
+
     this.getNearestEnemy = function (){
       if(this==player){
         return player2.position;
@@ -608,6 +662,7 @@ function Tile(type) {
         return player.position;
       }
     }
+
     this.isBomber = function(x, y){
         if (player != this) {
             if (player.position.y == y && player.position.x == x) {
@@ -663,6 +718,7 @@ function Tile(type) {
 
     this.clearBomb = function () {
         this.bombs--;
+        this.tabBomb.splice(0, 1)
     }
 
     this.plantBomb = function () {
@@ -684,7 +740,7 @@ function Tile(type) {
         var bomb = new Bomb(this.position.x, this.position.y);
 
         this.bombs++;
-
+        this.tabBomb.push(bomb);
         setTimeout(this.clearBomb.bind(this), BOMB_TIMER);
 
         //	fake bomb planting while the server responds
@@ -708,7 +764,7 @@ function Tile(type) {
             var bomb = new Bomb(this.position.x, this.position.y);
 
             this.bombs++;
-
+            this.tabBomb.push(bomb);
             setTimeout(this.clearBomb.bind(this), BOMB_TIMER);
 
             //	fake bomb planting while the server responds
