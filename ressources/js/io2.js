@@ -125,7 +125,7 @@ socket2.on('win', function (player) {
       endGame(idBot1);
       console.log(player);
       if(player!=null){
-          log(player.name + ' : VICTOIRE!', true);
+        //  log(player.name + ' : VICTOIRE!', true);
         if(document.getElementById('typeGame').value!="test"){
           if(player.idBot==document.getElementById('idBot1').value){
             $("#winner").val(idBot1);
@@ -140,7 +140,7 @@ socket2.on('win', function (player) {
           }
         }
       }else{
-        log('match nul', true);
+      //  log('match nul', true);
         $("#winner").val(idBot1);
         $("#looser").val(idBot2);
         $("#null").val(true);
