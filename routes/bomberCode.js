@@ -230,7 +230,7 @@ module.exports = function (app, models, urlApi) {
                 if (regexForWhile.test(checkBefore) === false && tmpCode[nextChar] == "(") {
                     nbFor++;
                     debutBoucle = tmpCode.indexOf("{");
-                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">1000){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">100){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
                     theCode = tmpCode;
                     
                     if (nbLoop.toString()[0] == 1 && nbLoop % 10 == 0) {
@@ -272,7 +272,7 @@ module.exports = function (app, models, urlApi) {
 
                     nbWhile++;
                     debutBoucle = tmpCode.indexOf("{");
-                    tmpCode = theCode.substring(0, indices[j] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[j] + indiceSup, indices[j] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">1000){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[j] + indiceSup + debutBoucle + 1, theCode.length);
+                    tmpCode = theCode.substring(0, indices[j] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[j] + indiceSup, indices[j] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">100){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[j] + indiceSup + debutBoucle + 1, theCode.length);
                     theCode = tmpCode;
                     if (nbLoop.toString()[0] == 1 && nbLoop % 10 == 0) {
                         charToAdd = charToAdd + 3;
@@ -306,7 +306,7 @@ module.exports = function (app, models, urlApi) {
                 if (tmpCode[nextCharDoWhile] == "{") {
                     nbDoWhile++;
                     debutBoucle = tmpCode.indexOf("{");
-                    tmpCode = theCode.substring(0, indices[y] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[y] + indiceSup, indices[y] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">1000){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[y] + indiceSup + debutBoucle + 1, theCode.length);
+                    tmpCode = theCode.substring(0, indices[y] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[y] + indiceSup, indices[y] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">100){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[y] + indiceSup + debutBoucle + 1, theCode.length);
                     theCode = tmpCode;
                     if (nbLoop.toString()[0] == 1 && nbLoop % 10 == 0) {
                         charToAdd = charToAdd + 3;
