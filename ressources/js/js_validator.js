@@ -11,15 +11,23 @@ $.ajax({
         var paramsFunc;
         var parmsRdy = "";
         for (var i = 0; i < gameFunctionValidator.length; i++) {
-            parmsRdy = "";
-            paramsFunc = gameFunctionValidator[i].paramGameApiDesc.split(",");
-            for (var j = 0; j < paramsFunc.length; j++) {
-                parmsRdy = parmsRdy + paramsFunc[j].trimLeft().split(" ")[1] + ",";
+            if (gameFunctionValidator[i].typeGameApiDesc == "function") {
+
+                parmsRdy = "";
+                paramsFunc = gameFunctionValidator[i].paramGameApiDesc.split(",");
+                console.log(paramsFunc)
+                if (paramsFunc[0] != ""){
+                    for (var j = 0; j < paramsFunc.length; j++) {
+                        parmsRdy = parmsRdy + paramsFunc[j].trimLeft().split(" ")[1] + ",";
+                        console.log(paramsFunc[j].trimLeft().split(" ")[1] + ",")
+                    }
+                }
+                tmpP = tmpP + "this." + gameFunctionValidator[i].nameGameApiDesc + " = function (" + parmsRdy.substring(0, parmsRdy.length - 1) + ") { };";
+            } else {
+                tmpP =  tmpP + "var " + gameFunctionValidator[i].nameGameApiDesc + ";";
             }
-            tmpP = tmpP + "this." + gameFunctionValidator[i].nameGameApiDesc + " = function (" + parmsRdy.substring(0, parmsRdy.length - 1) + ") { };"
         }
         player = player + tmpP + playerEnd;
-        console.log(player)
     }
 })
 
