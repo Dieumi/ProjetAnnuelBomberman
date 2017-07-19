@@ -142,24 +142,31 @@ socket.on('stop', function () {
 socket.on('win', function (player) {
     gameOn = false;
     frozen = true;
-
-    log(player.name + ' has won!', true);
-    console.log(player)
-    console.log(idBot1)
-    endGame(idBot1);
-    if(document.getElementById('typeGame').value!="test"){
-      if(player.idBot==document.getElementById('idBot1').value){
-        $("#winner").val(idBot1);
-        $("#looser").val(idBot2);
-        $("#null").val(false);
-        $("#win").submit();
-        }else {
-        $("#winner").val(idBot2);
-        $("#looser").val(idBot1);
-        $("#null").val(false);
-        $("#win").submit();
+    if(player.isAlive){
+      log(player.name + ' has won!', true);
+      console.log(player)
+      console.log(idBot1)
+      endGame(idBot1);
+      if(document.getElementById('typeGame').value!="test"){
+        if(player.idBot==document.getElementById('idBot1').value){
+          $("#winner").val(idBot1);
+          $("#looser").val(idBot2);
+          $("#null").val(false);
+          $("#win").submit();
+          }else {
+          $("#winner").val(idBot2);
+          $("#looser").val(idBot1);
+          $("#null").val(false);
+          $("#win").submit();
+        }
       }
+    }else{
+      $("#winner").val(idBot1);
+      $("#looser").val(idBot2);
+      $("#null").val(true);
+    //  $("#win").submit();
     }
+
 
 
 });
@@ -214,9 +221,10 @@ socket.on('action', function () {
         setTimeout(function () {
           var rand=getRandomIntInclusive(1,5);
           socket.emit("action", player.name);
+
           if(rand>4){
-                   addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"powerUp");
-                    //addBonus(1,0,"powerUp");
+                  // addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"powerUp");
+
           }else if (rand <2){
                   addBonus(getRandomIntInclusive(0,8),getRandomIntInclusive(0,8),"moreBomb");
           }
@@ -259,11 +267,6 @@ socket.on('player-joined', function (player) {
 
 
     addPlayer(newPlayer);
-
-});
-
-socket.on('left', function (id) {
-    removePlayer(id);
 
 });
 

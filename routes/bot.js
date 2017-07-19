@@ -285,6 +285,18 @@ module.exports = function(app, models,utils,urlApi) {
 
 	        }
 	  });
+    app.post('/left', function(req, res) {
+
+		         var Bot = utils.Bot;
+						 var u1 = new Bot();
+             var current = new Date();
+
+              u1.loose(req.body.idLoose,function(result){
+               res.send(result);
+             })
+
+
+	  });
 		app.post('/win', function(req, res) {
 
 		         var Bot = utils.Bot;
@@ -329,10 +341,10 @@ module.exports = function(app, models,utils,urlApi) {
                }).then(function(body){
                  console.log(body);
                })
-               u1.win(req.body.idBot,req.body.idLoose,function(result){
+               u1.win(req.body.idBot,function(result){
 
               })
-              u1.loose(req.body.idLoose,req.body.idBot,function(result){
+              u1.loose(req.body.idLoose,function(result){
                console.log(result);
               res.redirect("/");
              })

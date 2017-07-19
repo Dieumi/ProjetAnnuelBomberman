@@ -140,15 +140,21 @@ socket2.on('action', function () {
   /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
     //var codeExec = codeBot2.replace(/player/g, "player2");
     var tile=getTile(player2.position.x,player2.position.y);
-    if(tile.hasBonus==true){
-      player2.maxBombs=2;
-      player2.tourBonus=3;
-      tile.hasBonus=null;
-      tile.render();
-    }else if(player2.hasBonus==true){
+    if(tile.hasBonus!=null){
+        player2.hasBonus=tile.hasBonus;
+        player2.tourBonus=3;
+      if(tile.hasBonus.name=="moreBomb"){
+        player2.maxBombs=2;
+        tile.hasBonus=null;
+        tile.render(player2.position.x,player2.position.y);
+      }else if(tile.hasBonus.name=="powerUp"){
+          player2.maxBombs=1;
+          tile.hasBonus=null;
+          tile.render(player2.position.x,player2.position.y);
+      }
       player2.tourBonus--;
       if(player2.tourBonus==0){
-        player2.hasBonus=false;
+        player2.hasBonus=null;
       }
     }
      try {

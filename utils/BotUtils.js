@@ -65,10 +65,8 @@ BotUtils.prototype.findEnemy = function(idB,iduser, callback) {
 		});
 	}
 }
-BotUtils.prototype.win = function(idBot,idBotLoose, callback) {
+BotUtils.prototype.win = function(idBot, callback) {
 	var Bot = models.Bot;
-	 console.log("id:" + idBot);
-	  console.log("idloose:" + idBotLoose);
 	if(idBot) {
 		Bot.find({
 			"where" : {
@@ -94,7 +92,7 @@ BotUtils.prototype.win = function(idBot,idBotLoose, callback) {
 		});
 	}
 }
-BotUtils.prototype.loose = function(idBot,iduser, callback) {
+BotUtils.prototype.loose = function(idBot, callback) {
 	var Bot = models.Bot;
 
 	if(idBot) {
@@ -124,5 +122,4 @@ BotUtils.prototype.loose = function(idBot,iduser, callback) {
 		});
 	}
 }
-
 module.exports=BotUtils;
