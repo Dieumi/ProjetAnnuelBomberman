@@ -278,9 +278,21 @@ module.exports = function (app, models, utils, urlApi) {
             });
 
 
-        }
-    });
-    app.post('/win', function (req, res) {
+	        }
+	  });
+    app.post('/left', function(req, res) {
+
+		         var Bot = utils.Bot;
+						 var u1 = new Bot();
+             var current = new Date();
+
+              u1.loose(req.body.idLoose,function(result){
+               res.send(result);
+             });
+
+
+	  });
+		app.post('/win', function(req, res) {
 
         var Bot = utils.Bot;
         var u1 = new Bot();
@@ -306,28 +318,31 @@ module.exports = function (app, models, utils, urlApi) {
 
         } else {
 
-            rp({
-                url: urlApi + "/match",
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                json: {
-                    "matchNull": false,
-                    "idWinner": req.body.idBot,
-                    "idLoose": req.body.idLoose,
-                    "dateMatch": current.getDate(),
-                    "idMapMatch": null,
-                    "idTournamentMatch": null
-                }
-            }).then(function (body) { });
-            u1.win(req.body.idBot, req.body.idLoose, function (result) {
+               rp({
+                   url: urlApi + "/match",
+                   method: "POST",
+                   headers: {
+                       'Content-Type': 'application/json'
+                   },
+                   json: {
+                       "matchNull": false,
+                       "idWinner": req.body.idBot,
+                       "idLoose": req.body.idLoose,
+                       "dateMatch" : current.getDate(),
+                       "idMapMatch": null,
+                       "idTournamentMatch":null
+                   }
+               }).then(function(body){
+                 console.log(body);
+               });
+               u1.win(req.body.idBot,function(result){
 
+              });
+              u1.loose(req.body.idLoose,function(result){
+               console.log(result);
+              res.redirect("/");
             });
-            u1.loose(req.body.idLoose, req.body.idBot, function (result) {
-                res.redirect("/");
-            });
-        }
+             }
 
     });
 
