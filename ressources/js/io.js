@@ -276,13 +276,14 @@ function newGame(name) {
     init(null, true);
 
     log('Connexion au serveur..');
+      var test;
     if(document.getElementById('typeGame').value!="test"){
-      var test=true;
+    test=true;
     }else{
-      var test=false;
-    };
+     test=false;
+    }
     socket.emit('create', createGameId(), name, avatar.alt, matrix,idBot1,test);
-};
+}
 
 function joinGame(name, id) {
     hideMenu();
