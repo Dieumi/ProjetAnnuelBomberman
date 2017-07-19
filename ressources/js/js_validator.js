@@ -15,11 +15,9 @@ $.ajax({
 
                 parmsRdy = "";
                 paramsFunc = gameFunctionValidator[i].paramGameApiDesc.split(",");
-                console.log(paramsFunc)
                 if (paramsFunc[0] != ""){
                     for (var j = 0; j < paramsFunc.length; j++) {
                         parmsRdy = parmsRdy + paramsFunc[j].trimLeft().split(" ")[1] + ",";
-                        console.log(paramsFunc[j].trimLeft().split(" ")[1] + ",")
                     }
                 }
                 tmpP = tmpP + "this." + gameFunctionValidator[i].nameGameApiDesc + " = function (" + parmsRdy.substring(0, parmsRdy.length - 1) + ") { };";
@@ -82,30 +80,40 @@ function validate(type) {
         count = errors.length;
         data = "";
 
+        var listExclude = [/player2/g, /\.clearBomb/g, /.isAlive/g, /player\.position\.x=[^=]/g, /player\.position\.y=[^=]/g, /hasBonus=[^=]/g, /hasBonus=[^=]/g, /tourBonus=[^=]/g, /avatar=[^=]/g, /maxBombs=[^=]/g, /bombs=[^=]/g];
 
-        if (count == 0) {
-            data = '';
-        } else {
+        for (var i = 0; i < listExclude.length; i++) {
+
+          
+            if (listExclude[i].test(txtATest) == true) {
+                console.log(i)
+                data += "Alors on triche ? <br>";
+            }
+
+        }
+
+        
+
+        if (count > 0) {
             for (i = 0; i < count; i++) {
                 if (errors[i] != null) {
                     if (errors[i].reason.indexOf("Unrecoverable syntax error") == -1) {
                         var ligne = errors[i].line - 1
                         data += "Ligne : " + ligne + ", erreur : " + errors[i].reason + "<br>";
-                    }
+                    } 
                     
                 }
             }
 
         }
-        if (count > 0) {
+        if (data != "") {
             
             document.getElementById("msgError").innerHTML = data;
             document.getElementById("msgError").style.visibility = "visible";
         }
-
-        else if (count == 0 && type == "save") {
+        else if (data == "" && type == "save") {
             document.getElementById("formBomberCode").submit();
-        } else if (count == 0 && type == "test") {
+        } else if (data == "" && type == "test") {
             document.getElementById("formBomberCode").setAttribute("action", "/bomberCode/testInGame");
             document.getElementById("formBomberCode").submit();
         }
