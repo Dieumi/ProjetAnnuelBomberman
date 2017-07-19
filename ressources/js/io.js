@@ -144,8 +144,6 @@ socket.on('win', function (player) {
     frozen = true;
     if(player.isAlive){
       log(player.name + ' has won!', true);
-      console.log(player)
-      console.log(idBot1)
       endGame(idBot1);
       if(document.getElementById('typeGame').value!="test"){
         if(player.idBot==document.getElementById('idBot1').value){
