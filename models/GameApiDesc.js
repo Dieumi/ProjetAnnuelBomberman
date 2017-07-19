@@ -25,6 +25,6 @@ module.exports = sequelize.import("gameApiDesc", function(sequelize, Datatypes) 
 	}, {
 		paranoid : true,
 		freezeTab : true,
-		tableName: "GameApiDesc"
+		tableName: "gameapidesc"
 	});
 });

@@ -445,6 +445,7 @@ function Tile(type) {
     this.context = context;
 
     this.name = name || 'bomberman';
+
     this.avatar = avatar || playerBomberman;
 
     this.isAlive = true;
@@ -530,10 +531,6 @@ function Tile(type) {
 
     }
 
-    this.moveTowardCell = function(x, y){
-
-    }
-
     this.isObstacle = function (x, y) {
         if (getTile(x, y).type == "pillar"){
             return true;
@@ -593,22 +590,6 @@ function Tile(type) {
         }
 
         return false;
-    }
-
-    this.isBomber = function (x,y){
-      if(this==player){
-        if(x==player2.position.x && y==player2.position.y){
-          return true;
-        }else{
-          return false;
-        }
-      }else{
-        if(x==player.position.x && y==player.position.y){
-          return true;
-        }else{
-          return false;
-        }
-      }
     }
 
     this.isOnSameLine= function (){

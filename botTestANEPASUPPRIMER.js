@@ -1,5 +1,6 @@
 var Code = function () {
-    this.exec = function () {
+
+    this.exec = function () {
         var enemyPosition = player.getNearestEnemy();
         if (player.bombs == player.maxBombs) {
             goSafe();
