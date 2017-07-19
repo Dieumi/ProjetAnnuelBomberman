@@ -140,20 +140,30 @@ socket.on('stop', function () {
 socket.on('win', function (player) {
     gameOn = false;
     frozen = true;
-      log(player.name + ' : VICTOIRE!', true);
+
       endGame(idBot1);
-      if(document.getElementById('typeGame').value!="test"){
-        if(player.idBot==document.getElementById('idBot1').value){
-          $("#winner").val(idBot1);
-          $("#looser").val(idBot2);
-          $("#null").val(false);
-          $("#win").submit();
-          }else {
-          $("#winner").val(idBot2);
-          $("#looser").val(idBot1);
-          $("#null").val(false);
-          $("#win").submit();
+      console.log(player);
+      if(player!=null){
+          log(player.name + ' : VICTOIRE!', true);
+        if(document.getElementById('typeGame').value!="test"){
+          if(player.idBot==document.getElementById('idBot1').value){
+            $("#winner").val(idBot1);
+            $("#looser").val(idBot2);
+            $("#null").val(false);
+            $("#win").submit();
+            }else {
+            $("#winner").val(idBot2);
+            $("#looser").val(idBot1);
+            $("#null").val(false);
+            $("#win").submit();
+          }
         }
+
+      }else{
+        $("#winner").val(idBot1);
+        $("#looser").val(idBot2);
+        $("#null").val(true);
+        $("#win").submit();
       }
 
 
