@@ -82,7 +82,7 @@ function validate(type) {
         count = errors.length;
         data = "";
 
-        var listExclude = [/player[^\.]/g, /player2/g, /\.clearBomb/g, /.isAlive/g, /player\.position\.x=[^=]/g, /player\.position\.y=[^=]/g, /hasBonus=[^=]/g, /hasBonus=[^=]/g, /tourBonus=[^=]/g, /avatar=[^=]/g, /maxBombs=[^=]/g, /bombs=[^=]/g];
+        var listExclude = [/player[^\.]/g, /player2/g, /\.clearBomb/g, /.isAlive/g, /player\.position\.x[ ]*=[^=]/g, /player\.position\.y[ ]*=[^=]/g, /hasBonus[ ]*=[^=]/g, /hasBonus[ ]*=[^=]/g, /tourBonus[ ]*=[^=]/g, /avatar[ ]*=[^=]/g, /maxBombs[ ]*=[^=]/g, /bombs[ ]*=[^=]/g];
 
         for (var i = 0; i < listExclude.length; i++) {
             if (listExclude[i].test(txtATest) == true) {
