@@ -142,24 +142,29 @@ socket.on('stop', function () {
 socket.on('win', function (player) {
     gameOn = false;
     frozen = true;
-
-    log(player.name + ' has won!', true);
-    console.log(player);
-    console.log(idBot1);
-    endGame(idBot1);
-    if(document.getElementById('typeGame').value!="test"){
-      if(player.idBot==document.getElementById('idBot1').value){
-        $("#winner").val(idBot1);
-        $("#looser").val(idBot2);
-        $("#null").val(false);
-        $("#win").submit();
-        }else {
-        $("#winner").val(idBot2);
-        $("#looser").val(idBot1);
-        $("#null").val(false);
-        $("#win").submit();
+    if(player.isAlive){
+      log(player.name + ' has won!', true);
+      endGame(idBot1);
+      if(document.getElementById('typeGame').value!="test"){
+        if(player.idBot==document.getElementById('idBot1').value){
+          $("#winner").val(idBot1);
+          $("#looser").val(idBot2);
+          $("#null").val(false);
+          $("#win").submit();
+          }else {
+          $("#winner").val(idBot2);
+          $("#looser").val(idBot1);
+          $("#null").val(false);
+          $("#win").submit();
+        }
       }
+    }else{
+      $("#winner").val(idBot1);
+      $("#looser").val(idBot2);
+      $("#null").val(true);
+    //  $("#win").submit();
     }
+
 
 
 });
@@ -201,18 +206,15 @@ socket.on('action', function () {
     }
     try {
         codeBot1.exec.exec();
-
     } catch (err) {
         console.log(err);
     }
 
 
-
-    console.log("io:" + player.name);
     if (gameOn != false && frozen != true) {
+        socket.emit("action", player.name);
         setTimeout(function () {
             var rand = getRandomIntInclusive(1, 5);
-            socket.emit("action", player.name);
             if (rand > 4) {
                 addBonus(getRandomIntInclusive(0, 8), getRandomIntInclusive(0, 8), "powerUp");
                 //addBonus(1,0,"powerUp");
@@ -220,7 +222,7 @@ socket.on('action', function () {
                 addBonus(getRandomIntInclusive(0, 8), getRandomIntInclusive(0, 8), "moreBomb");
             }
 
-        }, 1500);
+        }, 2000);
 
     }
 
@@ -258,11 +260,6 @@ socket.on('player-joined', function (player) {
 
 
     addPlayer(newPlayer);
-
-});
-
-socket.on('left', function (id) {
-    removePlayer(id);
 
 });
 
