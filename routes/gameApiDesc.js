@@ -2,7 +2,7 @@ module.exports = function (app, models, utils) {
 
     app.get("/gameApiDesc", function (req, res, next) {
         var GameApiDesc = models.GameApiDesc;
-        GameApiDesc.findAll().then(function (results) {
+        GameApiDesc.findAll({ order: "`nameGameApiDesc` ASC" }).then(function (results) {
             res.send(results);
         }).catch(function (err) {
             res.json({
