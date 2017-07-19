@@ -140,7 +140,6 @@ socket.on('stop', function () {
 socket.on('win', function (player) {
     gameOn = false;
     frozen = true;
-    console.log("testwin")
       log(player.name + ' : VICTOIRE!', true);
       endGame(idBot1);
       if(document.getElementById('typeGame').value!="test"){
@@ -281,9 +280,9 @@ function newGame(name) {
       var test=true;
     }else{
       var test=false;
-    }
+    };
     socket.emit('create', createGameId(), name, avatar.alt, matrix,idBot1,test);
-}
+};
 
 function joinGame(name, id) {
     hideMenu();
