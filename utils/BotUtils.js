@@ -121,5 +121,5 @@ BotUtils.prototype.loose = function(idBot, callback) {
 			callback(err);
 		});
 	}
-}
+};
 module.exports=BotUtils;

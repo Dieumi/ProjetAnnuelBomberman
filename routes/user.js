@@ -202,4 +202,33 @@ module.exports = function (app, models, utils) {
             });
         }
     });
+
+    app.post("/updateMyUser", function (req, res, next) {
+        console.log(req.body.passwordUser);
+        var request = {
+            "where": {
+                idUser: req.body.idUser
+            }
+        };
+
+        var attributes = {};
+        if (req.body.idUser) {
+            attributes.idUser = req.body.idUser;
+        }
+        if (req.body.passwordUser) {
+            attributes.passwordUser = bcrypt.hashSync(req.body.passwordUser, null, null);
+        }
+        var u1 = models.User;
+
+        u1.update(attributes, request).then(function (results) {
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            });
+        });
+
+    });
 };

@@ -1,0 +1,32 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Modification</title>
+    <% include ./partials/header %>
+</head>
+<body class="bomber-background">
+<% include ./partials/navbar %>
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3 bomber-block bomber-text">
+        <h1><span class="fa fa-sign-in"></span> Modification du mot de passe</h1>
+        <hr class = "bomber-line" >
+
+        <% if (msgError.length > 0) { %>
+        <div class="alert alert-danger"><%= msgError %></div>
+        <% } %>
+
+        <form action="/updateUser" method="post">
+            <div class="form-group">
+                <label>Nouveau mot de pass</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-lg bomber-btn">Modifier</button>
+        </form>
+    </div>
+</div>
+
+<% include ./partials/footer %>
+
+</body>
+</html>
