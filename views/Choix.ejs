@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>Jouer</title>
+  <% include ./partials/header %>
+</head>
+<body class="bomber-background">
+
+<% include ./partials/navbar %>
+
+<div class="container">
+    <div class="row">
+        <div class="bomber-block col-sm-6 col-sm-push-3">
+
+            <h1 class="bomber-text"><i class="fa fa-play-circle-o" aria-hidden="true"></i> Jouer</h1>
+            <hr class = "bomber-line" >
+
+            <p>Vous vous apprêtez à rentrer dans l'arène, tout ce que vous allez voir dépasse tout entendement. Prenez garde, les combats auxquels vous allez assister seront <b class="bomber-bold">détonnant </b>.</p>
+            <p>Alors, préparez bien votre <b class="bomber-bold">bomber bot</b> afin qu’il n’explose pas à la première difficulté.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <input type="hidden" value='<%=session.idUser%>' id="idUser">
+        <% for(var i =0; i < 3;i++){ %>
+        <% if(listBot[i]){ %>
+        <div class="bomber-block col-sm-4 col-sm-push-1" style="margin-left: 20px; margin-right: 20px; width: 25%">
+            <h3 class="bomber-text"><i class="fa fa-user" aria-hidden="true"></i> <%=listBot[i].nameBot%></h3>
+			<img name = "<%=listBot[i].avatarBot%>" id ="avatar<%=listBot[i].idBot%>" src = "/images/avatarGame/<%=listBot[i].avatarBot%>.png" style= "display: block;margin-left:auto;margin-right:auto">
+            <input type="radio" id="<%=listBot[i].nameBot%>" name="choix" value='<%=listBot[i].idBot%>'  />Choisir<br>
+            <% } %>
+        </div>
+        <% } %>
+    </div>
+<div style="text-align: center">
+<button id="jouer" type="button" class="btn btn-primary">Jouer</button>
+</div>
+    <div id="dialog" class="dialogcss">
+  <form id="combat" action="/index" method="post" >
+
+
+    <div id="player0">
+    </div>
+  </form>
+  <form id="combat" action="/index" method="post" >
+
+    <div id="player1">
+    </div>
+  </form>
+  <form id="combat" action="/index" method="post" >
+
+    <div id="player2">
+    </div>
+  </form>
+
+</div>
+<% include ./partials/footer %>
+
+</body>
+<script type="text/javascript">
+  $("#jouer").on("click",function(){
+    var popo = $("#dialog").dialog({
+           autoOpen: false,
+           modal: true,
+           show: 'blind',
+           hide: 'blind',
+           title:"Choisi un adversaire : ",
+           maxWidth: 780,
+           maxHeight: 500,
+           width: 300,
+           height: 500
+
+
+       });
+   for(var i=0;i<3;i++){
+
+       $("#player"+i).empty();
+   }
+    var user={
+      iduser:  $("#idUser").val(),
+      idbot:$('input[name=choix]:checked').val()
+    }
+
+
+	var txt;
+	var codeBot="";
+	var avatarBot = "";
+	$.ajax({
+        type: "GET",
+        url: "/bot",
+
+        data: { "idBot": $('input[name=choix]:checked').val() },
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+            codeBot = data.codeBot;
+			avatarBot = data.avatarBot;
+
+        }
+    })
+
+    $.ajax({
+           url : '/adversaire',
+           type : 'POST',
+           dataType: 'json',
+           data: user,
+           success : function(code_html, statut){
+
+              for(var i=0;i<code_html.length;i++){
+                
+                  txt=code_html[i].nameBot+"<br>";
+                  txt+="nombre de point : " + code_html[i].pointBot+"<br>";
+				  txt+="<img src = '/images/avatarGame/"+code_html[i].avatarBot+".png' ><br>";
+                  txt+="<button id='affronter"+i+"'' type='submit' class='btn btn-primary'>Affronter</button>"
+                  txt+="<input type='hidden' name='iduser' value='"+$("#idUser").val()+"'/>"
+                  txt+="<input type='hidden' name='idbot' value='"+$('input[name=choix]:checked').val()+"'/>"
+                  txt+="<input type='hidden' name='namebotAD' value='"+code_html[i].nameBot+"'/>"
+        		  txt+="<input type='hidden' name='idbotAd' value='"+code_html[i].idBot+"'/>"
+        		  txt+="<input type='hidden' name='codeBotAd' value='"+code_html[i].codeBot+"'/>"
+				  txt+="<input type='hidden' name='avatarBot' value='"+avatarBot+"'/>"
+				  txt+="<input type='hidden' name='avatarBotAd' value='"+code_html[i].avatarBot+"'/>"
+        		  txt+="<input type='hidden' name='codeBot' value='"+codeBot+"'/>"
+                  txt+="<input type='hidden' name='namebot' value='"+$('input[name=choix]:checked').attr("id")+"'/>"
+                  $("#iduser"+i).val(code_html[i].userIdBot)
+                  $("#idbot"+i).val(code_html[i].idBot)
+                  $("#player"+i).append(txt);
+              }
+              popo.dialog("open");
+           }
+
+    });
+
+  })
+
+</script>
+</html>

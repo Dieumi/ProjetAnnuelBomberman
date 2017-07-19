@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+    <title>Mes Bomberbots</title>
+    <% include ./partials/header %>
+</head>
+<body class="bomber-background">
+<% include ./partials/navbar %>
+
+<div class="container">
+
+    <div class="row">
+        <div class="bomber-block col-sm-6 col-sm-push-3">
+
+            <h1 class="bomber-text"><i class="fa fa-users" aria-hidden="true"></i> Mes Bomberbots</h1>
+            <hr class = "bomber-line" >
+
+            <p>Avant de coder, d'établir des stratégies ou d’affronter les plus redoutables adversaires, il va falloir en apprendre un peu plus sur BomberBot.</p>
+            <p>Il ne suffit pas de lancer vos <b class="bomber-bold">bombers</b> au combat, il faut d'abord leur apprendre à combattre ! BomberBot est avant tout un jeu de programmation, vous devrez donc créer une <b class="bomber-bold">intelligence artificielle</b>, une <b class="bomber-bold">IA</b>.</p>
+            <p>Ainsi, l'IA est une sorte de script que votre bomber exécutera afin de prendre des décisions et d’anéantir tous vos ennemies. </p>
+            <p>Vous êtes prêts ? Alors commençons !</p>
+
+        </div>
+    </div>
+	<script>
+		var listAvatar = [];
+		$.ajax({
+				type: "GET",
+				url: "/avatarBot",
+				async: false,
+				success: function (data) {
+					for(var i = 0; i<data.length; i++){
+						listAvatar[i] = data[i].nameAvatarBot;
+					}
+				}
+			})
+
+		function changeAvatar(nb, id){
+			var myImg = document.getElementById("avatar"+id);
+			document.getElementById("buttonValide"+id).style.visibility="visible";
+			var name = myImg.getAttribute("name");
+			var i = listAvatar.indexOf(name);
+			var newAvatar = "";
+			if(i+nb<0){
+				newAvatar = listAvatar[listAvatar.length-1];
+			}else if(i+nb>listAvatar.length-1){
+				newAvatar = listAvatar[0]
+			}else{
+				newAvatar = listAvatar[i+nb]
+			}
+			myImg.setAttribute("src", "/images/avatarGame/"+newAvatar+".png")
+			myImg.setAttribute("name", newAvatar)
+
+
+		}
+
+		function valideChange(id){
+			document.getElementById("buttonValide"+id).style.visibility="hidden"
+			var myImg = document.getElementById("avatar"+id);
+			var name = myImg.getAttribute("name");
+			$.ajax({
+				type: "POST",
+				url: "/updateBot",
+				data: { "idBot": id, "avatarBot" : name },
+				dataType: 'json'
+			})
+
+		}
+	</script>
+    <div class="row">
+        <%
+            console.log(listBot)
+        for(var i =0; i < 3; i++) { %>
+
+        <div class="bomber-block col-sm-4 col-sm-push-1" style="margin-left: 20px; margin-right: 20px; width: 25%">
+
+            <% if (listBot[i]) { %>
+
+            <h3 class="bomber-text"><i class="fa fa-user" aria-hidden="true"></i> <%=listBot[i].nameBot%></h3>
+			<img name = "<%=listBot[i].avatarBot%>" id ="avatar<%=listBot[i].idBot%>" src = "/images/avatarGame/<%=listBot[i].avatarBot%>.png" style= "display: block;margin-left:auto;margin-right:auto">
+			<p align="center"><button onClick="changeAvatar(-1, <%=listBot[i].idBot%>)"><</button><button id="buttonValide<%=listBot[i].idBot%>" onClick="valideChange(<%=listBot[i].idBot%>)" style = "visibility:hidden;">valider</button><button onClick="changeAvatar(1, <%=listBot[i].idBot%>)">></button>
+
+            <%
+                var total = listBot[i].winBot + listBot[i].loseBot
+                var victory = (listBot[i].winBot / total) * 100
+                var lose = (listBot[i].loseBot / total) * 100
+            %>
+            <div style="text-align: center">
+
+                <p><b class="bomber-bold">Parties jouées  : <%=total%></b></p>
+                <p><a href = "/history/<%=listBot[i].idBot%>"><i class="fa fa-history" aria-hidden="true"></i> Historique des parties</a></p>
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success"  style="width: <%=victory%>%"> V <%=listBot[i].winBot%>
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: <%=lose%>%"> D <%=listBot[i].loseBot%>
+                    </div>
+                </div>
+
+                <p><b class="bomber-bold"><%=listBot[i].pointBot%> points</b></p>
+                <p>Mode : <%=listBot[i].modeBot%></p>
+                <a class="btn btn-lg bomber-btn" href = "/bomberCode/<%=listBot[i].idBot%>"> Modifier</a><br>
+            </div>
+
+            <% } else if (i < 3) { %>
+
+            <div style="text-align: center">
+                <a href="/bomberCode" style="font-size: 40px"> <i class="fa fa-user-plus" aria-hidden="true"></i> </a>
+            </div>
+
+            <% } %>
+
+        </div>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+<% include ./partials/footer %>
+
+</body>
+</html>
+

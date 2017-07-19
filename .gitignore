@@ -1,1 +1,5 @@
 node_modules
+ProjetAnnuelBomberman.iml
+.idea/
+.vs/
+botFiles/*

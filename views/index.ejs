@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
+		<link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png">
+		<meta property="og:title" content="Bomberman in JavaScript">
+		<meta property="og:description" content="Classic Bomberman game, ported to JavaScript">
+
+		<link rel="stylesheet" href="/css/font/font.css">
+		<link rel="stylesheet" href="/css/master.css">
+		<% include ./partials/header %>
+	</head>
+
+	<body class="bomber-background">
+		<% include ./partials/navbar %>
+
+		<% if (type =="test"){ %>
+			<a href="/bomberCode/<%=idBot%>">Retour</a>
+		<% } %>
+		<div class="growl">
+		</div>
+		<div class="wrapper">
+			<ul class="social">
+
+			</ul>
+			<section>
+				<div class="about bomber-block">
+
+				</div>
+				<div class="status players bomber-block">
+				</div>
+				<div class="status log bomber-block">
+				</div>
+			</section>
+			<div class="game">
+
+				<form class="menu">
+
+					<ul>
+						<li>
+							<input type="hidden" id="urlApi" value="<%=api%>">
+							<input type="hidden" id="idBot1" value="<%=idBot%>">
+							<input type="hidden" id="idBot2" value="<%=idBotAd%>">
+							<input type="hidden" id="codeBot1" value="<%=codeBot%>">
+							<input type="hidden" id="codeBot2" value="<%=codeBotAd%>">
+							<input type="hidden" id="avatarBot1" value="<%=avatarBot%>">
+							<input type="hidden" id="avatarBot2" value="<%=avatarBotAd%>">
+							<input type="text" name="user-name" placeholder="Your name" id="nameBot" value="<%=namebot%>" tabindex="1" maxlength="10">
+							<input type="hidden" name="user-nameAD" placeholder="Your name" value="<%=namebotAd%>" tabindex="1" maxlength="10">
+							<input type="hidden" id="typeGame"  value="<%=type%>" tabindex="1" maxlength="10">
+
+							<button type="submit">New Game</button>
+						</li>
+						<li>
+							<input type="text" name="game-id" placeholder="Game ID" tabindex="2">
+							<button type="submit">Join Game</button>
+						</li>
+					</ul>
+				</form>
+				<canvas id="tiles" height="576" width="576"></canvas>
+				<canvas id="bombs" height="576" width="576"></canvas>
+				<canvas id="player-one" height="576" width="576"></canvas>
+				<canvas id="player-two" height="576" width="576"></canvas>
+				<canvas id="player-three" height="576" width="576"></canvas>
+				<canvas id="player-four" height="576" width="576"></canvas>
+			</div>
+		</div>
+
+		<div id="fb-root">
+		</div>
+		<form id="win" action="/win" method="post">
+			<input type="hidden" id="winner" name="idBot">
+			<input type="hidden" id="looser" name="idLoose">
+			<input type="hidden" id="null" name="null">
+		</form>
+	</body>
+
+	<script src="/lib/jquery.min.js"></script>
+	<script src="/lib/hashids.min.js"></script>
+	<script src="/js/scripts.js"></script>
+	<script src="<%=codeBot%>"></script>
+	<script>
+
+		var codeBot1 = {"exec" : new Code()};
+	</script>
+	<script src="<%=codeBotAd%>"></script>
+	<script>
+		var codeBot2 = {"exec" : new Code()};
+	</script>
+	<script src="/js/game.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script src="/js/io.js"></script>
+<script src="/js/io2.js"></script>
+	<!--<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>

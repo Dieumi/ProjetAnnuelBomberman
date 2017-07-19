@@ -17,9 +17,22 @@
   },
   "homepage": "https://github.com/Dieumi/ProjetAnnuelBomberman#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.1",
+    "child_process": "^1.0.2",
+    "config": "^1.25.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.6",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "firstline": "^1.2.1",
     "fs": "0.0.1-security",
-    "sequelize": "^3.30.4"
+    "jshint": "^2.9.5",
+    "mkdirp": "^0.5.1",
+    "mysql": "^2.13.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "sequelize": "^3.30.4",
+    "socket.io": "^2.0.3"
   }
 }
