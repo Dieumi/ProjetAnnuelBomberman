@@ -42,17 +42,14 @@ var iconBomb = new Image(),
     patternFire = new Image(),
     iconBonus=new Image(),
     iconBonus2=new Image(),
-    playerBirdie = new Image(),
-    playerElephant = new Image(),
-    playerFishy = new Image(),
-    playerMonkey = new Image(),
-    playerRam = new Image(),
-    playerOx = new Image(),
-    playerPiggle = new Image(),
     playerBomberman = new Image(),
     playerAvatar = new Image(),
     playerRonflex = new Image(),
-    playerWhale = new Image();
+    playerFreezer = new Image(),
+    playerBuu = new Image(),
+    playerGoku = new Image(),
+    playerLink = new Image(),
+    playerPika = new Image()
 
 var BOMB_TIMER = 3500,
     BOMB_CLEAR_TIMER = 400,
@@ -69,17 +66,14 @@ var gameId,
     player2,
     players = [],
     avatars = {
-        birdie: playerBirdie,
-        elephant: playerElephant,
-        fishy: playerFishy,
-        monkey: playerMonkey,
-        ram: playerRam,
-        ox: playerOx,
-        piggle: playerPiggle,
-        whale: playerWhale,
         bomberman: playerBomberman,
         avatar: playerAvatar,
         ronflex: playerRonflex,
+        freezer: playerFreezer,
+        buu: playerBuu,
+        goku: playerGoku,
+        link: playerLink,
+        pika: playerPika,
     },
     playerMap = [
         {
@@ -116,27 +110,7 @@ $(document).ready(function () {
 
     iconBonus.src='/images/bonus1.png';
     iconBonus2.src='/images/bonus2.png';
-    playerBirdie.src = '/images/birdie.png';
-
-    playerBirdie.alt = 'birdie';
-
-    playerElephant.src = '/images/avatarGame/elephant.png';
-    playerElephant.alt = 'elephant';
-
-    playerFishy.src = '/images/avatarGame/fishy.png';
-    playerFishy.alt = 'fishy';
-
-    playerMonkey.src = '/images/avatarGame/monkey.png';
-    playerMonkey.alt = 'monkey';
-
-    playerRam.src = '/images/avatarGame/ram.png';
-    playerRam.alt = 'ram';
-
-    playerOx.src = '/images/avatarGame/ox.png';
-    playerOx.alt = 'ox';
-
-    playerPiggle.src = '/images/avatarGame/piggle.png';
-    playerPiggle.alt = 'piggle';
+ 
 
     playerBomberman.src = '/images/avatarGame/bomberman.png';
     playerBomberman.alt = 'bomberman';
@@ -147,10 +121,20 @@ $(document).ready(function () {
     playerRonflex.src = '/images/avatarGame/ronflex.png';
     playerRonflex.alt = 'ronflex';
 
-    playerWhale.src = '/images/whale.png';
-    playerWhale.alt = 'whale';
+    playerFreezer.src = '/images/avatarGame/freezer.png';
+    playerFreezer.alt = 'freezer';
 
+    playerGoku.src = '/images/avatarGame/goku.png';
+    playerGoku.alt = 'goku';
 
+    playerBuu.src = '/images/avatarGame/buu.png';
+    playerBuu.alt = 'buu';
+
+    playerLink.src = '/images/avatarGame/link.png';
+    playerLink.alt = 'link';
+
+    playerPika.src = '/images/avatarGame/pika.png';
+    playerPika.alt = 'pika';
 
 });
 
