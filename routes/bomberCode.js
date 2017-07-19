@@ -16,74 +16,74 @@ module.exports = function (app, models, urlApi) {
             res.redirect("/");
         }else {
 
-        rp({
-            url: urlApi + "/gameApiDesc",
-            method: "GET"
-        }).then(function (body) {
-            gameFunction = JSON.parse(body)
-            if (req.params.idBot) {
-                rp({
-                    url: urlApi + "/bot",
-                    method: "GET",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    json: {
-                        "idBot": req.params.idBot
-                    }
-                }).then(function (body) {
-                    if (body.code != 0) {
-                        res.redirect('/myBomberman');
-                    } else {
-                        if (body.userIdBot != req.session.idUser) {
+            rp({
+                url: urlApi + "/gameApiDesc",
+                method: "GET"
+            }).then(function (body) {
+                gameFunction = JSON.parse(body);
+                if (req.params.idBot) {
+                    rp({
+                        url: urlApi + "/bot",
+                        method: "GET",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        json: {
+                            "idBot": req.params.idBot
+                        }
+                    }).then(function (body) {
+                        if (body.code != 0) {
                             res.redirect('/myBomberman');
                         } else {
-                             
-                            var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
-                            // on retire la def des fonctions
-                            var code = "";
-                            if (allCode != "") {
-                                allCode = allCode.replace("var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {", "");
-                                allCode = allCode.replace(/stopInfiniteLoop=0;/g, "");
-                                code = allCode.replace(/if\(stopInfiniteLoop>1000\){break;}stopInfiniteLoop\+\+;/g, "");                               
-                                code = code.substring(0, code.length - 3);
-                            }
+                            if (body.userIdBot != req.session.idUser) {
+                                res.redirect('/myBomberman');
+                            } else {
 
-                            res.render('bomberCode.ejs', {
-                                msgError: "",
-                                msgSuccess: "",
-                                code: code,
-                                name: body.nameBot,
-                                modeBot: body.modeBot,
-                                idBot: req.params.idBot,
-                                session: req.session,
-                                gameFunc: gameFunction,
-                                avatarBot: body.avatarBot
-                            });
-                            return null;
+                                var allCode = fs.readFileSync("./" + body.codeBot, "UTF-8");
+                                // on retire la def des fonctions
+                                var code = "";
+                                if (allCode != "") {
+                                    allCode = allCode.replace("var Code = function (){\n\rthis.exec = function() {", "");
+                                    allCode = allCode.replace(/var stopInfiniteLoop[0-9]+=0;/g, "");
+                                    code = allCode.replace(/if\(stopInfiniteLoop[0-9]+>1000\){console.log\(\"boucle infini\"\);return null;}stopInfiniteLoop[0-9]+\+\+;/g, "");
+                                    code = code.substring(0, code.length - 3);
+                                }
+
+                                res.render('bomberCode.ejs', {
+                                    msgError: "",
+                                    msgSuccess: "",
+                                    code: code,
+                                    name: body.nameBot,
+                                    modeBot: body.modeBot,
+                                    idBot: req.params.idBot,
+                                    session: req.session,
+                                    gameFunc: gameFunction,
+                                    avatarBot: body.avatarBot
+                                });
+                                return null;
+                            }
                         }
-                    }
-                }).catch(function (err) {
-                     console.log(err);
-                     res.redirect('/myBomberman');
-                });
-            } else {
-                res.render('bomberCode.ejs', {
-                    msgError: "",
-                    msgSuccess: "",
-                    code: "",
-                    name: "Mon Bomber",
-                    idBot: "",
-                    modeBot: "",
-                    session: req.session,
-                    gameFunc: gameFunction,
-                    avatarBot: "bomberman"
-                });
-            }
-            return null;
-        }).catch(function (err) {
-            res.redirect('/myBomberman');
-        })
+                    }).catch(function (err) {
+                        console.log(err);
+                        res.redirect('/myBomberman');
+                    });
+                } else {
+                    res.render('bomberCode.ejs', {
+                        msgError: "",
+                        msgSuccess: "",
+                        code: "",
+                        name: "Mon Bomber",
+                        idBot: "",
+                        modeBot: "",
+                        session: req.session,
+                        gameFunc: gameFunction,
+                        avatarBot: "bomberman"
+                    });
+                }
+                return null;
+            }).catch(function (err) {
+                res.redirect('/myBomberman');
+            });
         }
     });
 
@@ -190,65 +190,97 @@ module.exports = function (app, models, urlApi) {
             });
             completePath = dir + "testBot.js";
 
-            var theCode = req.body.bomberEditor
+            var theCode = req.body.bomberEditor;
             var tmpCode = "";
             var indiceSup = 0;
             var debutBoucle;
             var indices = [];
-            var regexForWhile = new RegExp("[a-z0-9]")
+            var checkBefore = "";
+            var checkAfter = "";
+            var regexForWhile = new RegExp("[a-z0-9]");
+            var nbLoop = 1;
+            var nextChar = 0;
+            var nextChar2 = 0;
+            var charToAdd = 0;
             /*On met dans les boucles la sécu pour stopper boucle infini*/
             /*On cherche toutes les boucles for */
             indices = getIndicesOf("for", theCode);
-            var nbFor = 0;
+            var nbFor = 0; 
             for (var i = 0; i < indices.length; i++) {
-                indiceSup = 0;
+               
                 if (nbFor > 0) {
-                    indiceSup = 71 * nbFor;
+                    indiceSup = indiceSup + 113 + charToAdd;
+                    
                 }
 
                 tmpCode = "";
                 tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
                 checkBefore = theCode.substring(indices[i] + indiceSup - 1, indices[i] + indiceSup);
-               
-                if (regexForWhile.test(checkBefore) === false) {
-                    nbFor++;
-                    debutBoucle = tmpCode.indexOf("{");
-                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
-                    theCode = tmpCode
-                }
-            }
-
-            /*Tous les while*/
-            indices = getIndicesOf("while", theCode);
-            var nbWhile = 0;
-            for (var i = 0; i < indices.length; i++) {
-
                 
-                indiceSup = 0;
-                if (nbWhile > 0) {
-                    indiceSup = 71 * nbWhile;
-                }
+                nextChar = 3;
 
-                tmpCode = "";
-                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
-
-                /*test Si ce n'est pas un do while*/
-                var nextChar = tmpCode.indexOf(")")+1
-                
                 while (tmpCode[nextChar] == " ") {
                     nextChar++;
                 }
-                checkBefore = theCode.substring(indices[i] + indiceSup - 1, indices[i] + indiceSup);
 
-            
+                if (charToAdd == 2) {
+                    console.log(nbLoop);
+                    console.log(tmpCode[nextChar] + tmpCode[nextChar + 1] + tmpCode[nextChar + 2]);
+                }
+                if (regexForWhile.test(checkBefore) === false && tmpCode[nextChar] == "(") {
+                    nbFor++;
+                    debutBoucle = tmpCode.indexOf("{");
+                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">1000){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode;
+                    
+                    if (nbLoop.toString()[0] == 1 && nbLoop % 10 == 0) {
+                        charToAdd = charToAdd +3;
+                    }
+                    nbLoop++;
+                   
+                }
+            }
+            indiceSup = 0;
+            /*Tous les while*/
+            indices = getIndicesOf("while", theCode);
+            var nbWhile = 0;
+            for (var j = 0; j < indices.length; j++) {
+                if (nbWhile > 0) {
+                    indiceSup = indiceSup + 113 + charToAdd;
+                }
 
-                 if (tmpCode[nextChar] != ";" && regexForWhile.test(checkBefore) === false){
+                tmpCode = "";
+                tmpCode = theCode.substring(indices[j] + indiceSup, theCode.length);
 
-                
+                /*test Si ce n'est pas un do while*/
+                nextChar = tmpCode.indexOf(")") + 1;
+
+                while (tmpCode[nextChar] == " ") {
+                    nextChar++;
+                }
+                checkBefore = theCode.substring(indices[j] + indiceSup - 1, indices[j] + indiceSup);
+
+                nextChar2 = 5;
+
+                while (tmpCode[nextChar2] == " ") {
+                    nextChar2++;
+                }
+               
+
+             
+                if (tmpCode[nextChar] != ";" && regexForWhile.test(checkBefore) === false && tmpCode[nextChar2] =="(") {
+
                     nbWhile++;
                     debutBoucle = tmpCode.indexOf("{");
-                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
-                    theCode = tmpCode
+                    tmpCode = theCode.substring(0, indices[j] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[j] + indiceSup, indices[j] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">1000){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[j] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode;
+                    if (nbLoop.toString()[0] == 1 && nbLoop % 10 == 0) {
+                        charToAdd = charToAdd + 3;
+                    }
+                    nbLoop++;
+
+
+                    
                 }
                
                 
@@ -257,34 +289,37 @@ module.exports = function (app, models, urlApi) {
             /*tous les do while*/
             indices = getIndicesOf("do", theCode);
             var nbDoWhile = 0;
-            for (var i = 0; i < indices.length; i++) {
-                indiceSup = 0;
+            indiceSup = 0;
+            for (var y = 0; y < indices.length; y++) {
+                
                 if (nbDoWhile > 0) {
-                    indiceSup = 71 * nbDoWhile;
+                    indiceSup = indiceSup + 113 + charToAdd;
                 }
 
                 tmpCode = "";
-                tmpCode = theCode.substring(indices[i] + indiceSup, theCode.length);
+                tmpCode = theCode.substring(indices[y] + indiceSup, theCode.length);
                 /*test si c'est réelement un doWhile et non un mot contenant do*/
-                var nextChar = 2
-                while (tmpCode[nextChar] == " ") {
-                    nextChar++;
+                var nextCharDoWhile = 2;
+                while (tmpCode[nextCharDoWhile] == " ") {
+                    nextCharDoWhile++;
                 }
-                if (tmpCode[nextChar] == "{") {
+                if (tmpCode[nextCharDoWhile] == "{") {
                     nbDoWhile++;
                     debutBoucle = tmpCode.indexOf("{");
-                    tmpCode = theCode.substring(0, indices[i] + indiceSup) + "stopInfiniteLoop=0;" + theCode.substring(indices[i] + indiceSup, indices[i] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop>1000){break;}stopInfiniteLoop++;" + theCode.substring(indices[i] + indiceSup + debutBoucle + 1, theCode.length);
-                    theCode = tmpCode
+                    tmpCode = theCode.substring(0, indices[y] + indiceSup) + "var stopInfiniteLoop" + nbLoop + "=0;" + theCode.substring(indices[y] + indiceSup, indices[y] + indiceSup + debutBoucle + 1) + "if(stopInfiniteLoop" + nbLoop + ">1000){console.log(\"boucle infini\");return null;}stopInfiniteLoop" + nbLoop + "++;" + theCode.substring(indices[y] + indiceSup + debutBoucle + 1, theCode.length);
+                    theCode = tmpCode;
+                    if (nbLoop.toString()[0] == 1 && nbLoop % 10 == 0) {
+                        charToAdd = charToAdd + 3;
+                    }
+                    nbLoop++;
+                   
 
                 }
-
-                
-
             }
 
 
 
-            fs.writeFile(completePath, "var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {" + theCode + " } }", function (err) {
+            fs.writeFile(completePath, "var Code = function (){\n\rthis.exec = function() {" + theCode + " } }", function (err) {
                 if (err) return console.log(err);
             });
 
@@ -353,7 +388,7 @@ module.exports = function (app, models, urlApi) {
                 });
             } else {
                 var codeBot = "botFiles/" + req.session.login + "/" + req.body.idBot + ".js";
-                fs.writeFile(codeBot, "var Code = function (){\n\rvar stopInfiniteLoop = 0;\n\rthis.exec = function() {" + theCode + " } }", function (err) {
+                fs.writeFile(codeBot, "var Code = function (){\n\rthis.exec = function() {" + theCode + " } }", function (err) {
                     if (err) return console.log(err);
                 });
                 rp({

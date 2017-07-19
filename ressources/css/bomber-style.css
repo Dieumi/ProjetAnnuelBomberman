@@ -1,6 +1,6 @@
 .bomber-background {
     background-color: #6d819c;
-    background-image: url("/images/wall2.png");
+    background-image: url("/images/wallheaven.png");
 }
 
 .menu-top {
@@ -34,6 +34,16 @@
     color: hotpink;
 }
 
+.bomb-btn {
+  background-color: #2B4E79;
+  color: #dedede;
+}
+
+.bomb-btn:hover {
+  background-color: #244063;
+  color: #c5c5c5;
+}
+
 .bomber-footer {
     background: #8AC53F;
     position: fixed;
@@ -44,7 +54,7 @@
 }
 
 .bomber-grass {
-    background-image: url("/images/grass3.png");
+    background-image: url("/images/grass4.png");
     background-repeat: repeat-x;
     position: fixed;
     bottom: 0px;

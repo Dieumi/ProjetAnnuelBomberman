@@ -1,50 +1,48 @@
-var bcrypt = require("bcrypt-nodejs");
-
-module.exports = function(app, models,utils,urlApi) {
-  var rp = require('request-promise');
-    app.post("/bot", function(req, res, next) {
+module.exports = function (app, models, utils, urlApi) {
+    var rp = require('request-promise');
+    app.post("/bot", function (req, res, next) {
         if (req.body.nameBot && req.body.userIdBot) {
             var Bot = models.Bot;
             Bot.create({
-                "nameBot" : req.body.nameBot,
+                "nameBot": req.body.nameBot,
                 "codeBot": req.body.codeBot,
                 "avatarBot": "bomberman",
-                "winBot" : 0,
-                "loseBot" : 0,
-                "pointBot" : 0,
+                "winBot": 0,
+                "loseBot": 0,
+                "pointBot": 0,
                 "modeBot": req.body.modeBot,
-                "userIdBot" : req.body.userIdBot
-            }).then(function(result){
+                "userIdBot": req.body.userIdBot
+            }).then(function (result) {
                 res.json({
-                    "code" : 0,
-                    "idBot" : result.idBot,
+                    "code": 0,
+                    "idBot": result.idBot,
                     "nameBot": result.nameBot,
                     "avatarBot": result.avatarBot,
-                    "codeBot" : result.codeBot,
-                    "winBot" : result.winBot,
-                    "loseBot" : result.loseBot,
-                    "pointBot" : result.pointBot,
-                    "modeBot" : result.modeBot,
-                    "userIdBot" : result.userIdBot
+                    "codeBot": result.codeBot,
+                    "winBot": result.winBot,
+                    "loseBot": result.loseBot,
+                    "pointBot": result.pointBot,
+                    "modeBot": result.modeBot,
+                    "userIdBot": result.userIdBot
                 });
-            }).catch(function(err){
+            }).catch(function (err) {
                 res.json({
-                    "code" : 2,
-                    "message" : "Sequelize error",
+                    "code": 2,
+                    "message": "Sequelize error",
                     "error": err
                 });
             });
         } else {
             res.json({
-                "code" : 1,
-                "message" : "Missing required parameters"
+                "code": 1,
+                "message": "Missing required parameters"
             });
         }
     });
 
 
     app.get("/bot", function (req, res, next) {
-        if(req.body.idBot || req.query.idBot){
+        if (req.body.idBot || req.query.idBot) {
             var Bot = models.Bot;
             var reqIdBot;
             if (req.query.idBot) {
@@ -54,26 +52,26 @@ module.exports = function(app, models,utils,urlApi) {
             }
             var request = {
                 where: {
-                    idBot : reqIdBot
+                    idBot: reqIdBot
                 }
             };
             Bot.find(request).then(function (result) {
-                if(result){
+                if (result) {
                     res.json({
-                        "code"      : 0,
-                        "idBot"     : result.idBot,
-                        "nameBot"   : result.nameBot,
-                        "avatarBot" : result.avatarBot,
-                        "codeBot"   : result.codeBot,
-                        "winBot"    : result.winBot,
-                        "loseBot"   : result.winBot,
-                        "modeBot"   : result.modeBot,
-                        "userIdBot" : result.userIdBot
+                        "code": 0,
+                        "idBot": result.idBot,
+                        "nameBot": result.nameBot,
+                        "avatarBot": result.avatarBot,
+                        "codeBot": result.codeBot,
+                        "winBot": result.winBot,
+                        "loseBot": result.winBot,
+                        "modeBot": result.modeBot,
+                        "userIdBot": result.userIdBot
                     });
-                }else{
+                } else {
                     res.json({
-                        "code" : 3,
-                        "message" : "Bot not found"
+                        "code": 3,
+                        "message": "Bot not found"
                     });
                 }
             }).catch(function (err) {
@@ -83,20 +81,20 @@ module.exports = function(app, models,utils,urlApi) {
                     "error": err
                 });
             });
-        }else{
+        } else {
             res.json({
-                "code" : 1,
-                "message" : "Missing required parameters"
-            })
+                "code": 1,
+                "message": "Missing required parameters"
+            });
         }
     });
 
     app.get("/botByUser", function (req, res, next) {
-        if(req.body.userIdBot){
+        if (req.body.userIdBot) {
             var Bot = models.Bot;
             var request = {
                 where: {
-                    userIdBot : req.body.userIdBot
+                    userIdBot: req.body.userIdBot
                 }
             };
             Bot.findAll(request).then(function (results) {
@@ -107,11 +105,11 @@ module.exports = function(app, models,utils,urlApi) {
                     "message": "Sequelize error",
                     "error": err
                 });
-            })
-        }else{
+            });
+        } else {
             res.json({
-                "code" : 1,
-                "message" : "Missing required parameters"
+                "code": 1,
+                "message": "Missing required parameters"
             });
         }
     });
@@ -127,7 +125,7 @@ module.exports = function(app, models,utils,urlApi) {
                 "message": "Sequelize error",
                 "error": err
             });
-        })
+        });
     });
 
     app.get("/topBots", function (req, res, next) {
@@ -137,12 +135,12 @@ module.exports = function(app, models,utils,urlApi) {
             .then(function (results) {
                 res.send(results);
             }).catch(function (err) {
-            res.json({
-                "code": 2,
-                "message": "Sequelize error",
-                "error": err
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                });
             });
-        })
     });
 
     /**app.get("/topBots", function (req, res, next) {
@@ -182,7 +180,7 @@ module.exports = function(app, models,utils,urlApi) {
         var reqLimit = req.params.limit;
         var offset = 0;
 
-        Bot.findAndCountAll().then(function(data) {
+        Bot.findAndCountAll().then(function (data) {
             var page = req.params.page;
             var nbPages = Math.ceil(data.count / reqLimit);
             offset = reqLimit * (page - 1);
@@ -202,7 +200,7 @@ module.exports = function(app, models,utils,urlApi) {
                 "message": "Sequelize error",
                 "error": err
             });
-        })
+        });
     });
 
     app.get("/updateBot/:id", function (req, res, next) {
@@ -221,7 +219,7 @@ module.exports = function(app, models,utils,urlApi) {
                 "message": "Sequelize error",
                 "error": err
             });
-        })
+        });
     });
 
     app.post("/updateBot", function (req, res, next) {
@@ -268,19 +266,16 @@ module.exports = function(app, models,utils,urlApi) {
     });
 
 
-	  app.post('/adversaire', function(req, res) {
-	        if(!req.session.type){
-	            res.redirect("/");
-	        }else {
+    app.post('/adversaire', function (req, res) {
+        if (!req.session.type) {
+            res.redirect("/");
+        } else {
 
-	         var Bot = utils.Bot;
-					 //console.log(Bot);
-					 var u1 = new Bot()
-					 u1.findEnemy(req.body.idbot,req.body.iduser,function(result){
-             //console.log("result");
-             //console.log(result);
-						 res.send(result)
-					 })
+            var Bot = utils.Bot;
+            var u1 = new Bot();
+            u1.findEnemy(req.body.idbot, req.body.iduser, function (result) {
+                res.send(result);
+            });
 
 
 	        }
@@ -299,30 +294,29 @@ module.exports = function(app, models,utils,urlApi) {
 	  });
 		app.post('/win', function(req, res) {
 
-		         var Bot = utils.Bot;
-						 var u1 = new Bot();
-             var current = new Date();
-             if(req.body.null=="true" ){
-               rp({
-                   url: urlApi + "/match",
-                   method: "POST",
-                   headers: {
-                       'Content-Type': 'application/json'
-                   },
-                   json: {
-                       "matchNull": true,
-                       "idWinner": req.body.idBot,
-                       "idLoose": req.body.idLoose,
-                       "dateMatch" : current.getDate(),
-                       "idMapMatch": null,
-                       "idTournamentMatch":null
-                   }
-               }).then(function(body){
-                 console.log(body);
-                 res.redirect("/");
-               })
+        var Bot = utils.Bot;
+        var u1 = new Bot();
+        var current = new Date();
+        if (req.body.null == "true") {
+            rp({
+                url: urlApi + "/match",
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                json: {
+                    "matchNull": true,
+                    "idWinner": req.body.idBot,
+                    "idLoose": req.body.idLoose,
+                    "dateMatch": current.getDate(),
+                    "idMapMatch": null,
+                    "idTournamentMatch": null
+                }
+            }).then(function (body) {
+                res.redirect("/");
+            });
 
-             }else{
+        } else {
 
                rp({
                    url: urlApi + "/match",
@@ -350,7 +344,7 @@ module.exports = function(app, models,utils,urlApi) {
              })
              }
 
-	  });
+    });
 
 
-}
+};

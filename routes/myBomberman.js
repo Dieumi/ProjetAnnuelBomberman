@@ -30,7 +30,7 @@ module.exports = function(app, models, urlApi){
         if(!req.session.type){
             res.redirect("/");
         }else {
-            /*On cr�ee un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
+            /*On creee un fichier tmp pour le joueur adversaire dans le but de remplacer les player en player2*/
             var file = req.body.codeBot.substring(8, req.body.codeBot.length);
             var fileP2 = req.body.codeBotAd.substring(8, req.body.codeBotAd.length - 3) + "P2.js";
             var contentP2 = fs.readFileSync("./" + req.body.codeBotAd, "UTF-8");
@@ -72,15 +72,15 @@ module.exports = function(app, models, urlApi){
                 json: {
                     "userIdBot": req.session.idUser
                 }
-            }).then(function(body) {
-              console.log("result");
-              console.log(body);
+            }).then(function (body) {
+                console.log("result");
+                console.log(body);
                 res.render("Choix.ejs", {
                     session: req.session,
                     listBot: body,
                     urlApi: urlApi
                 });
-            })
+            });
         }
     });
 };

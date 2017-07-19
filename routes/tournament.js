@@ -4,8 +4,7 @@ module.exports = function(app, models) {
 
 	app.post("/tournament", function(req, res, next) {
 
-		if (req.body.nameTournament && req.body.nbPlayerTournament
-			&& req.body.pointMiniTournament && req.body.createdByTournament) {
+		if (req.body.nameTournament && req.body.nbPlayerTournament && req.body.pointMiniTournament && req.body.createdByTournament) {
 			var Tournament = models.Tournament;
 			Tournament.create({
 				"nameTournament" : req.body.nameTournament,
@@ -39,13 +38,13 @@ module.exports = function(app, models) {
 	app.get("/ListTournament", function (req, res, next) {
 		var tournament = models.Tournament;
         tournament.findAll().then(function (results) {
-			res.send(results);
-		}).catch(function (err) {
-			res.json({
-				"code": 2,
-				"message": "Sequelize error",
-				"error": err
-			})
-		})
+            res.send(results);
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            });
+        });
 	});
 };

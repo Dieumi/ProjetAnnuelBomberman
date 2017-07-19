@@ -21,9 +21,9 @@
                 res.render("bomberGame.ejs", {
                     session: req.session,
                     listBot: body,
-                    api : currentApi
+                    api: currentApi
                 });
-            })
+            });
         }
     });
 };

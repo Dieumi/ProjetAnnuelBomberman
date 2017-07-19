@@ -5,18 +5,18 @@ module.exports = function(app, urlApi){
 	var rp = require("request-promise");
 
 	app.get("/classement/:limit/:page", function(req, res, next) {
-		rp({
-			url: urlApi + "/classementBot/" + req.params.limit + "/" + req.params.page,
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json"
-			}
-		}).then(function(body) {
-			res.render("classement.ejs", {
-				session : req.session,
-				top : body,
-				currentPage : req.params.page
-			});
-		})
+        rp({
+            url: urlApi + "/classementBot/" + req.params.limit + "/" + req.params.page,
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (body) {
+            res.render("classement.ejs", {
+                session: req.session,
+                top: body,
+                currentPage: req.params.page
+            });
+        });
 	});
 };
