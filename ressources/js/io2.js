@@ -1,5 +1,5 @@
-var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
-//var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
+//var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
+var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
 console.log('check 1', socket2);
 //	setup event listeners
@@ -18,9 +18,9 @@ socket2.on('welcome', function (id, playerInfo) {
 
     hideLoading();
 
-    log('Waiting for players..');
+    log('En attente..');
 
-    log('Click your name when you\'re ready', true);
+    log('Clicker sur votre nom quand vous êtes prêt', true);
     //joinGame($('input[name=user-nameAD]').val(), gameId);
 });
 
@@ -52,9 +52,9 @@ socket2.on('joined', function (playerInfo, game) {
 
     hideLoading();
 
-    log('Waiting for players..');
+    log('En attente..');
 
-    log('Click your name when you\'re ready', true);
+    log('Clicker sur votre nom quand vous êtes prêt', true);
 
 });
 
@@ -67,7 +67,7 @@ socket2.on('game-started', function () {
 
     showMenu();
 
-    log('Game has already started', true, true);
+    log('La partie à déja commencer', true, true);
 
 });
 
@@ -80,7 +80,7 @@ socket2.on('game-not-found', function () {
 
     showMenu();
 
-    log('Game not found', true, true);
+    log('Partie introuvable', true, true);
 
 });
 
@@ -133,8 +133,7 @@ socket2.on('move', function (id, position) {
 });
 socket2.on('action', function () {
     hasPlayed2 = false;
-    /*ATTENTION LORSQUE LE PLAYER 2 POSE UNE BOMB DES LE DEBUT CRASH SI POSITION NON INITIALISER A VOIR */
-    //var codeExec = codeBot2.replace(/player/g, "player2");
+    console.log(player2);
     var tile=getTile(player2.position.x,player2.position.y);
     if(tile.hasBonus!=null){
         player2.hasBonus=tile.hasBonus;
@@ -158,7 +157,7 @@ socket2.on('action', function () {
     } catch (err) {
         console.log(err);
     }
-
+        socket2.emit("action",player2.id, player2.name);
 });
 socket2.on('bomb', function (position) {
     var bomb = new Bomb(position.x, position.y);

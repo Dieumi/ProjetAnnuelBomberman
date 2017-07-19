@@ -3,8 +3,8 @@
 
 //var socket = io.connect('https://bman.herokuapp.com:443/');
 
-var socket = io.connect('https://bmanserver.herokuapp.com/');
-//var socket = io.connect('http://localhost:3000/');
+//var socket = io.connect('https://bmanserver.herokuapp.com/');
+var socket = io.connect('http://localhost:3000/');
 console.log('check 1', socket);
 //	setup event listeners
 
@@ -22,9 +22,9 @@ socket.on('welcome', function (id, playerInfo) {
 
     hideLoading();
 
-    log('Waiting for players..');
+    log('En attente..');
 
-    log('Click your name when you\'re ready', true);
+    log('Click sur votre nom quand vous êtes prêt', true);
     joinGame($('input[name=user-nameAD]').val(), gameId);
 });
 
@@ -57,9 +57,7 @@ socket.on('joined', function (playerInfo, game) {
 
     hideLoading();
 
-    log('Waiting for players..');
 
-    log('Click your name when you\'re ready', true);
 
 });
 
@@ -73,7 +71,7 @@ socket.on('game-started', function () {
 
     showMenu();
 
-    log('Game has already started', true, true);
+    log('La partie à déja commencer ', true, true);
 
 });
 
@@ -86,7 +84,7 @@ socket.on('game-not-found', function () {
 
     showMenu();
 
-    log('Game not found', true, true);
+    log('partie introuvable', true, true);
 
 });
 
@@ -118,8 +116,8 @@ socket.on('start', function (matrix) {
 
         frozen = false;
 
-        socket.emit("action", player.name);
-
+        socket.emit("action",player.id, player.name);
+        socket2.emit("action",player2.id, player2.name);
 
     }, startTimer);
     setTimeout(function () {
@@ -142,8 +140,8 @@ socket.on('stop', function () {
 socket.on('win', function (player) {
     gameOn = false;
     frozen = true;
-    if(player.isAlive){
-      log(player.name + ' has won!', true);
+    console.log("testwin")
+      log(player.name + ' : VICTOIRE!', true);
       endGame(idBot1);
       if(document.getElementById('typeGame').value!="test"){
         if(player.idBot==document.getElementById('idBot1').value){
@@ -158,12 +156,7 @@ socket.on('win', function (player) {
           $("#win").submit();
         }
       }
-    }else{
-      $("#winner").val(idBot1);
-      $("#looser").val(idBot2);
-      $("#null").val(true);
-    //  $("#win").submit();
-    }
+
 
 
 
@@ -213,6 +206,7 @@ socket.on('action', function () {
 
     if (gameOn != false && frozen != true) {
         socket.emit("action", player.name);
+      
         setTimeout(function () {
             var rand = getRandomIntInclusive(1, 5);
             if (rand > 4) {
@@ -242,7 +236,7 @@ socket.on('death', function (id) {
 
             player.render();
 
-            log(player.name + ' is dead!', true, true);
+            log(player.name + ' est mort!', true, true);
         }
 
     });
@@ -282,9 +276,13 @@ function newGame(name) {
 
     init(null, true);
 
-    log('Connecting to server..');
-
-    socket.emit('create', createGameId(), name, avatar.alt, matrix,idBot1);
+    log('Connexion au serveur..');
+    if(document.getElementById('typeGame').value!="test"){
+      var test=true;
+    }else{
+      var test=false;
+    }
+    socket.emit('create', createGameId(), name, avatar.alt, matrix,idBot1,test);
 }
 
 function joinGame(name, id) {
@@ -296,9 +294,9 @@ function joinGame(name, id) {
 
     clearLog();
 
-    log('Joining game..');
+    log('Partie rejoint');
 
-    log('Connecting to server..');
+    log('Connexion au serveur..');
     console.log("join");
     socket2.emit('join', id, name,idBot2);
 
@@ -307,7 +305,7 @@ function joinGame(name, id) {
 function endGame(winner) {
     var loading = $('.loading');
 
-    loading.text(winner + ' has won!');
+    loading.text(winner + ' :VICTOIRE!');
 
     /*$.ajax({
         type: "GET",

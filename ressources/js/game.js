@@ -579,7 +579,7 @@ function Tile(type) {
     this.isDangerous = function (x, y) {
         var i = 0;
         for (i = 0; i < this.tabBomb.length; i++) {
-           
+
             if (x - this.tabBomb[i].position.x < 2 && x - this.tabBomb[i].position.x > -2 && this.tabBomb[i].position.y == y) {
                 return true;
             }
@@ -587,7 +587,7 @@ function Tile(type) {
                 return true;
             }
         }
-        if (this == player) {        
+        if (this == player) {
             for (i = 0; i < player2.tabBomb.length; i++) {
                 if (x - player2.tabBomb[i].position.x < 2 && x - player2.tabBomb[i].position.x > -2 && player2.tabBomb[i].position.y == y) {
                     return true;
@@ -749,8 +749,8 @@ function Tile(type) {
         //	notify the server
 
           console.log("player 1 pose sa bomb");
-
-          if(this.hasbonus!=null && this.hasBonus.name=="powerUp"){
+          console.log(this);
+          if(this.hasBonus!=null && this.hasBonus.name=="powerUp"){
             bomb.powerUp();
             socket.emit('bomb', gameId, this.position,2);
           }else{
@@ -770,7 +770,8 @@ function Tile(type) {
             //	fake bomb planting while the server responds
             Bomb.plant(this.position.x, this.position.y);
             console.log("player 2 pose sa bomb");
-            if(this.hasbonus!=null &&  this.hasBonus.name=="powerUp"){
+            console.log(this);
+            if(this.hasBonus!=null &&  this.hasBonus.name=="powerUp"){
             bomb.powerUp();
             socket2.emit('bomb', gameId, this.position,2);
             }else{

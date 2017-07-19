@@ -108,7 +108,7 @@
 		players.push(player_);
 		player2=player_;
 
-		if (!player || player_.id !== player.id) log(player_.name + ' has joined the game', true);
+		if (!player || player_.id !== player.id) log(player_.name + ' a rejoint la partie', true);
 	}
 
 	function removePlayer(id)
@@ -123,7 +123,7 @@
 				{
 					player.remove();
 
-					log(player.name + ' has left the game', true, true);
+					log(player.name + ' a quitté la partie', true, true);
 
 					this.splice(index, 1);
 				}
