@@ -9,41 +9,37 @@
 
 <% include ./partials/navbar %>
 
-<%
-if(session.type){
-%>
 <div class="container">
     <div class="col-sm-6 col-sm-offset-3 bomber-block">
         <h1 class="bomber-text"><i class="fa fa-history" aria-hidden="true"></i> Historique</h1>
+		
         <% if (matchs) {
-            matchs = JSON.parse(matchs);
-            console.log(matchs.results);
+
+			
         %>
         <table class="table table-hover table-responsive bomber-tabler">
-            <% for (var i = 0; i < matchs.results.length; i++) {
-            if (myId == matchs.results[i].idWinner) {%>
-            <tr style="background-color: #5CB85C">
-                <td><%=matchs.results[i].createdAt.substring(8,10)%>/<%=matchs.results[i].createdAt.substring(5,7)%>/<%=matchs.results[i].createdAt.substring(0,4)%></td>
-                <td><%=matchs.results[i].idWinner%></td>
+            <% for (var i = 0; i < matchs[0].length; i++) { 
+				console.log(matchs[0][i]);
+			%>
+			  <tr<% if (matchs[0][i].matchNull == 1) { %> style="background-color: #3BB2D6" <% } else if (myId == matchs[0][i].idWinner) { %> style="background-color: #5CB85C" <% } else { %> style="background-color: #D9534F" <% } %> >
+                <td><%=matchs[0][i].dateMatch.substring(8,10)%>/<%=matchs[0][i].dateMatch.substring(5,7)%>/<%=matchs[0][i].dateMatch.substring(0,4)%></td>
+                <td><%=matchs[0][i].loginUser1%> (<%=matchs[0][i].nameBot1%>)</td>
                 <td>VS</td>
-                <td><%=matchs.results[i].idLoose%></td>
+                <td><%=matchs[0][i].loginUser2%> (<%=matchs[0][i].nameBot2%>)</td>
             </tr>
-            <%} else {%>
-            <tr style="background-color: #D9534F">
-                <td><%=matchs.results[i].createdAt.substring(8,10)%>/<%=matchs.results[i].createdAt.substring(5,7)%>/<%=matchs.results[i].createdAt.substring(0,4)%></td>
-                <td><%=matchs.results[i].idWinner%></td>
-                <td>VS</td>
-                <td><%=matchs.results[i].idLoose%></td>
-            </tr>
-            <% }} %>
+			<% 
+				}				
+			%>
         </table>
 
-        <% } %>
+					
+			<%
+			
+		}
+		%>
+
     </div>
 </div>
-<% } else { %>
-<h1>Maintenance...</h1>
-<% } %>
 
 <% include ./partials/footer %>
 

@@ -143,6 +143,21 @@ module.exports = function (app, models, utils, urlApi) {
             });
     });
 
+    app.get("/historyBot", function (req, res, next) {
+        var Bot = models.Bot;
+    
+        Bot.sequelize.query("SELECT Distinct(m.idMatch), b1.nameBot as nameBot1, b2.nameBot as nameBot2, u1.loginUser as loginUser1, u2.loginUser as loginUser2, m.idWinner, m.idLoose, m.dateMatch, m.matchNull FROM bot AS b1, bot AS b2, user AS u1, user AS u2, matchBot as m WHERE b1.idBot = m.idWinner AND b1.userIdBot = u1.idUser AND b2.idBot = m.idLoose AND b2.userIdBot = u2.idUser AND(m.idWinner = " + req.body.idBot + " OR m.idLoose = " + req.body.idBot + ") ORDER BY m.dateMatch")
+            .then(function (results) {
+                res.send(results);
+            }).catch(function (err) {
+                res.json({
+                    "code": 2,
+                    "message": "Sequelize error",
+                    "error": err
+                });
+            });
+    });
+
     /**app.get("/topBots", function (req, res, next) {
         var Bot = models.Bot;
         Bot.findAll({

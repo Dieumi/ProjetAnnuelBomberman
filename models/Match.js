@@ -18,16 +18,10 @@ module.exports = sequelize.import("match", function(sequelize, Datatypes) {
 		},
 		dateMatch : {
 			type : Datatypes.DATE
-		},
-		idMapMatch : {
-			type : Datatypes.INTEGER
-		},
-		idTournamentMatch : {
-			type : Datatypes.STRING
 		}
 	}, {
 		paranoid : true,
 		freezeTab : true,
-		tableName : "match"
+		tableName : "matchBot"
 	});
 });

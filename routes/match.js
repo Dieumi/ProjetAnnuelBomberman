@@ -10,18 +10,14 @@ module.exports = function(app, models,utils) {
                 "matchNull": req.body.matchNull,
                 "idWinner" : req.body.idWinner,
                 "idLoose" : req.body.idLoose,
-                "dateMatch" : date,
-                "idMapMatch" : req.body.idMapMatch,
-                "idTournamentMatch" : 0
+                "dateMatch" : date
             }).then(function(result){
                 res.json({
                     "code" : 0,
                     "idMatch" : result.idMatch,
                     "idWinner" : result.idWinner,
                     "idLoose" : result.idLoose,
-                    "dateMatch" : result.dateMatch,
-                    "idMapMatch" : result.idMapMatch,
-                    "idTournamentMatch" : result.idTournamentMatch
+                    "dateMatch" : result.dateMatch
                 });
             }).catch(function(err){
                 res.json({
@@ -89,12 +85,6 @@ module.exports = function(app, models,utils) {
         }
         if (req.body.dateMatch) {
             attributes.dateMatch = req.body.dateMatch;
-        }
-        if (req.body.idMapMatch) {
-            attributes.idMapMatch = req.body.idMapMatch;
-        }
-        if (req.body.idTournamentMatch) {
-            attributes.idTournamentMatch = req.body.idTournamentMatch;
         }
         var u1 = new match();
         u1.update(request, attributes, function (err, data) {
