@@ -26,6 +26,7 @@
         <% if(listBot[i]){ %>
         <div class="bomber-block col-sm-4 col-sm-push-1" style="margin-left: 20px; margin-right: 20px; width: 25%">
             <h3 class="bomber-text"><i class="fa fa-user" aria-hidden="true"></i> <%=listBot[i].nameBot%></h3>
+			<img name = "<%=listBot[i].avatarBot%>" id ="avatar<%=listBot[i].idBot%>" src = "/images/avatarGame/<%=listBot[i].avatarBot%>.png" style= "display: block;margin-left:auto;margin-right:auto">
             <input type="radio" id="<%=listBot[i].nameBot%>" name="choix" value='<%=listBot[i].idBot%>'  />Choisir<br>
             <% } %>
         </div>
@@ -63,10 +64,10 @@
            modal: true,
            show: 'blind',
            hide: 'blind',
-           title:"Figth",
+           title:"Choisi un adversaire : ",
            maxWidth: 780,
            maxHeight: 500,
-           width: 780,
+           width: 300,
            height: 500
 
 
@@ -106,9 +107,10 @@
            success : function(code_html, statut){
 
               for(var i=0;i<code_html.length;i++){
-                console.log(code_html[i])
+                
                   txt=code_html[i].nameBot+"<br>";
-                  txt+=code_html[i].pointBot+"<br>";
+                  txt+="nombre de point : " + code_html[i].pointBot+"<br>";
+				  txt+="<img src = '/images/avatarGame/"+code_html[i].avatarBot+".png' ><br>";
                   txt+="<button id='affronter"+i+"'' type='submit' class='btn btn-primary'>Affronter</button>"
                   txt+="<input type='hidden' name='iduser' value='"+$("#idUser").val()+"'/>"
                   txt+="<input type='hidden' name='idbot' value='"+$('input[name=choix]:checked').val()+"'/>"
