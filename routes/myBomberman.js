@@ -73,8 +73,6 @@ module.exports = function(app, models, urlApi){
                     "userIdBot": req.session.idUser
                 }
             }).then(function (body) {
-                console.log("result");
-                console.log(body);
                 res.render("Choix.ejs", {
                     session: req.session,
                     listBot: body,
