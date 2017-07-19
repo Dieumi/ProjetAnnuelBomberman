@@ -17,6 +17,7 @@ module.exports = function(app, models, utils, urlApi) {
 	require("./login")(app, models, urlApi);
 	require("./news")(app, urlApi);
     require("./signup")(app, models, urlApi);
+    require("./updateUser")(app, models, urlApi);
 	require("./logout")(app);
     require("./myBomberman")(app, models, urlApi);
     require("./bomberCode")(app, models, urlApi);
