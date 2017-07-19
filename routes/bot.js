@@ -288,7 +288,7 @@ module.exports = function (app, models, utils, urlApi) {
 
               u1.loose(req.body.idLoose,function(result){
                res.send(result);
-             })
+             });
 
 
 	  });
@@ -334,14 +334,14 @@ module.exports = function (app, models, utils, urlApi) {
                    }
                }).then(function(body){
                  console.log(body);
-               })
+               });
                u1.win(req.body.idBot,function(result){
 
-              })
+              });
               u1.loose(req.body.idLoose,function(result){
                console.log(result);
               res.redirect("/");
-             })
+            });
              }
 
     });
