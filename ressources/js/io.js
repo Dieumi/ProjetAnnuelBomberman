@@ -5,12 +5,12 @@
 
 var socket = io.connect('https://bmanserver.herokuapp.com/');
 //var socket = io.connect('http://localhost:3000/');
-console.log('check 1', socket);
+
 //	setup event listeners
 
 
 socket.on('welcome', function (id, playerInfo) {
-    console.log("welcome");
+
     gameId = window.location.hash = id;
 
     playerInfo.avatar = document.getElementById("avatarBot1").value;
@@ -94,8 +94,8 @@ socket.on('ready', function (player, isReady) {
 });
 
 socket.on('start', function (matrix) {
-    console.log("start");
 
+    
     startCountdown();
 
     frozen = true;
@@ -184,11 +184,9 @@ socket.on('move', function (id, position) {
 });
 socket.on('action', function () {
     hasPlayed = false;
-    console.log("test fonction");
-    console.log(player);
+
     //player.move("left");
     var tile = getTile(player.position.x, player.position.y);
-    console.log(tile);
     if (tile.hasBonus != null) {
         player.hasBonus = tile.hasBonus;
         player.tourBonus = 3;
@@ -254,11 +252,10 @@ socket.on('death', function (id) {
 
 socket.on('player-joined', function (player) {
     player.avatar = document.getElementById("avatarBot2").value;
-    console.log("player-joined");
-    console.log(player);
+
     var map = playerMap[player.index],
         newPlayer = Player.create(map.context, player);
-        console.log(map.context);
+
     newPlayer.render(map.x,map.y, true);
 
 
@@ -307,7 +304,7 @@ function joinGame(name, id) {
     log('Partie rejoint');
 
     log('Connexion au serveur..');
-    console.log("join");
+
     socket2.emit('join', id, name,idBot2);
 
 }

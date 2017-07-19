@@ -110,7 +110,7 @@ $(document).ready(function () {
 
     iconBonus.src='/images/bonus1.png';
     iconBonus2.src='/images/bonus2.png';
- 
+
 
     playerBomberman.src = '/images/avatarGame/bomberman.png';
     playerBomberman.alt = 'bomberman';
@@ -579,7 +579,7 @@ function Tile(type) {
             }
         } else {
             for (i = 0; i < player.tabBomb.length; i++) {
-                console.log("taille : " + this.tabBomb.length);
+
                 if (x - player.tabBomb[i].position.x < 2 && x - player.tabBomb[i].position.x > -2 && player.tabBomb[i].position.y == y) {
                     return true;
                 }
@@ -713,8 +713,6 @@ function Tile(type) {
 
         //	notify the server
 
-          console.log("player 1 pose sa bomb");
-          console.log(this);
           if(this.hasBonus!=null && this.hasBonus.name=="powerUp"){
             bomb.powerUp();
             socket.emit('bomb', gameId, this.position,2);
@@ -734,8 +732,7 @@ function Tile(type) {
 
             //	fake bomb planting while the server responds
             Bomb.plant(this.position.x, this.position.y);
-            console.log("player 2 pose sa bomb");
-            console.log(this);
+
             if(this.hasBonus!=null &&  this.hasBonus.name=="powerUp"){
             bomb.powerUp();
             socket2.emit('bomb', gameId, this.position,2);

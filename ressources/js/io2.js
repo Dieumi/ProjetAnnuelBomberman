@@ -1,13 +1,13 @@
 var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
 //var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
-console.log('check 1', socket2);
+
 //	setup event listeners
 
 
 
 socket2.on('welcome', function (id, playerInfo) {
-    console.log("testwelcome");
+
     gameId = window.location.hash = id;
 
 
@@ -123,7 +123,7 @@ socket2.on('win', function (player) {
     frozen = true;
 
       endGame(idBot1);
-      console.log(player);
+
       if(player!=null){
         //  log(player.name + ' : VICTOIRE!', true);
         if(document.getElementById('typeGame').value!="test"){
@@ -166,7 +166,7 @@ socket2.on('move', function (id, position) {
 });
 socket2.on('action', function () {
     hasPlayed2 = false;
-    console.log(player2);
+
     var tile=getTile(player2.position.x,player2.position.y);
     if(tile.hasBonus!=null){
         player2.hasBonus=tile.hasBonus;
@@ -214,8 +214,7 @@ socket2.on('death', function (id) {
 });
 
 socket2.on('player-joined', function (player2) {
-    console.log("player2-joined");
-    console.log(player2);
+
     var map = playerMap[player2.index],
         newPlayer = Player.create(map.context, player2);
 
