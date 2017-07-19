@@ -204,7 +204,7 @@ socket.on('action', function () {
 
 
     if (gameOn != false && frozen != true) {
-        socket.emit("action", player.name);
+        socket.emit("action",player.id, player.name);
 
         setTimeout(function () {
             var rand = getRandomIntInclusive(1, 5);
