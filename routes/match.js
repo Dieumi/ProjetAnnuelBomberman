@@ -50,6 +50,7 @@ module.exports = function(app, models,utils) {
             });
         });
     });
+
     app.get("/updatematch/:id", function (req, res, next) {
         var match = models.Match;
         var request = {
@@ -100,4 +101,28 @@ module.exports = function(app, models,utils) {
             res.send("/ListMatch");
         });
     });
+
+    app.get("/matchs/:id", function (req, res, next) {
+        var match = models.Match;
+        match.findAll({
+            where: {
+                idWinner: req.params.id,
+                $or : {
+                    idLoose : req.params.id
+                }
+            }
+        }).then(function (body) {
+            res.json({
+                "code": 0,
+                "results": body
+            });
+        }).catch(function (err) {
+            res.json({
+                "code": 2,
+                "message": "Sequelize error",
+                "error": err
+            });
+        });
+    });
+
 };

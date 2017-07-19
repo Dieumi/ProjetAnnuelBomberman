@@ -21,12 +21,22 @@ module.exports = function(app, urlApi){
                     "userIdBot": idProfile
                 }
             }).then(function (body) {
-                res.render("profile.ejs", {
-                    session: req.session,
-                    profile: profileBody,
-                    listBot: body
+                var bots = body;
+                rp({
+                    url: urlApi + "/matchs/" + req.params.id,
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function (body) {
+                    res.render("profile.ejs", {
+                        session: req.session,
+                        profile: profileBody,
+                        listBot: bots,
+                        matchs: body
+                    });
+
                 });
             });
         });
-    });
-};
+    })};
