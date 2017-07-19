@@ -1,5 +1,5 @@
-var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
-//var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
+//var socket2 = io.connect('https://bmanserver.herokuapp.com/', { 'force new connection': true });
+var socket2 = io.connect('http://localhost:3000/', { 'force new connection': true });
 
 console.log('check 1', socket2);
 //	setup event listeners
@@ -118,7 +118,40 @@ socket2.on('stop', function () {
 
 });
 
+socket2.on('win', function (player) {
+    gameOn = false;
+    frozen = true;
 
+      endGame(idBot1);
+      console.log(player);
+      if(player!=null){
+          log(player.name + ' : VICTOIRE!', true);
+        if(document.getElementById('typeGame').value!="test"){
+          if(player.idBot==document.getElementById('idBot1').value){
+            $("#winner").val(idBot1);
+            $("#looser").val(idBot2);
+            $("#null").val(false);
+            $("#win").submit();
+            }else {
+            $("#winner").val(idBot2);
+            $("#looser").val(idBot1);
+            $("#null").val(false);
+            $("#win").submit();
+          }
+        }
+      }else{
+        log('match nul', true);
+        $("#winner").val(idBot1);
+        $("#looser").val(idBot2);
+        $("#null").val(true);
+        $("#win").submit();
+      }
+
+
+
+
+
+});
 
 socket2.on('move', function (id, position) {
     players.forEach(function (player2) {
