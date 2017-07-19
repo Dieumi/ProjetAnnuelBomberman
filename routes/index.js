@@ -14,6 +14,7 @@ module.exports = function(app, models, utils, urlApi) {
 	//FRONT
 	require("./home")(app, urlApi);
 	require("./classement")(app, urlApi);
+	require("./history")(app, urlApi);
 	require("./news")(app, urlApi);
 	require("./profile")(app, urlApi);
 	require("./login")(app, models, urlApi);

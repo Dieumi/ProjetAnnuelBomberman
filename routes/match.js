@@ -106,11 +106,16 @@ module.exports = function(app, models,utils) {
         var match = models.Match;
         match.findAll({
             where: {
-                idWinner: req.params.id,
-                $or : {
-                    idLoose : req.params.id
-                }
-            }
+                $or : [{
+                    idLoose: req.params.id
+                }, {
+                    idWinner: req.params.id
+                }]
+            },
+            order: [
+                ['createdAt', 'DESC']
+            ]
+
         }).then(function (body) {
             res.json({
                 "code": 0,
