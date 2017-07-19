@@ -45,7 +45,7 @@ module.exports = function (app, models, urlApi) {
                                 if (allCode != "") {
                                     allCode = allCode.replace("var Code = function (){\n\rthis.exec = function() {", "");
                                     allCode = allCode.replace(/var stopInfiniteLoop[0-9]+=0;/g, "");
-                                    code = allCode.replace(/if\(stopInfiniteLoop[0-9]+>1000\){console.log\(\"boucle infini\"\);return null;}stopInfiniteLoop[0-9]+\+\+;/g, "");
+                                    code = allCode.replace(/if\(stopInfiniteLoop[0-9]+>100\){console.log\(\"boucle infini\"\);return null;}stopInfiniteLoop[0-9]+\+\+;/g, "");
                                     code = code.substring(0, code.length - 3);
                                 }
 
